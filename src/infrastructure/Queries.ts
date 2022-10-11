@@ -1,5 +1,4 @@
-import { queryType, stringArg, intArg } from 'nexus';
-import { post } from '../model/queries/post';
+import { queryType, stringArg, intArg, arg } from 'nexus';
 
 export const queries = queryType({
   definition(t) {
@@ -23,8 +22,7 @@ export const queries = queryType({
         test: intArg({ required: true })
       },
       resolve(_root, args, ctx) {
-        const { prisma } = ctx;
-        return post({postId: args.test, prisma});
+        return ctx.postModel.getPostById(args.test);
       }
     });
 

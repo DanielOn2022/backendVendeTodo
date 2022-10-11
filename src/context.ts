@@ -1,10 +1,13 @@
 import { prisma } from './database/db';
 import { PrismaClient } from '@prisma/client';
+import { PostModel } from '../src/model/queries/post';
 
 export interface Context {
-  prisma: PrismaClient
+  prisma: PrismaClient,
+  postModel: PostModel
 }
 
 export const context = {
-  prisma
+  prisma,
+  postModel: new PostModel(prisma)
 }

@@ -2,11 +2,19 @@ import { PrismaClient } from '@prisma/client';
 import { Post } from '../../infrastructure/domain/post/Post';
 import { PostRepository } from '../../infrastructure/repositories/PostRepository';
 
-export const post = async (data: { prisma: PrismaClient, postId: number }): Promise<Post | null> => {
-  const { prisma, postId } = data
+export class PostModel {
+  private prisma: PrismaClient;
   
-  const postRepository = new PostRepository(prisma);
-  const post = await postRepository.getPostById(postId);
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
+  }
 
-  return post;
+  async getPostById(postId: number ): Promise<Post | null> {
+  
+    const postRepository = new PostRepository(this.prisma);
+    const post = await postRepository.getPostById(postId);
+
+    return post;
+  }
+
 }

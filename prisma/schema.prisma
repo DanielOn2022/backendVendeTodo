@@ -13,3 +13,10 @@ model Post {
   body String
   published Boolean
 }
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  brand String
+}
