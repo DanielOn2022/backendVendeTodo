@@ -4,6 +4,7 @@
 
 type Mutation {
   createPost(body: String!, title: String!): post
+  createProduct(brand: String!, name: String!, price: Int!): product
 }
 
 type Query {
@@ -16,4 +17,11 @@ type post {
   id: Int
   published: Boolean
   title: String
+}
+
+type product {
+  brand: String
+  id: Int
+  name: String
+  price: Int
 }

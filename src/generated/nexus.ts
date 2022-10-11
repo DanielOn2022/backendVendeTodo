@@ -31,6 +31,7 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   post: {};
+  product: {};
 }
 
 export interface NexusGenInterfaces {
@@ -46,6 +47,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createPost: NexusGenRootTypes['post'] | null; // post
+    createProduct: NexusGenRootTypes['product'] | null; // product
   }
   Query: { // field return type
     posts: Array<NexusGenRootTypes['post'] | null> | null; // [post]
@@ -57,11 +59,18 @@ export interface NexusGenFieldTypes {
     published: boolean | null; // Boolean
     title: string | null; // String
   }
+  product: { // field return type
+    brand: string | null; // String
+    id: number | null; // Int
+    name: string | null; // String
+    price: number | null; // Int
+  }
 }
 
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createPost: 'post'
+    createProduct: 'product'
   }
   Query: { // field return type name
     posts: 'post'
@@ -73,6 +82,12 @@ export interface NexusGenFieldTypeNames {
     published: 'Boolean'
     title: 'String'
   }
+  product: { // field return type name
+    brand: 'String'
+    id: 'Int'
+    name: 'String'
+    price: 'Int'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -80,6 +95,11 @@ export interface NexusGenArgTypes {
     createPost: { // args
       body: string; // String!
       title: string; // String!
+    }
+    createProduct: { // args
+      brand: string; // String!
+      name: string; // String!
+      price: number; // Int!
     }
   }
   Query: {
