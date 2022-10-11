@@ -8,15 +8,15 @@ datasource db {
 }
 
 model Post {
-  id Int @id @default(autoincrement())
-  title String
-  body String
+  id        Int     @id @default(autoincrement())
+  title     String
+  body      String
   published Boolean
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  name String
+  id    Int    @id @default(autoincrement())
+  name  String
   price Float
   brand String
 }
