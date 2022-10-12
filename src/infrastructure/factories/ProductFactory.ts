@@ -1,5 +1,5 @@
 import { Product as ProductPrisma } from '@prisma/client';
-import { Product } from '../domain/Product/Product';
+import { Product } from '../domain/product/Product';
 
 
 export class ProductFactory {

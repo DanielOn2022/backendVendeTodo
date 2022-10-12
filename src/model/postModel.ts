@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { Post } from '../../infrastructure/domain/post/Post';
-import { PostRepository } from '../../infrastructure/repositories/PostRepository';
+import { Post } from '../infrastructure/domain/post/Post';
+import { PostRepository } from '../infrastructure/repositories/PostRepository';
 
 export class PostModel {
   private prisma: PrismaClient;

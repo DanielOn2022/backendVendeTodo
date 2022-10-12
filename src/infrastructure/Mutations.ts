@@ -1,6 +1,8 @@
 import { intArg, mutationType, stringArg } from "nexus";
-import { createPost } from "../model/businessCases/createPost";
-import { createProduct } from "../model/businessCases/createProduct";
+import { ProductModel } from "../model/ProductModel";
+import { createPost } from "../model/createPost";
+import logger from "./Logger";
+import { Product } from "./domain/Product/Product";
 
 export const mutations = mutationType({
   definition(t) {
@@ -24,11 +26,25 @@ export const mutations = mutationType({
           price: intArg({ required: true }),
           brand: stringArg({ required: true }),
         },
-        resolve(_root, args, ctx) {
+        async resolve(_root, args, ctx) {
           const { name, price, brand } = args;
-          const { prisma } = ctx;
 
-          return createProduct({ name, price, brand, prisma});
+          return await ctx.productModel.createProduct(new Product({name,brand,price}));
+        },
+      }),
+      t.field("deleteProduct", {
+        type: "product",
+        args: { id: intArg({ required: true }) },
+        async resolve(_root, args, ctx) {
+          const { id } = args;
+          try {
+            return await ctx.productModel.deleteProduct(id);
+          } catch (error: any) {
+            logger.error(
+              `An error ocurrred on deleteProduct mutation: ${error.message}`
+            );
+            return error;
+          }
         },
       });
   },
