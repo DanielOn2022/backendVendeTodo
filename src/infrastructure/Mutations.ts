@@ -1,5 +1,6 @@
-import { mutationType, stringArg } from 'nexus';
-import { createPost } from '../model/businessCases/createPost';
+import { intArg, mutationType, stringArg } from 'nexus';
+import { createPost } from '../model/createPost';
+import logger from './Logger';
 
 export const mutations = mutationType({
   definition(t) {
@@ -16,5 +17,21 @@ export const mutations = mutationType({
           return createPost({body, prisma, title});
         }
     });
+
+    t.field('deleteProduct', {
+      type: 'Product',
+      args: {
+        id: intArg({required: true})
+      },
+      async resolve(_root, args, ctx) {
+        const { id } = args;
+        try {
+          return await ctx.productModel.deleteProduct(id); 
+        } catch (error: any) {
+          logger.error(`An error ocurrred on deleteProduct mutation: ${error.message}`);
+          return error;
+        }
+      }
+    })
   }
 });
