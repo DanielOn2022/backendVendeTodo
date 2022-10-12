@@ -45,3 +45,6 @@
 {"level":"info","message":"🚀 GraphQL service ready at http://localhost:5000/graphql"}
 {"level":"info","message":"🚀 GraphQL service ready at http://localhost:5000/graphql"}
 {"level":"info","message":"🚀 GraphQL service ready at http://localhost:5000/graphql"}
+{"level":"info","message":"🚀 GraphQL service ready at http://localhost:5000/graphql"}
+{"level":"error","message":"An error ocurrred on deleteProduct mutation: Product does not exists"}
+{"level":"info","message":"🚀 GraphQL service ready at http://localhost:5000/graphql"}

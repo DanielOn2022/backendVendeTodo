@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { ProductDoesntExistsError } from '../../infrastructure/domain/product/ProductDoesNotExistError';
-import { ProductRepository } from '../../infrastructure/repositories/ProductRepository';
+import { ProductDoesntExistsError } from '../infrastructure/domain/product/ProductDoesNotExistError';
+import { ProductRepository } from '../infrastructure/repositories/ProductRepository';
 
 export class ProductModel {
   private prisma: PrismaClient;

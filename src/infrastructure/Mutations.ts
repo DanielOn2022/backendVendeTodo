@@ -1,5 +1,5 @@
 import { intArg, mutationType, stringArg } from 'nexus';
-import { createPost } from '../model/businessCases/createPost';
+import { createPost } from '../model/createPost';
 import logger from './Logger';
 
 export const mutations = mutationType({
