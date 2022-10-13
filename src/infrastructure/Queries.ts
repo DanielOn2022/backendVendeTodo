@@ -1,4 +1,5 @@
 import { queryType, stringArg, intArg, arg } from 'nexus';
+import logger from './Logger';
 
 export const queries = queryType({
   definition(t) {
@@ -13,8 +14,7 @@ export const queries = queryType({
         console.log(args);
         return [{title: 'Hello', body: 'mock', published: false, id: '0'}];
       }
-    });
-
+    }),
     t.field('singlePost', {
       type: 'post',
       nullable: true,
@@ -26,5 +26,6 @@ export const queries = queryType({
       }
     });
 
+   
   }
 });
