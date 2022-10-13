@@ -1,4 +1,4 @@
-import { PostSnapshot } from "../../factories/PostSnapshot";
+import { PostSnapshot } from "./PostSnapshot";
 import { iEntity } from "../../iEntity";
 
 
