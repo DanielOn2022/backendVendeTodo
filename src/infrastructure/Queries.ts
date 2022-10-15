@@ -22,11 +22,8 @@ export const queries = queryType({
       args: {
         test: intArg({ required: true })
       },
-
-      async resolve(_root, args, ctx) {
-        const variable = await ctx.ProductModel.getProductById(args.test);
-        console.log(variable)
-        return variable;
+      async resolve(_root, args, ctx) {       
+        return await ctx.ProductModel.getProductById(args.test);
       }
     });
 

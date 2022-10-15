@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import { Product } from '../../infrastructure/domain/post/Product';
 import { ProductRepository } from '../../infrastructure/repositories/ProductRepository';
 
-import { Product } from '../../infrastructure/domain/post/Product';
+
 
 export class ProductModel {
   private prisma: PrismaClient;
