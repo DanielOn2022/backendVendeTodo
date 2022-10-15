@@ -29,9 +29,9 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Mutation: {};
-  Product: {};
   Query: {};
   post: {};
+  product: {};
 }
 
 export interface NexusGenInterfaces {
@@ -47,13 +47,8 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createPost: NexusGenRootTypes['post'] | null; // post
-    deleteProduct: NexusGenRootTypes['Product'] | null; // Product
-  }
-  Product: { // field return type
-    brand: string | null; // String
-    id: number | null; // Int
-    name: string | null; // String
-    price: number | null; // Float
+    createProduct: NexusGenRootTypes['product'] | null; // product
+    deleteProduct: NexusGenRootTypes['product'] | null; // product
   }
   Query: { // field return type
     posts: Array<NexusGenRootTypes['post'] | null> | null; // [post]
@@ -65,18 +60,19 @@ export interface NexusGenFieldTypes {
     published: boolean | null; // Boolean
     title: string | null; // String
   }
+  product: { // field return type
+    brand: string | null; // String
+    id: number | null; // Int
+    name: string | null; // String
+    price: number | null; // Float
+  }
 }
 
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createPost: 'post'
-    deleteProduct: 'Product'
-  }
-  Product: { // field return type name
-    brand: 'String'
-    id: 'Int'
-    name: 'String'
-    price: 'Float'
+    createProduct: 'product'
+    deleteProduct: 'product'
   }
   Query: { // field return type name
     posts: 'post'
@@ -88,6 +84,12 @@ export interface NexusGenFieldTypeNames {
     published: 'Boolean'
     title: 'String'
   }
+  product: { // field return type name
+    brand: 'String'
+    id: 'Int'
+    name: 'String'
+    price: 'Float'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -95,6 +97,11 @@ export interface NexusGenArgTypes {
     createPost: { // args
       body: string; // String!
       title: string; // String!
+    }
+    createProduct: { // args
+      brand: string; // String!
+      name: string; // String!
+      price: number; // Int!
     }
     deleteProduct: { // args
       id: number; // Int!

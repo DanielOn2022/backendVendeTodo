@@ -7,8 +7,8 @@ export class ProductFactory {
     return new Product({
         id: client.id,
         name: client.name,
-        brand: client.brand,
-        price: client.price
+        price: client.price,
+        brand: client.brand
     });
   }
 }

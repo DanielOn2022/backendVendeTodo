@@ -1,7 +1,7 @@
 import { objectType } from 'nexus';
 
 export const product = objectType({
-  name: 'Product',
+  name: 'product',
   definition(t) {
     t.field('id', {
         type: 'Int',

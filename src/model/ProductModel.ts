@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { ProductDoesntExistsError } from '../infrastructure/domain/product/ProductDoesNotExistError';
+import { ProductDoesntExistsError } from '../infrastructure/domain/Product/ProductDoesNotExistError';
+import { Product} from '../infrastructure/domain/Product/Product';
 import { ProductRepository } from '../infrastructure/repositories/ProductRepository';
+
 
 export class ProductModel {
   private prisma: PrismaClient;
@@ -24,4 +26,21 @@ export class ProductModel {
     
     return product;
   }
+
+  async createProduct (product:Product)
+  {
+    const productRepository = new ProductRepository(this.prisma);
+  
+    const createdProduct = productRepository.createProduct(product);
+    if(!createdProduct) 
+        throw new ProductDoesntExistsError('Product could not be created', {
+        component: 'createProduct',
+        input: {product}
+      });
+
+      
+      
+    return createdProduct;
+  };
+
 }
