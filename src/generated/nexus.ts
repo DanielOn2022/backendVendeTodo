@@ -50,7 +50,7 @@ export interface NexusGenFieldTypes {
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
   Query: { // field return type
-    products: Array<NexusGenRootTypes['product'] | null> | null; // [product]
+    getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     singleProduct: NexusGenRootTypes['product'] | null; // product
   }
   product: { // field return type
@@ -68,7 +68,7 @@ export interface NexusGenFieldTypeNames {
     updateProduct: 'product'
   }
   Query: { // field return type name
-    products: 'product'
+    getProductsByName: 'product'
     singleProduct: 'product'
   }
   product: { // field return type name
@@ -97,8 +97,8 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
-    products: { // args
-      test?: string | null; // String
+    getProductsByName: { // args
+      name: string; // String!
     }
     singleProduct: { // args
       id: number; // Int!

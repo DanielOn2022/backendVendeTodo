@@ -46,4 +46,13 @@ export class ProductRepository {
     });
     return ProductFactory.createFromPrisma(databaseProduct); 
   }
+
+  async getProductsByName(name: string): Promise<Product[] | null> {
+    const databaseProducts = await this.client.product.findMany({
+      where: {name: {contains: name}}
+    });
+
+    if (!databaseProducts) return null;
+    return ProductFactory.createManyFromPrisma(databaseProducts);
+  }
 }

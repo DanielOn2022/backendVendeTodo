@@ -1,19 +1,24 @@
-import { queryType, stringArg, intArg, arg } from 'nexus';
+import { queryType, stringArg, intArg } from 'nexus';
 import logger from './Logger';
 
 
 export const queries = queryType({
   definition(t) {
-    t.field('products', {
+    t.field('getProductsByName', {
       type: 'product',
       nullable: true,
       list: true,
       args: {
-        test: stringArg({ required: false })
+        name: stringArg({ required: true })
       },
-      resolve(_root, args, ctx) {
-        console.log(args);
-        return [{name: 'pantalon', price: '300', brand: 'HW', id: '0'}];
+      async resolve(_root, args, ctx) {
+        try {
+          const { name } = args;
+          return await ctx.productModel.getProductsByName(name);
+        } catch (error: any) {
+          logger.error(`An error ocurrred on products query: ${error.message}`);
+          return error;
+        }
       }
     });
 

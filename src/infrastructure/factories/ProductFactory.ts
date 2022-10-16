@@ -11,4 +11,8 @@ export class ProductFactory {
         brand: client.brand
     });
   }
+
+  static createManyFromPrisma(client: ProductPrisma[]): Product[] {
+    return client.map(product => this.createFromPrisma(product));
+  }
 }
