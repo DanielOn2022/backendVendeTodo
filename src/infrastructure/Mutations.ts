@@ -1,24 +1,9 @@
 import { intArg, mutationType, stringArg } from "nexus";
-import { createPost } from "../model/createPost";
 import logger from "./Logger";
 import { Product } from "./domain/Product/Product";
 
 export const mutations = mutationType({
   definition(t) {
-    t.field("createPost", {
-      type: "post",
-      args: {
-        title: stringArg({ required: true }),
-        body: stringArg({ required: true }),
-      },
-      resolve(_root, args, ctx) {
-        const { body, title } = args;
-        const { prisma } = ctx;
-
-        return createPost({ body, prisma, title });
-      },
-    });
-
     t.field("createProduct", {
       type: "product",
       args: {
