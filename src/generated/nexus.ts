@@ -112,7 +112,7 @@ export interface NexusGenArgTypes {
       test?: string | null; // String
     }
     singleProduct: { // args
-      test: number; // Int!
+      id: number; // Int!
     }
   }
 }

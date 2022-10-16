@@ -20,10 +20,10 @@ export const queries = queryType({
       type: 'product',
       nullable: true,
       args: {
-        test: intArg({ required: true })
+        id: intArg({ required: true })
       },
       async resolve(_root, args, ctx) {       
-        return await ctx.ProductModel.getProductById(args.test);
+        return await ctx.productModel.getProductById(args.id);
       }
     });
 

@@ -10,7 +10,7 @@ type Mutation {
 
 type Query {
   products(test: String): [product]
-  singleProduct(test: Int!): product
+  singleProduct(id: Int!): product
 }
 
 type post {
