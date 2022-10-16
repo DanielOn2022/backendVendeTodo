@@ -1,4 +1,5 @@
 import { queryType, stringArg, intArg, arg } from 'nexus';
+import logger from './Logger';
 
 
 export const queries = queryType({
@@ -26,7 +27,6 @@ export const queries = queryType({
         return await ctx.productModel.getProductById(args.id);
       }
     });
-
   }
 });
 

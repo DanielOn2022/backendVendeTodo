@@ -6,6 +6,7 @@ type Mutation {
   createPost(body: String!, title: String!): post
   createProduct(brand: String!, name: String!, price: Int!): product
   deleteProduct(id: Int!): product
+  updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
 }
 
 type Query {

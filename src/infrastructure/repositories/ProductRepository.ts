@@ -32,4 +32,18 @@ export class ProductRepository {
       where: { id: product.snapshot.id?.valueOf() },
     });
   }
+
+  async updateProduct(product: Product): Promise<Product>{
+    const { name,price,brand } = product.snapshot
+    const databaseProduct= await this.client.product.update({where: {
+      id: product.snapshot.id?.valueOf(),
+    },
+    data: {
+      name,
+      price,
+      brand
+    }
+    });
+    return ProductFactory.createFromPrisma(databaseProduct); 
+  }
 }
