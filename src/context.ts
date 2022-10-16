@@ -4,6 +4,7 @@ import { PostModel } from './model/postModel';
 import { ProductModel } from './model/ProductModel';
 
 export interface Context {
+  [x: string]: any;
   prisma: PrismaClient,
   postModel: PostModel,
   productModel: ProductModel
