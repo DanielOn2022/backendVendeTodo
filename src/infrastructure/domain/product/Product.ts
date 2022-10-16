@@ -1,14 +1,18 @@
 import { ProductSnapshot } from "./ProductSnapshot";
 import { iEntity } from "../../iEntity";
 
-
 export class Product implements iEntity {
   private readonly id?: number | null;
   private name: string;
   private price: number;
   private brand: string;
 
-  constructor(data: { id?: number | null, name: string, brand: string, price: number }) {
+  constructor(data: {
+    id?: number | null;
+    name: string;
+    price: number;
+    brand: string;
+  }) {
     this.id = data.id;
     this.name = data.name;
     this.price = data.price;
@@ -19,8 +23,8 @@ export class Product implements iEntity {
     return {
       id: this.id,
       name: this.name,
+      price: this.price,
       brand: this.brand,
-      price: this.price
-    }
+    };
   }
 }
