@@ -2,6 +2,7 @@ import { Post as PostPrisma } from '@prisma/client';
 import { Post } from '../domain/post/Post';
 
 
+
 export class PostFactory {
   static createFromPrisma(client: PostPrisma): Post {
     return new Post({
@@ -11,4 +12,6 @@ export class PostFactory {
         title: client.title
     });
   }
+
+
 }

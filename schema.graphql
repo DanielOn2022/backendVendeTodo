@@ -9,8 +9,8 @@ type Mutation {
 }
 
 type Query {
-  posts(test: String): [post]
-  singlePost(test: Int!): post
+  products(test: String): [product]
+  singleProduct(test: Int!): product
 }
 
 type post {

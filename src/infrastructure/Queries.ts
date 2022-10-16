@@ -1,9 +1,10 @@
 import { queryType, stringArg, intArg, arg } from 'nexus';
 
+
 export const queries = queryType({
   definition(t) {
-    t.field('posts', {
-      type: 'post',
+    t.field('products', {
+      type: 'product',
       nullable: true,
       list: true,
       args: {
@@ -11,20 +12,21 @@ export const queries = queryType({
       },
       resolve(_root, args, ctx) {
         console.log(args);
-        return [{title: 'Hello', body: 'mock', published: false, id: '0'}];
+        return [{name: 'pantalon', price: '300', brand: 'HW', id: '0'}];
       }
     });
 
-    t.field('singlePost', {
-      type: 'post',
+    t.field('singleProduct', {
+      type: 'product',
       nullable: true,
       args: {
         test: intArg({ required: true })
       },
-      resolve(_root, args, ctx) {
-        return ctx.postModel.getPostById(args.test);
+      async resolve(_root, args, ctx) {       
+        return await ctx.ProductModel.getProductById(args.test);
       }
     });
 
   }
 });
+

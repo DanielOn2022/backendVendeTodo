@@ -51,8 +51,8 @@ export interface NexusGenFieldTypes {
     deleteProduct: NexusGenRootTypes['product'] | null; // product
   }
   Query: { // field return type
-    posts: Array<NexusGenRootTypes['post'] | null> | null; // [post]
-    singlePost: NexusGenRootTypes['post'] | null; // post
+    products: Array<NexusGenRootTypes['product'] | null> | null; // [product]
+    singleProduct: NexusGenRootTypes['product'] | null; // product
   }
   post: { // field return type
     body: string | null; // String
@@ -75,8 +75,8 @@ export interface NexusGenFieldTypeNames {
     deleteProduct: 'product'
   }
   Query: { // field return type name
-    posts: 'post'
-    singlePost: 'post'
+    products: 'product'
+    singleProduct: 'product'
   }
   post: { // field return type name
     body: 'String'
@@ -108,10 +108,10 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
-    posts: { // args
+    products: { // args
       test?: string | null; // String
     }
-    singlePost: { // args
+    singleProduct: { // args
       test: number; // Int!
     }
   }
