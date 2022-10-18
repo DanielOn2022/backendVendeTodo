@@ -69,4 +69,10 @@ export class ProductModel {
     return products;
   }
 
+  async getAllProducts() {
+    const productRepository = new ProductRepository(this.prisma);
+    const products = await productRepository.getAllProducts();
+
+    return products;
+  }
 }

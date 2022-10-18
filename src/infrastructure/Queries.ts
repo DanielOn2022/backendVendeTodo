@@ -32,6 +32,21 @@ export const queries = queryType({
         return await ctx.productModel.getProductById(args.id);
       }
     });
+
+    t.field('getAllProducts', {
+      type: 'product',
+      nullable: true,
+      list: true,
+      async resolve(_root, args, ctx) {
+        try {
+          return await ctx.productModel.getAllProducts();
+        } catch (error: any) {
+          logger.error(`An error ocurrred on products query: ${error.message}`);
+          return error;
+        }
+      }
+    });
+    
   }
 });
 
