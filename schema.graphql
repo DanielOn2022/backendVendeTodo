@@ -9,6 +9,7 @@ type Mutation {
 }
 
 type Query {
+  getAllProducts: [product]
   getProductsByName(name: String!): [product]
   singleProduct(id: Int!): product
 }

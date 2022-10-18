@@ -55,4 +55,11 @@ export class ProductRepository {
     if (!databaseProducts) return null;
     return ProductFactory.createManyFromPrisma(databaseProducts);
   }
+
+  async getAllProducts(): Promise<Product[] | null> {
+    const databaseProducts = await this.client.product.findMany();
+
+    if (!databaseProducts) return null;
+    return ProductFactory.createManyFromPrisma(databaseProducts);
+  }
 }
