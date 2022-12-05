@@ -30,6 +30,7 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Mutation: {};
   Query: {};
+  User: {};
   product: {};
 }
 
@@ -47,12 +48,22 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createProduct: NexusGenRootTypes['product'] | null; // product
     deleteProduct: NexusGenRootTypes['product'] | null; // product
+    login: NexusGenRootTypes['User'] | null; // User
+    register: NexusGenRootTypes['User'] | null; // User
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
   Query: { // field return type
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     singleProduct: NexusGenRootTypes['product'] | null; // product
+  }
+  User: { // field return type
+    email: string; // String!
+    id: number; // Int!
+    lastLoginDate: string; // String!
+    name: string; // String!
+    profileUrl: string | null; // String
+    token: string; // String!
   }
   product: { // field return type
     brand: string | null; // String
@@ -66,12 +77,22 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createProduct: 'product'
     deleteProduct: 'product'
+    login: 'User'
+    register: 'User'
     updateProduct: 'product'
   }
   Query: { // field return type name
     getAllProducts: 'product'
     getProductsByName: 'product'
     singleProduct: 'product'
+  }
+  User: { // field return type name
+    email: 'String'
+    id: 'Int'
+    lastLoginDate: 'String'
+    name: 'String'
+    profileUrl: 'String'
+    token: 'String'
   }
   product: { // field return type name
     brand: 'String'
@@ -90,6 +111,15 @@ export interface NexusGenArgTypes {
     }
     deleteProduct: { // args
       id: number; // Int!
+    }
+    login: { // args
+      email: string; // String!
+      password: string; // String!
+    }
+    register: { // args
+      email: string; // String!
+      name: string; // String!
+      password: string; // String!
     }
     updateProduct: { // args
       id: number; // Int!

@@ -7,6 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Client {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(30)
+  cellphone     String?   @unique(map: "cellphone") @db.VarChar(10)
+  lastLoginDate DateTime  @db.Timestamp(0)
+  profileUrl    String?   @db.VarChar(255)
+  email         String    @unique(map: "email") @db.VarChar(255)
+  password      String    @db.VarChar(255)
+  createdAt     DateTime  @db.Timestamp(0)
+  deletedAt     DateTime? @db.Timestamp(0)
+  token         String?    @db.VarChar(500)
+}
+
 model Product {
   id    Int    @id @default(autoincrement())
   name  String
