@@ -1,5 +1,6 @@
-import { queryType, stringArg, intArg } from 'nexus';
+import { queryType, extendType, stringArg, intArg } from 'nexus';
 import logger from './Logger';
+import { isAuthenticated } from './permissions';
 
 
 export const queries = queryType({
@@ -37,6 +38,9 @@ export const queries = queryType({
       type: 'product',
       nullable: true,
       list: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
       async resolve(_root, args, ctx) {
         try {
           return await ctx.productModel.getAllProducts();

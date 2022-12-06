@@ -78,13 +78,15 @@ export const mutations = mutationType({
       args: {
         email: stringArg({required: true}),
         password: stringArg({required: true}),
-        name: stringArg({required: true})
+        cellphone: stringArg({required: false}),
+        name: stringArg({required: true}),
+        lastname: stringArg({required: false}),
       }, 
       async resolve(_root, args, ctx) {
-        const { email, password, name } = args;
+        const { email, password, name, cellphone, lastname } = args;
         
         try {
-          return await ctx.authModel.register({email, name, password}); 
+          return await ctx.authModel.register({email, name, password, cellphone, lastname}); 
         } catch (error: any) {
           logger.error(`An error ocurrred on register mutation: ${error.message}`);
           return error;

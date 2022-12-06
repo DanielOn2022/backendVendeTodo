@@ -22,13 +22,15 @@ export class ClientFactory {
     email: string,
     name: string,
     password: string,
+    cellphone?: string | null
   }): Client {
     return new Client({
       email: data.email,
       createdAt: moment().toISOString(),
       lastLoginDate: moment().toISOString(),
       name: data.name,
-      password: data.password
+      password: data.password,
+      cellphone: data.cellphone
     });
   }
 }

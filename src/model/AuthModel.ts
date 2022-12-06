@@ -40,8 +40,8 @@ export class AuthModel {
       return client;
     }
 
-    async register(data: { name: string, email: string, password: string }) {
-      const {email, name, password} = data;
+    async register(data: { name: string, email: string, password: string, cellphone: string, lastname: string }) {
+      const {email, name, password, lastname, cellphone} = data;
       const clientRepo = new ClientRepository(this.prisma);
       const oldClient = await clientRepo.getClientByEmail(email);
       if (oldClient) throw new ClientAlreadyExistsError("Client with email already exists", {
@@ -50,7 +50,7 @@ export class AuthModel {
       });
 
       const encryptedPassword = await bcrypt.hash(password, 10);
-      let client: Client | null = ClientFactory.createWithMinimalInput({email, name, password: encryptedPassword});
+      let client: Client | null = ClientFactory.createWithMinimalInput({email, name: `${name} ${lastname}`, password: encryptedPassword, cellphone});
       client = await clientRepo.createClient(client);
       if (!client) throw new Error('Something went wrong');
       const token = jwt.sign({
