@@ -53,6 +53,43 @@ export const mutations = mutationType({
           return error;
         }
       }
-    })
+    });
+
+    t.field('login', {
+      type: 'User',
+      args: {
+        email: stringArg({required: true}),
+        password: stringArg({required: true})
+      }, 
+      async resolve(_root, args, ctx) {
+        const { email, password } = args;
+        
+        try {
+          return await ctx.authModel.login(email, password); 
+        } catch (error: any) {
+          logger.error(`An error ocurrred on login mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('register', {
+      type: 'User',
+      args: {
+        email: stringArg({required: true}),
+        password: stringArg({required: true}),
+        name: stringArg({required: true})
+      }, 
+      async resolve(_root, args, ctx) {
+        const { email, password, name } = args;
+        
+        try {
+          return await ctx.authModel.register({email, name, password}); 
+        } catch (error: any) {
+          logger.error(`An error ocurrred on register mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });
