@@ -7,7 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client {
+model batch {
+  product_id    Int
+  supplier_id   Int
+  batch_id      Int
+  receivedStock Int
+  actualStock   Int
+  compromised   Int
+  onShelf       Int
+  arriveDate    DateTime  @db.Timestamp(0)
+  updatedAt     DateTime? @db.Timestamp(0)
+
+  @@id([product_id, supplier_id, batch_id])
+  @@index([supplier_id], map: "FK_batch_PxS_s")
+}
+
+model cartline {
+  shoppingCart_id Int
+  cartLine_id     Int
+  product_id      Int
+  supplier_id     Int
+  batch_id        Int
+  amount          Int
+  price           Decimal? @db.Decimal(15, 2)
+  subtotal        Decimal? @db.Decimal(15, 2)
+
+  @@id([shoppingCart_id, cartLine_id])
+  @@index([product_id], map: "FK_cartLine_product")
+  @@index([supplier_id], map: "FK_cartLine_supplier")
+}
+
+model client {
   id            Int       @id @default(autoincrement())
   name          String    @db.VarChar(30)
   cellphone     String?   @unique(map: "cellphone") @db.VarChar(10)
@@ -17,12 +47,162 @@ model Client {
   password      String    @db.VarChar(255)
   createdAt     DateTime  @db.Timestamp(0)
   deletedAt     DateTime? @db.Timestamp(0)
-  token         String?    @db.VarChar(500)
+  token         String?   @db.VarChar(500)
 }
 
-model Product {
-  id    Int    @id @default(autoincrement())
-  name  String
-  price Float
-  brand String
+model employee {
+  id             Int       @id @default(autoincrement())
+  name           String    @db.VarChar(255)
+  cellphone      String?   @db.VarChar(10)
+  rfc            String    @unique(map: "rfc") @db.VarChar(13)
+  city           String?   @db.VarChar(50)
+  street         String?   @db.VarChar(50)
+  externalNumber String?   @db.VarChar(20)
+  internalNumber String?   @db.VarChar(20)
+  email          String    @unique(map: "email") @db.VarChar(255)
+  password       String    @db.VarChar(255)
+  createdAt      DateTime  @db.Timestamp(0)
+  deletedAt      DateTime? @db.Timestamp(0)
+}
+
+model packer {
+  packer_id     Int @id @default(autoincrement())
+  employee_id   Int
+  startingPoint Int
+
+  @@index([employee_id], map: "FK_packer_employee")
+}
+
+model packingroute {
+  packer_id Int
+  sale_id   Int
+  lasItem   Int
+  packed    Boolean
+
+  @@id([packer_id, sale_id])
+  @@index([sale_id], map: "FK_PacRou_sale")
+}
+
+model payment {
+  id               Int     @id @default(autoincrement())
+  amount           Decimal @db.Decimal(15, 2)
+  concept          String? @db.VarChar(200)
+  reference        String  @db.VarChar(200)
+  paymentMethod_id Int
+
+  @@index([paymentMethod_id], map: "FK_payment_paymentMethod")
+}
+
+model paymentmethod {
+  serviceCard_id Int @id
+  client_id      Int
+
+  @@index([client_id], map: "FK_paymentMethod_client")
+}
+
+model product {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String? @db.VarChar(500)
+  brand       String? @db.VarChar(100)
+  price       Decimal @db.Decimal(15, 2)
+  volume      Decimal @db.Decimal(4, 2)
+  imageUrl    String  @db.VarChar(255)
+  stock       Int
+}
+
+model productxsupplier {
+  product_id  Int
+  supplier_id Int
+
+  @@id([product_id, supplier_id])
+  @@index([supplier_id], map: "FK_PxS_supplier")
+}
+
+model sale {
+  id                 Int      @id @default(autoincrement())
+  total              Decimal  @db.Decimal(15, 2)
+  date               DateTime @db.Timestamp(0)
+  completed          Boolean
+  payment_id         Int
+  shippingAddress_id Int
+
+  @@index([payment_id], map: "FK_sale_payment")
+  @@index([shippingAddress_id], map: "FK_sale_shippingAddress")
+}
+
+model saleline {
+  sale_id     Int
+  saleLine_id Int
+  product_id  Int
+  supplier_id Int
+  batch_id    Int
+  amount      Int
+  price       Decimal? @db.Decimal(15, 2)
+  subtotal    Decimal? @db.Decimal(15, 2)
+
+  @@id([sale_id, saleLine_id])
+  @@index([product_id], map: "FK_saleLine_product")
+  @@index([supplier_id], map: "FK_saleLine_supplier")
+}
+
+model section {
+  shelf_id      Int
+  sectionNumber Int
+  capacity      Decimal @db.Decimal(4, 2)
+  product_id    Int
+
+  @@id([shelf_id, sectionNumber])
+  @@index([product_id], map: "FK_section_product")
+}
+
+model shelf {
+  id                  Int      @id @default(autoincrement())
+  warehouseManager_id Int
+  shelfM_id           Int
+  sortedDate          DateTime @db.Timestamp(0)
+
+  @@index([shelfM_id], map: "FK_shelf_shelfMan")
+  @@index([warehouseManager_id], map: "FK_shelf_wareHMan")
+}
+
+model shelfmanager {
+  shelfManager_id Int @id @default(autoincrement())
+  employee_id     Int
+
+  @@index([employee_id], map: "FK_shelfMana_employee")
+}
+
+model shippingaddress {
+  id             Int     @id @default(autoincrement())
+  city           String  @db.VarChar(50)
+  street         String  @db.VarChar(70)
+  externalNumber String  @db.VarChar(20)
+  internalNumber String? @db.VarChar(20)
+  client_id      Int
+
+  @@index([client_id], map: "FK_shippingAddress_client")
+}
+
+model shoppingcart {
+  id         Int      @id @default(autoincrement())
+  lastUpdate DateTime @db.Timestamp(0)
+  createdAt  DateTime @db.Timestamp(0)
+  client_id  Int?
+
+  @@index([client_id], map: "FK_client_id")
+}
+
+model supplier {
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(200)
+  company   String @db.VarChar(250)
+  cellphone String @db.VarChar(10)
+}
+
+model warehousemanager {
+  warehouseManager_id Int @id @default(autoincrement())
+  employee_id         Int
+
+  @@index([employee_id], map: "FK_warehMana_employee")
 }
