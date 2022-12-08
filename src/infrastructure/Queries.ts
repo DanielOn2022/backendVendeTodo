@@ -1,4 +1,6 @@
-import { queryType, extendType, stringArg, intArg } from 'nexus';
+import { Decimal } from '@prisma/client/runtime';
+import { queryType, extendType, stringArg, intArg, arg } from 'nexus';
+import { Product } from './domain/Product/Product';
 import logger from './Logger';
 import { isAuthenticated } from './permissions';
 
@@ -27,10 +29,11 @@ export const queries = queryType({
       type: 'product',
       nullable: true,
       args: {
-        id: intArg({ required: true })
+        product: arg({ type: 'Product', required: true })
       },
       async resolve(_root, args, ctx) {       
-        return await ctx.productModel.getProductById(args.id);
+        const {product} = args;
+        return await ctx.productModel.selectProduct(new Product({...product, price: product.price as unknown as Decimal, volume: product.volume as unknown as Decimal, imageUrl: product.imageUrl || ''}));
       }
     });
 
@@ -38,9 +41,6 @@ export const queries = queryType({
       type: 'product',
       nullable: true,
       list: true,
-      authorize: (_root, _args, ctx) => {
-        return isAuthenticated(ctx);
-      },
       async resolve(_root, args, ctx) {
         try {
           return await ctx.productModel.getAllProducts();

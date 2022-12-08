@@ -3,17 +3,28 @@
 
 
 type Mutation {
-  createProduct(brand: String!, name: String!, price: Int!): product
+  createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
 }
 
+input Product {
+  brand: String
+  description: String
+  id: Int!
+  imageUrl: String
+  name: String!
+  price: Float!
+  stock: Int
+  volume: Float
+}
+
 type Query {
   getAllProducts: [product]
   getProductsByName(name: String!): [product]
-  singleProduct(id: Int!): product
+  singleProduct(product: Product!): product
 }
 
 type User {
@@ -27,7 +38,11 @@ type User {
 
 type product {
   brand: String
+  description: String
   id: Int
+  imageUrl: String
   name: String
   price: Float
+  stock: Float
+  volume: Float
 }

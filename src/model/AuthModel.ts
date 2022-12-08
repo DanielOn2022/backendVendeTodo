@@ -40,7 +40,7 @@ export class AuthModel {
       return client;
     }
 
-    async register(data: { name: string, email: string, password: string, cellphone: string, lastname: string }) {
+    async register(data: { name: string, email: string, password: string, cellphone?: string | null, lastname?: string | null }) {
       const {email, name, password, lastname, cellphone} = data;
       const clientRepo = new ClientRepository(this.prisma);
       const oldClient = await clientRepo.getClientByEmail(email);

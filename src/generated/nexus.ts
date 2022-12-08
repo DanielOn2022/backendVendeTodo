@@ -15,6 +15,16 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  Product: { // input type
+    brand?: string | null; // String
+    description?: string | null; // String
+    id: number; // Int!
+    imageUrl?: string | null; // String
+    name: string; // String!
+    price: number; // Float!
+    stock?: number | null; // Int
+    volume?: number | null; // Float
+  }
 }
 
 export interface NexusGenEnums {
@@ -68,9 +78,13 @@ export interface NexusGenFieldTypes {
   }
   product: { // field return type
     brand: string | null; // String
+    description: string | null; // String
     id: number | null; // Int
+    imageUrl: string | null; // String
     name: string | null; // String
     price: number | null; // Float
+    stock: number | null; // Float
+    volume: number | null; // Float
   }
 }
 
@@ -97,9 +111,13 @@ export interface NexusGenFieldTypeNames {
   }
   product: { // field return type name
     brand: 'String'
+    description: 'String'
     id: 'Int'
+    imageUrl: 'String'
     name: 'String'
     price: 'Float'
+    stock: 'Float'
+    volume: 'Float'
   }
 }
 
@@ -107,8 +125,12 @@ export interface NexusGenArgTypes {
   Mutation: {
     createProduct: { // args
       brand: string; // String!
+      description: string; // String!
+      imageUrl: string; // String!
       name: string; // String!
       price: number; // Int!
+      stock: number; // Int!
+      volume: number; // Int!
     }
     deleteProduct: { // args
       id: number; // Int!
@@ -136,7 +158,7 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
     singleProduct: { // args
-      id: number; // Int!
+      product: NexusGenInputs['Product']; // Product!
     }
   }
 }
@@ -149,7 +171,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 

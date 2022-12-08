@@ -4,10 +4,11 @@ import {queries} from './infrastructure/Queries';
 import { mutations } from './infrastructure/Mutations';
 import { InvalidTokenError } from './infrastructure/Errors/InvalidTokenError';
 import { AuthError } from './infrastructure/permissions/error';
+import { inputs } from './infrastructure/Inputs';
 
 
 export const schema = makeSchema({
-  types: [types, queries, mutations],
+  types: [types, queries, mutations, inputs],
   plugins: [
     declarativeWrappingPlugin(),
     fieldAuthorizePlugin({

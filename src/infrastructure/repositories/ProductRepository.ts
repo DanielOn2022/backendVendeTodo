@@ -1,4 +1,4 @@
-import { PrismaClient, PrismaPromise, Product as PrismaProduct} from "@prisma/client";
+import { PrismaClient, PrismaPromise, product as PrismaProduct} from "@prisma/client";
 import { Product } from "../domain/product/Product";
 import { ProductFactory } from "../factories/ProductFactory";
 
@@ -23,6 +23,10 @@ export class ProductRepository {
         name: product.snapshot.name,
         price: product.snapshot.price,
         brand: product.snapshot.brand,
+        imageUrl: product.snapshot.imageUrl,
+        stock: product.snapshot.stock || 0,
+        volume: product.snapshot.volume || 0,
+        description: product.snapshot.description
       },
     });
   }
@@ -49,17 +53,19 @@ export class ProductRepository {
 
   async getProductsByName(name: string): Promise<Product[] | null> {
     const databaseProducts = await this.client.product.findMany({
-      where: {name: {contains: name}}
+      where: {name: {contains: name}}, select:{ name: true, price: true, imageUrl: true, id: true}
     });
 
     if (!databaseProducts) return null;
-    return ProductFactory.createManyFromPrisma(databaseProducts);
+    return ProductFactory.createManyFromPrisma(databaseProducts as PrismaProduct[]);
   }
 
   async getAllProducts(): Promise<Product[] | null> {
-    const databaseProducts = await this.client.product.findMany();
+    const databaseProducts = await this.client.product.findMany({
+      select:{ name: true, price: true, imageUrl: true, id: true}
+    });
 
     if (!databaseProducts) return null;
-    return ProductFactory.createManyFromPrisma(databaseProducts);
+    return ProductFactory.createManyFromPrisma(databaseProducts as PrismaProduct[]);
   }
 }

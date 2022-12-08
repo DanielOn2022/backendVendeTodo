@@ -1,20 +1,25 @@
 import { intArg, mutationType, stringArg } from "nexus";
 import logger from "./Logger";
 import { Product } from "./domain/Product/Product";
+import { Decimal } from "@prisma/client/runtime";
 
 export const mutations = mutationType({
   definition(t) {
     t.field("createProduct", {
-      type: "product",
+      type: 'product',
       args: {
         name: stringArg({ required: true }),
         price: intArg({ required: true }),
         brand: stringArg({ required: true }),
+        stock: intArg({ required: true }),
+        imageUrl: stringArg({ required: true }),
+        volume: intArg({ required: true }),
+        description: stringArg({ required: true }),
       },
       async resolve(_root, args, ctx) {
-        const { name, price, brand } = args;
+        const { name, price, brand, imageUrl, stock, description, volume } = args;
         return await ctx.productModel.createProduct(
-          new Product({ name, brand, price })
+          new Product({ name, brand, price: price as unknown as Decimal, imageUrl, stock, description, volume: volume as unknown as Decimal })
         );
       },
     });
@@ -47,7 +52,7 @@ export const mutations = mutationType({
         const { id,newName,newPrice,newBrand } = args;
         
         try {
-          return await ctx.productModel.updateProduct(id,newName,newPrice,newBrand); 
+          return await ctx.productModel.updateProduct(id,newName,newPrice as unknown as Decimal,newBrand); 
         } catch (error: any) {
           logger.error(`An error ocurrred on updateProduct mutation: ${error.message}`);
           return error;

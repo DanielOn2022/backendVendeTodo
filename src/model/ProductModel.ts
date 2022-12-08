@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { ProductDoesntExistsError } from "../infrastructure/domain/Product/ProductDoesNotExistError";
 import { Product } from "../infrastructure/domain/Product/Product";
 import { ProductRepository } from "../infrastructure/repositories/ProductRepository";
+import { Decimal } from "@prisma/client/runtime";
 
 export class ProductModel {
   private prisma: PrismaClient;
@@ -39,15 +40,14 @@ export class ProductModel {
     return createdProduct;
   }
 
-  async getProductById(productId: number ): Promise<Product | null> {
-  
+  async selectProduct(product: Product): Promise<Product | null> {
+    if (!product.snapshot.id) throw new Error('Product id is needed for selectProduct');
     const productRepository = new ProductRepository(this.prisma);
-    const product = await productRepository.getProductById(productId);
-
-    return product;
+    const completeProduct = await productRepository.getProductById(product.snapshot.id);
+    return completeProduct;
   }
 
-  async updateProduct(productId: number, newName: string, newPrice: number, newBrand: string){
+  async updateProduct(productId: number, newName: string, newPrice: Decimal, newBrand: string){
     const productRepository = new ProductRepository(this.prisma);
     let product = await productRepository.getProductById(productId);
     

@@ -27,5 +27,35 @@ export const product = objectType({
           return root.price;
         }
       });
+      t.field('stock', {
+        type: 'Float',
+        resolve(root: any, args, ctx) {
+          return root.stock;
+        }
+      });
+      t.field('volume', {
+        type: 'Float',
+        resolve(root: any, args, ctx) {
+          return root.volume;
+        }
+      });
+      t.field('imageUrl', {
+        type: 'String',
+        resolve(root: any, args, ctx) {
+          return root.imageUrl;
+        }
+      });
+      t.field('imageUrl', {
+        type: 'String',
+        resolve(root: any, args, ctx) {
+          return root.imageUrl;
+        }
+      });
+      t.field('description', {
+        type: 'String',
+        resolve(root: any, args, ctx) {
+          return root.description;
+        }
+      });
   },
 });
