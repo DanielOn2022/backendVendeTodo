@@ -114,6 +114,8 @@ model product {
 model productxsupplier {
   product_id  Int
   supplier_id Int
+  stock       Int
+  compromised Int
 
   @@id([product_id, supplier_id])
   @@index([supplier_id], map: "FK_PxS_supplier")

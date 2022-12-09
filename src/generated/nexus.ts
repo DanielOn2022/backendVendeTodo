@@ -66,6 +66,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
+    logedIn: NexusGenRootTypes['User'] | null; // User
     singleProduct: NexusGenRootTypes['product'] | null; // product
   }
   User: { // field return type
@@ -99,6 +100,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     getAllProducts: 'product'
     getProductsByName: 'product'
+    logedIn: 'User'
     singleProduct: 'product'
   }
   User: { // field return type name

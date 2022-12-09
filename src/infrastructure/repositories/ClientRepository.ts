@@ -43,4 +43,10 @@ export class ClientRepository {
     if (!databaseClient) return false;
     return true;
   }
+
+  async getClientById(clientId: number): Promise<Client | null> {
+    const databaseClient = await this.client.client.findUnique({where: {id: clientId}});
+    if (!databaseClient) return null;
+    return ClientFactory.createFromPrisma(databaseClient);
+  }
 }

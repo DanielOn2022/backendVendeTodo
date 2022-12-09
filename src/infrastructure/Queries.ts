@@ -50,6 +50,24 @@ export const queries = queryType({
         }
       }
     });
+
+    t.field('logedIn', {
+      type: 'User',
+      nullable: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        try {
+          const client = await ctx.clientModel.me(ctx.token.id);
+          console.log(client);
+          return client;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on products query: ${error.message}`);
+          return error;
+        }
+      }
+    });
     
   }
 });

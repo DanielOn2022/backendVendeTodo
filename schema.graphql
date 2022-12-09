@@ -24,6 +24,7 @@ input Product {
 type Query {
   getAllProducts: [product]
   getProductsByName(name: String!): [product]
+  logedIn: User
   singleProduct(product: Product!): product
 }
 
