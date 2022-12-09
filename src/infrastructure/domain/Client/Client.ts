@@ -1,4 +1,5 @@
 import { iEntity } from "../../iEntity";
+import { ShoppingCart } from "../ShopppingCart/ShoppingCart";
 import { ClientSnapshot } from "./ClientSnapshot";
 
 export class Client implements iEntity {
@@ -11,18 +12,20 @@ export class Client implements iEntity {
   private email: string;
   private password: string;
   private createdAt: string;
-  private token?: string | null
+  private token?: string | null;
+  private shoppingCart?: ShoppingCart | null;
 
   constructor(data: {
     id?: number | null;
-    name: string,
-    cellphone?: string | null
-    lastLoginDate: string,
-    profileUrl?: string | null,
-    email: string,
-    password: string,
-    createdAt: string,
-    token?: string | null
+    name: string;
+    cellphone?: string | null;
+    lastLoginDate: string;
+    profileUrl?: string | null;
+    email: string;
+    password: string;
+    createdAt: string;
+    token?: string | null;
+    shoppingCart?: ShoppingCart | null;
   }) {
     this.id = data.id;
     this.name = data.name;
@@ -33,6 +36,7 @@ export class Client implements iEntity {
     this.password = data.password;
     this.createdAt = data.createdAt;
     this.token = data.token;
+    this.shoppingCart = data.shoppingCart;
     this.isSatisfied();
   }
 
@@ -52,12 +56,17 @@ export class Client implements iEntity {
       email: this.email,
       password: this.password,
       createdAt: this.createdAt,
-      token: this.token
+      token: this.token,
+      shoppingCart: this.shoppingCart
     };
   }
 
   setToken(token: string): void {
     this.token = token;
+  }
+
+  setCart(shoppingCart: ShoppingCart): void {
+    this.shoppingCart = shoppingCart;
   }
 
 }

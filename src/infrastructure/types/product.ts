@@ -57,5 +57,13 @@ export const product = objectType({
           return root.description;
         }
       });
+      t.field('suppliers', {
+        type: 'Supplier',
+        list: true,
+        nullable: true,
+        resolve(root: any, args, ctx) {
+          return root.suppliers;
+        }
+      });
   },
 });

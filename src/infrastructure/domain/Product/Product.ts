@@ -1,6 +1,7 @@
 import { ProductSnapshot } from "./ProductSnapshot";
 import { iEntity } from "../../iEntity";
 import { Decimal } from "@prisma/client/runtime";
+import { Supplier } from "../Supplier/Supplier";
 
 export class Product implements iEntity {
   private readonly id?: number | null;
@@ -11,6 +12,8 @@ export class Product implements iEntity {
   private volume?: Decimal | null;
   private imageUrl: string;
   private stock?: number | null;
+  private suppliers?: Array<Supplier> | [];
+
   constructor(data: {
     id?: number | null;
     name: string;
@@ -20,6 +23,7 @@ export class Product implements iEntity {
     volume?: Decimal | null;
     imageUrl: string;
     stock?: number | null;
+    suppliers?: Array<Supplier> | null
   }) {
     this.id = data.id;
     this.name = data.name;
@@ -29,6 +33,7 @@ export class Product implements iEntity {
     this.volume = data.volume;
     this.imageUrl = data.imageUrl;
     this.stock = data.stock;
+    this.suppliers = data.suppliers || [];
   }
 
   get snapshot(): ProductSnapshot {
@@ -40,7 +45,8 @@ export class Product implements iEntity {
       price: this.price,
       volume: this.volume,
       imageUrl: this.imageUrl,
-      stock: this.stock
+      stock: this.stock,
+      suppliers: this.suppliers || []
     };
   }
 
@@ -48,5 +54,9 @@ export class Product implements iEntity {
     this.name = newName;
     this.price = newPrice;
     this.brand = newBrand;
+  }
+
+  setSuppliers(suppliers: Array<Supplier>) {
+    this.suppliers = suppliers;
   }
 }

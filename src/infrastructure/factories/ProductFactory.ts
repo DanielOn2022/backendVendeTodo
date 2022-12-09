@@ -1,4 +1,5 @@
 import { product as ProductPrisma } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime';
 import { Product } from '../domain/product/Product';
 
 
@@ -18,5 +19,15 @@ export class ProductFactory {
 
   static createManyFromPrisma(client: Array<ProductPrisma>): Product[] {
     return client.map(product => this.createFromPrisma(product));
+  }
+
+  static createFromNexus(nexusProduct: any): Product {
+    return new Product({
+      ...nexusProduct,
+      imageUrl: nexusProduct.imageUrl as string,
+      name: nexusProduct.name as string,
+      price: nexusProduct.price as unknown as Decimal,
+      volume: nexusProduct.volume as unknown as Decimal
+    });
   }
 }
