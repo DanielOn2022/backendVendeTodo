@@ -50,5 +50,13 @@ export const user = objectType({
         return root.token;
       }
     });
+
+    t.field('shoppingCart', {
+      type: 'ShoppingCart',
+      nullable: true,
+      resolve(root: any, args, ctx) {
+        return root.shoppingCart;
+      }
+    })
   },
 });

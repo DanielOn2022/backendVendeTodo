@@ -1,4 +1,4 @@
-import { Client as ClientPrisma } from '@prisma/client';
+import { client as ClientPrisma } from '@prisma/client';
 import { Client } from '../domain/Client/Client';
 import moment from 'moment';
 

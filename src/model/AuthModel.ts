@@ -7,6 +7,7 @@ import { ClientDoesntExistsError } from "../infrastructure/domain/Client/ClientD
 import { WrongCredentialsError } from "../infrastructure/domain/Client/WrongCredentialsError";
 import { ClientFactory } from "../infrastructure/factories/ClientFactory";
 import { ClientRepository } from "../infrastructure/repositories/ClientRepository";
+import { CartModel } from "./CartModel";
 
 export class AuthModel {
     private prisma: PrismaClient;
@@ -37,6 +38,10 @@ export class AuthModel {
       client.setToken(token);
       const succeded = await clientRepo.setTokenToClient(client);
       if (!succeded) throw new Error('Something went wrong setting users token');
+
+      const cartModel = new CartModel(this.prisma);
+      const cart = await cartModel.getCartByClientId(client.snapshot.id || 0);
+      if (cart) client.setCart(cart);
       return client;
     }
 

@@ -1,7 +1,9 @@
-import { intArg, mutationType, stringArg } from "nexus";
+import { arg, intArg, mutationType, stringArg } from "nexus";
 import logger from "./Logger";
 import { Product } from "./domain/Product/Product";
 import { Decimal } from "@prisma/client/runtime";
+import { ShopppingCartFactory } from "./factories/ShoppingCartFactory";
+import { ProductFactory } from "./factories/ProductFactory";
 
 export const mutations = mutationType({
   definition(t) {
@@ -92,6 +94,28 @@ export const mutations = mutationType({
         
         try {
           return await ctx.authModel.register({email, name, password, cellphone, lastname}); 
+        } catch (error: any) {
+          logger.error(`An error ocurrred on register mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('addToCart', {
+      type: 'ShoppingCart',
+      args: {
+        quantity: intArg({required: true}),
+        supplierId: intArg({required: true}),
+        product: arg({ type: 'Product', required: true }),
+        cart: arg({type: 'ShopppingCart', required: true})
+      }, 
+      async resolve(_root, args, ctx) {
+        const { cart, product, quantity, supplierId } = args;
+        const shoppingCart = ShopppingCartFactory.createFromNexus(cart);
+        const productObj = ProductFactory.createFromNexus(product);
+        try {
+          const cart = await ctx.cartModel.addToCart({cart: shoppingCart, product: productObj, quantity, supplierId});
+          return cart;
         } catch (error: any) {
           logger.error(`An error ocurrred on register mutation: ${error.message}`);
           return error;

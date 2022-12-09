@@ -11,7 +11,7 @@ export class ProductRepository {
 
   async getProductById(productId: number): Promise<Product | null> {
     const databaseProduct = await this.client.product.findFirst({
-      where: { id: productId },
+      where: { id: productId }
     });
     if (!databaseProduct) return null;
     return ProductFactory.createFromPrisma(databaseProduct);
