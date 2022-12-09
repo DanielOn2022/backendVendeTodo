@@ -1,4 +1,5 @@
 import { iSnapshot } from "../../iSnapshot";
+import { ShoppingCart } from "../ShopppingCart/ShoppingCart";
 
 export type ClientSnapshot = iSnapshot & {
     id?: number | null;
@@ -9,5 +10,6 @@ export type ClientSnapshot = iSnapshot & {
     email: string,
     password: string,
     createdAt: string,
-    token?: string | null
+    token?: string | null,
+    shoppingCart?: ShoppingCart | null;
 }

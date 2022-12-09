@@ -14,4 +14,31 @@ export const inputs = [
       t.nonNull.string('name');
     }
   }),
+
+  inputObjectType({
+    name: 'SaleLineIn',
+    definition(t) {
+      t.nonNull.int('cart_sale_id');
+      t.nonNull.int('saleLineId');
+      t.nonNull.field('product', { type: 'Product' });
+      t.nonNull.int('supplierId');
+      t.nonNull.int('batchId');
+      t.nonNull.int('amount');
+      t.nonNull.float('price');
+      t.nonNull.float('subTotal');
+    }
+  }),
+
+  inputObjectType({
+    name: 'ShopppingCart',
+    definition(t) {
+      t.nonNull.int('id');
+      t.nonNull.string('lastUpdate');
+      t.nullable.field('saleLines', {
+        type: 'SaleLineIn',
+        list: true,
+        default: []
+      });
+    }
+  }),
 ]

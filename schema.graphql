@@ -3,6 +3,7 @@
 
 
 type Mutation {
+  addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
@@ -23,9 +24,49 @@ input Product {
 
 type Query {
   getAllProducts: [product]
+  getCart: Boolean
   getProductsByName(name: String!): [product]
   logedIn: User
   singleProduct(product: Product!): product
+}
+
+type SaleLine {
+  amount: Int!
+  batchId: Int!
+  cart_sale_id: Int!
+  price: Float!
+  product: product!
+  saleLineId: Int!
+  subTotal: Float!
+  supplierId: Int!
+}
+
+input SaleLineIn {
+  amount: Int!
+  batchId: Int!
+  cart_sale_id: Int!
+  price: Float!
+  product: Product!
+  saleLineId: Int!
+  subTotal: Float!
+  supplierId: Int!
+}
+
+type ShoppingCart {
+  id: Int!
+  lastUpdate: String!
+  saleLines: [SaleLine!]!
+}
+
+input ShopppingCart {
+  id: Int!
+  lastUpdate: String!
+  saleLines: [SaleLineIn] = []
+}
+
+type Supplier {
+  company: String!
+  id: Int!
 }
 
 type User {
@@ -34,6 +75,7 @@ type User {
   lastLoginDate: String!
   name: String!
   profileUrl: String
+  shoppingCart: ShoppingCart
   token: String!
 }
 
@@ -45,5 +87,6 @@ type product {
   name: String
   price: Float
   stock: Float
+  suppliers: [Supplier]
   volume: Float
 }
