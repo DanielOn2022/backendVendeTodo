@@ -6,6 +6,6 @@ export type SupplierSnapshot = iSnapshot & {
     cellphone?: string | null,
     company: string,
     availableStock?: number | null;
-    stock: number;
-    compromised: number;
+    stock?: number | null;
+    compromised?: number | null;
 }

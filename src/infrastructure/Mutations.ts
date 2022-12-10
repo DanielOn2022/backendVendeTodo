@@ -217,6 +217,28 @@ export const mutations = mutationType({
       }
     });
 
+    t.field('removeLineCart', {
+      type: 'ShoppingCart',
+      args: {
+        shoppingCart: arg({ type: 'ShopppingCart', required: true}),
+        saleLineId: intArg({required: true}),
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { shoppingCart, saleLineId } = args;
+        try {
+          const shoppingCartObj = ShopppingCartFactory.createFromNexus(shoppingCart);
+          const shoppingCartUpdated = await ctx.cartModel.removeLineFromCart(shoppingCartObj, saleLineId);
+          return shoppingCartUpdated;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on removeLineCart mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+    
     t.field('authorizePayment', {
       type: 'ShippingAddress',
       args: {

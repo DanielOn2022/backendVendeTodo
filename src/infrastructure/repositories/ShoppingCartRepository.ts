@@ -2,9 +2,11 @@ import { PrismaClient, product } from '@prisma/client';
 import { Client } from '../domain/Client/Client';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
 import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
+import { Supplier } from '../domain/Supplier/Supplier';
 import { SaleLineFactory } from '../factories/CartLineFactory';
 import { ProductFactory } from '../factories/ProductFactory';
 import { ShopppingCartFactory } from '../factories/ShoppingCartFactory';
+import { SupplierFactory } from '../factories/SupplierFactory';
 
 export class ShopppingCartRepository {
   private client: PrismaClient;
@@ -28,7 +30,11 @@ export class ShopppingCartRepository {
     for (const databaseLine of databaseLines) {
       const databaseProduct = await this.client.product.findUnique({where: {id: databaseLine.product_id}});
       const product = ProductFactory.createFromPrisma(databaseProduct as product);
-      saleLines.push(SaleLineFactory.createFromPrisma(databaseLine, product));
+      const databaseSupplier = await this.client.supplier.findUnique({where: {id: databaseLine.supplier_id}});
+      if (!databaseSupplier) throw new Error('No supplier found');
+      const saleLine = SaleLineFactory.createFromPrisma(databaseLine, product);
+      saleLine.setSupplierInfo(new Supplier({company: databaseSupplier.company, id: databaseSupplier.id}));
+      saleLines.push(saleLine);
     }
     return saleLines;
   }
@@ -99,5 +105,15 @@ export class ShopppingCartRepository {
     });
     if (!databaseCart) return null;
     return ShopppingCartFactory.createFromPrisma(databaseCart);
+  }
+
+  async removeSaleLineFromCart(cart: ShoppingCart, saleLineId: number): Promise<boolean> {
+    const databaseSaleLine = await this.client.cartline.delete({
+      where: {
+        shoppingCart_id_cartLine_id: {cartLine_id: saleLineId, shoppingCart_id: cart.snapshot.id as number}
+      }
+    });
+    if (!databaseSaleLine) return false;
+    return true
   }
 }
