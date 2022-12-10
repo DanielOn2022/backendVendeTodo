@@ -52,4 +52,8 @@ export class SaleLine implements iEntity {
     this.batchId = saleLine.snapshot.batchId;
   }
 
+  getSubTotal() {
+    return this.amount * (this.product.snapshot.price as unknown as number);
+  }
+
 }

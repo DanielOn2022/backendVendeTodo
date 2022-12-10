@@ -7,6 +7,7 @@ import { ClientDoesntExistsError } from "../infrastructure/domain/Client/ClientD
 import { WrongCredentialsError } from "../infrastructure/domain/Client/WrongCredentialsError";
 import { ClientFactory } from "../infrastructure/factories/ClientFactory";
 import { ClientRepository } from "../infrastructure/repositories/ClientRepository";
+import { ShopppingCartRepository } from "../infrastructure/repositories/ShoppingCartRepository";
 import { CartModel } from "./CartModel";
 
 export class AuthModel {
@@ -40,7 +41,9 @@ export class AuthModel {
       if (!succeded) throw new Error('Something went wrong setting users token');
 
       const cartModel = new CartModel(this.prisma);
-      const cart = await cartModel.getCartByClientId(client.snapshot.id || 0);
+      console.log('client.snapshot.id => ', client.snapshot.id);
+      const cart = await cartModel.getCartByClientId(client.snapshot.id as number);
+      if (!cart) throw new Error('Something went wrong getting clients cart');
       if (cart) client.setCart(cart);
       return client;
     }
@@ -65,6 +68,11 @@ export class AuthModel {
       client.setToken(token);
       const succeded = await clientRepo.setTokenToClient(client);
       if (!succeded) throw new Error('Something went wrong setting users token');
+
+      const cartRepo = new ShopppingCartRepository(this.prisma);
+      const newCart = await cartRepo.createCartForClient(client);
+      if (!newCart) throw new Error('Something went wrong creating clients Cart');
+      client.setCart(newCart);
       return client;
     }
 }

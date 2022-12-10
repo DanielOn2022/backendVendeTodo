@@ -35,4 +35,23 @@ export class ShoppingCart implements iEntity {
   updateActivity(): void {
     this.lastUpdate = new Date();
   }
+
+  getLines(): SaleLine[] | [] | undefined {
+    return this.saleLines;
+  }
+
+  getTotal(availableLines: SaleLine[]) {
+    let total = 0;
+    for (const line of this.saleLines as SaleLine[]) {
+      if (!availableLines.find(saleLine => saleLine.snapshot.supplierId === line.snapshot.supplierId && saleLine.snapshot.product.snapshot.id === line.snapshot.product.snapshot.id))
+        continue;
+      const subTotal = line.getSubTotal();
+      total += subTotal;
+    }
+    return total;
+  }
+
+  setSaleLines(saleLines: SaleLine[]): void {
+    this.saleLines = saleLines;
+  }
 }

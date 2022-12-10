@@ -14,6 +14,9 @@ export class CartModel {
   async getCartByClientId(clientId: number) {
     const shoppingCartRepo = new ShopppingCartRepository(this.prisma);
     const cart = await shoppingCartRepo.getCartByClientId(clientId);
+    if (!cart) throw new Error('Cart not found for user');
+    const saleLines = await shoppingCartRepo.getSaleLinesByCart(cart as ShoppingCart);
+    cart?.setSaleLines(saleLines as SaleLine[]);
     return cart;
   }
 

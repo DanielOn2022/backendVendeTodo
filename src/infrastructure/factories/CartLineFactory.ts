@@ -16,7 +16,7 @@ export class SaleLineFactory {
       subTotal: saleLine.subtotal,
     });
   }
-
+  
   static createManyFromPrismaWithSameProduct(saleLines: PrismaCartLine[], product: Product): SaleLine[] {
     return saleLines.map(saleLine => this.createFromPrisma(saleLine, product));
   }

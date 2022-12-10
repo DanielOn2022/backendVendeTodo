@@ -8,6 +8,7 @@ type Mutation {
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
+  startPayment(cart: ShopppingCart!): StartPaymentPayload
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
 }
 
@@ -24,7 +25,7 @@ input Product {
 
 type Query {
   getAllProducts: [product]
-  getCart: Boolean
+  getCart: ShoppingCart
   getProductsByName(name: String!): [product]
   logedIn: User
   singleProduct(product: Product!): product
@@ -53,15 +54,22 @@ input SaleLineIn {
 }
 
 type ShoppingCart {
+  cartLines: [SaleLine!]!
   id: Int!
   lastUpdate: String!
-  saleLines: [SaleLine!]!
 }
 
 input ShopppingCart {
   id: Int!
   lastUpdate: String!
   saleLines: [SaleLineIn] = []
+}
+
+type StartPaymentPayload {
+  availableLines: [SaleLine!]!
+  nonAvailableLines: [SaleLine!]!
+  shoppingCart: Int!
+  total: Float!
 }
 
 type Supplier {

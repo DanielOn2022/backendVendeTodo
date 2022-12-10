@@ -7,3 +7,10 @@
 {"level":"error","message":"An error ocurrred on register mutation: \nInvalid `this.client.cartline.create()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\ShoppingCartRepository.ts:45:61\n\n  42 cartLineId = lastCartLine ? lastCartLine.cartLine_id: cartLineId;\n  43 const databaseSaleLines = await Promise.all(\n  44   selectedBatches.map(async (batch) => {\n→ 45     const databaseSaleLine = await this.client.cartline.create(\nUnique constraint failed on the constraint: `PRIMARY`"}
 {"level":"error","message":"An error ocurrred on register mutation: \nInvalid `this.client.cartline.create()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\ShoppingCartRepository.ts:46:61\n\n  43 const databaseSaleLines = await Promise.all(\n  44   selectedBatches.map(async (batch) => {\n  45     console.log('cartLineId => ', cartLineId)\n→ 46     const databaseSaleLine = await this.client.cartline.create(\nUnique constraint failed on the constraint: `PRIMARY`"}
 {"level":"error","message":"An error ocurrred on register mutation: saleLine.setSaleLineId is not a function"}
+{"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Cart not found for user"}
