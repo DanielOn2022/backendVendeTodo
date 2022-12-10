@@ -4,6 +4,7 @@ import { ProductModel } from './model/ProductModel';
 import { AuthModel } from './model/AuthModel';
 import { ClientModel } from './model/ClientModel';
 import { CartModel } from './model/CartModel';
+import { SaleModel } from './model/SaleModel';
 
 export interface Context {
   [x: string]: any;
@@ -12,6 +13,7 @@ export interface Context {
   authModel: AuthModel,
   clientModel: ClientModel,
   cartModel: CartModel,
+  saleModel: SaleModel,
 }
 
 export const context = {
@@ -20,4 +22,5 @@ export const context = {
   authModel: new AuthModel(prisma),
   clientModel: new ClientModel(prisma),
   cartModel: new CartModel(prisma),
+  saleModel: new SaleModel(prisma),
 }

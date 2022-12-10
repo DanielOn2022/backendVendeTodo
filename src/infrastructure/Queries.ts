@@ -60,7 +60,6 @@ export const queries = queryType({
       async resolve(_root, args, ctx) {
         try {
           const client = await ctx.clientModel.me(ctx.token.id);
-          console.log(client);
           return client;
         } catch (error: any) {
           logger.error(`An error ocurrred on products query: ${error.message}`);
@@ -70,8 +69,21 @@ export const queries = queryType({
     });
     
     t.field('getCart', {
-      type: 'Boolean'
-    })
+      type: 'ShoppingCart',
+      nullable: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        try {
+          const cart = await ctx.cartModel.getCartByClientId(ctx.token.id);
+          return cart;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on products query: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });
 

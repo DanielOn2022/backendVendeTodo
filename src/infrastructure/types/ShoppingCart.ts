@@ -19,7 +19,7 @@ export const shoppingCart = objectType({
       }
     });
 
-    t.field('saleLines', {
+    t.field('cartLines', {
       type: 'SaleLine',
       nullable: false,
       list: true,

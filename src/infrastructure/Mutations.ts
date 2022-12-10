@@ -4,6 +4,8 @@ import { Product } from "./domain/Product/Product";
 import { Decimal } from "@prisma/client/runtime";
 import { ShopppingCartFactory } from "./factories/ShoppingCartFactory";
 import { ProductFactory } from "./factories/ProductFactory";
+import { isAuthenticated } from "./permissions";
+import { Client } from "./domain/Client/Client";
 
 export const mutations = mutationType({
   definition(t) {
@@ -72,7 +74,8 @@ export const mutations = mutationType({
         const { email, password } = args;
         
         try {
-          return await ctx.authModel.login(email, password); 
+          const client: Client = await ctx.authModel.login(email, password); 
+          return client;
         } catch (error: any) {
           logger.error(`An error ocurrred on login mutation: ${error.message}`);
           return error;
@@ -109,12 +112,36 @@ export const mutations = mutationType({
         product: arg({ type: 'Product', required: true }),
         cart: arg({type: 'ShopppingCart', required: true})
       }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
       async resolve(_root, args, ctx) {
         const { cart, product, quantity, supplierId } = args;
         const shoppingCart = ShopppingCartFactory.createFromNexus(cart);
         const productObj = ProductFactory.createFromNexus(product);
         try {
           const cart = await ctx.cartModel.addToCart({cart: shoppingCart, product: productObj, quantity, supplierId});
+          return cart;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on register mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('startPayment', {
+      type: 'StartPaymentPayload',
+      args: {
+        cart: arg({type: 'ShopppingCart', required: true})
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { cart } = args;
+        const shoppingCart = ShopppingCartFactory.createFromNexus(cart);
+        try {
+          const cart = await ctx.saleModel.startPayment(shoppingCart);
           return cart;
         } catch (error: any) {
           logger.error(`An error ocurrred on register mutation: ${error.message}`);

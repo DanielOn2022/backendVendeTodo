@@ -58,6 +58,7 @@ export interface NexusGenObjects {
   Query: {};
   SaleLine: {};
   ShoppingCart: {};
+  StartPaymentPayload: {};
   Supplier: {};
   User: {};
   product: {};
@@ -80,11 +81,12 @@ export interface NexusGenFieldTypes {
     deleteProduct: NexusGenRootTypes['product'] | null; // product
     login: NexusGenRootTypes['User'] | null; // User
     register: NexusGenRootTypes['User'] | null; // User
+    startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
   Query: { // field return type
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
-    getCart: boolean | null; // Boolean
+    getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     logedIn: NexusGenRootTypes['User'] | null; // User
     singleProduct: NexusGenRootTypes['product'] | null; // product
@@ -100,9 +102,15 @@ export interface NexusGenFieldTypes {
     supplierId: number; // Int!
   }
   ShoppingCart: { // field return type
+    cartLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
     id: number; // Int!
     lastUpdate: string; // String!
-    saleLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
+  }
+  StartPaymentPayload: { // field return type
+    availableLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
+    nonAvailableLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
+    shoppingCart: number; // Int!
+    total: number; // Float!
   }
   Supplier: { // field return type
     company: string; // String!
@@ -137,11 +145,12 @@ export interface NexusGenFieldTypeNames {
     deleteProduct: 'product'
     login: 'User'
     register: 'User'
+    startPayment: 'StartPaymentPayload'
     updateProduct: 'product'
   }
   Query: { // field return type name
     getAllProducts: 'product'
-    getCart: 'Boolean'
+    getCart: 'ShoppingCart'
     getProductsByName: 'product'
     logedIn: 'User'
     singleProduct: 'product'
@@ -157,9 +166,15 @@ export interface NexusGenFieldTypeNames {
     supplierId: 'Int'
   }
   ShoppingCart: { // field return type name
+    cartLines: 'SaleLine'
     id: 'Int'
     lastUpdate: 'String'
-    saleLines: 'SaleLine'
+  }
+  StartPaymentPayload: { // field return type name
+    availableLines: 'SaleLine'
+    nonAvailableLines: 'SaleLine'
+    shoppingCart: 'Int'
+    total: 'Float'
   }
   Supplier: { // field return type name
     company: 'String'
@@ -217,6 +232,9 @@ export interface NexusGenArgTypes {
       lastname?: string | null; // String
       name: string; // String!
       password: string; // String!
+    }
+    startPayment: { // args
+      cart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
     }
     updateProduct: { // args
       id: number; // Int!

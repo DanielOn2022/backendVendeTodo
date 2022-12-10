@@ -1,7 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, product } from '@prisma/client';
+import { Client } from '../domain/Client/Client';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
 import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
 import { SaleLineFactory } from '../factories/CartLineFactory';
+import { ProductFactory } from '../factories/ProductFactory';
 import { ShopppingCartFactory } from '../factories/ShoppingCartFactory';
 
 export class ShopppingCartRepository {
@@ -12,9 +14,24 @@ export class ShopppingCartRepository {
   }
 
   async getCartByClientId(clientId: number): Promise<ShoppingCart | null> {
-    const databaseCart = await this.client.shoppingcart.findUnique({where: {id: clientId}});
+    const databaseCart = await this.client.shoppingcart.findFirst({where: {client_id: clientId}});
     if (!databaseCart) return null;
     return ShopppingCartFactory.createFromPrisma(databaseCart);
+  }
+
+  async getSaleLinesByCart(cart: ShoppingCart): Promise<SaleLine[] | null> {
+    console.log('cart => ', cart)
+    const databaseLines = await this.client.cartline.findMany({
+      where: {shoppingCart_id: cart.snapshot.id as number}
+    });
+    if (!databaseLines) return null;
+    const saleLines = [];
+    for (const databaseLine of databaseLines) {
+      const databaseProduct = await this.client.product.findUnique({where: {id: databaseLine.product_id}});
+      const product = ProductFactory.createFromPrisma(databaseProduct as product);
+      saleLines.push(SaleLineFactory.createFromPrisma(databaseLine, product));
+    }
+    return saleLines;
   }
 
   async addSaleLineToCart(cart: ShoppingCart, saleLine: SaleLine): Promise<SaleLine[] | null> {
@@ -32,6 +49,7 @@ export class ShopppingCartRepository {
     let index = 0;
     while(desiredQuantity > 0) {
       const availableStock = databaseBatches[index].actualStock - databaseBatches[index].compromised;
+      if (availableStock == 0) continue;
       const stockTaken = desiredQuantity > availableStock ? availableStock : desiredQuantity;
       desiredQuantity = desiredQuantity - availableStock;
       selectedBatches.push({...databaseBatches[index], stockTaken});
@@ -65,6 +83,19 @@ export class ShopppingCartRepository {
     const databaseCart = await this.client.shoppingcart.update({
       where: {id: cart.snapshot.id as number},
       data: {lastUpdate: cart.snapshot.lastUpdate}
+    });
+    if (!databaseCart) return null;
+    return ShopppingCartFactory.createFromPrisma(databaseCart);
+  }
+
+  async createCartForClient(client: Client): Promise<ShoppingCart | null> {
+    if (!client.snapshot.id) throw new Error('Client id is needed for createCartForClient');
+    const databaseCart = await this.client.shoppingcart.create({
+      data: {
+        createdAt: new Date(),
+        lastUpdate: new Date(),
+        client_id: client.snapshot.id,
+      }
     });
     if (!databaseCart) return null;
     return ShopppingCartFactory.createFromPrisma(databaseCart);
