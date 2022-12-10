@@ -24,7 +24,7 @@ export class SaleModel {
     const nonAvailableLines = [];
     while (lines.length > 0){
       const lastLine = lines.pop();
-      const lineFound = availableLines.find(availableLine => lastLine?.snapshot.supplierId !== availableLine.snapshot.supplierId && lastLine?.snapshot.product.snapshot.id !== availableLine.snapshot.product.snapshot.id);
+      const lineFound = availableLines.find(availableLine => lastLine?.snapshot.supplierId === availableLine.snapshot.supplierId && lastLine?.snapshot.product.snapshot.id === availableLine.snapshot.product.snapshot.id);
       if (!lineFound) nonAvailableLines.push(lastLine);
     }
 

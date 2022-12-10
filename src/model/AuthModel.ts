@@ -41,7 +41,6 @@ export class AuthModel {
       if (!succeded) throw new Error('Something went wrong setting users token');
 
       const cartModel = new CartModel(this.prisma);
-      console.log('client.snapshot.id => ', client.snapshot.id);
       const cart = await cartModel.getCartByClientId(client.snapshot.id as number);
       if (!cart) throw new Error('Something went wrong getting clients cart');
       if (cart) client.setCart(cart);

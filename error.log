@@ -14,3 +14,6 @@
 {"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
 {"level":"error","message":"An error ocurrred on login mutation: Cannot read properties of null (reading 'snapshot')"}
 {"level":"error","message":"An error ocurrred on login mutation: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on register mutation: Cannot read properties of undefined (reading 'actualStock')"}
+{"level":"error","message":"An error ocurrred on register mutation: Cannot read properties of undefined (reading 'actualStock')"}
+{"level":"error","message":"An error ocurrred on register mutation: Not enough stock for this product"}
