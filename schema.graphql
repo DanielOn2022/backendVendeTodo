@@ -7,7 +7,7 @@ type Mutation {
   cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   createPaymentMethod(cardNumber: String!, clientId: Int!): PaymentMethod
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
-  createShippingAddress(city: String!, clientId: Int!, externalNumber: Int!, internalNumber: Int, street: String!): ShippingAddress
+  createShippingAddress(city: String!, clientId: Int!, externalNumber: String!, internalNumber: String, street: String!): ShippingAddress
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
@@ -93,6 +93,7 @@ type StartPaymentPayload {
 type Supplier {
   company: String!
   id: Int!
+  stock: Int!
 }
 
 type User {

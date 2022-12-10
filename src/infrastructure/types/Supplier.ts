@@ -18,5 +18,13 @@ export const supplier = objectType({
         return root.company;
       }
     });
+
+    t.field('stock', {
+      type: 'Int',
+      nullable: false,
+      resolve(root: any, args, ctx) {
+        return root.availableStock;
+      }
+    });
   },
 });

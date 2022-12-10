@@ -5,7 +5,7 @@ export type ShippingAddressSnapshot = iSnapshot & {
     id? : number | null;
     city: string;
     street: string;
-    externalNumber: number;
-    internalNumber?: number | null;
+    externalNumber: string;
+    internalNumber?: string | null;
     clientId: number;
 }

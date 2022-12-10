@@ -6,16 +6,16 @@ export class ShippingAddress implements iEntity {
   private id? : number | null;
   private city: string;
   private street: string;
-  private externalNumber: number;
-  private internalNumber?: number | null;
+  private externalNumber: string;
+  private internalNumber?: string | null;
   private clientId: number;
 
   constructor(data: {
     id? : number | null;
     city: string;
     street: string;
-    externalNumber: number;
-    internalNumber?: number | null;
+    externalNumber: string;
+    internalNumber?: string | null;
     clientId: number;
   }) {
     this.id = data.id;

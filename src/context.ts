@@ -6,6 +6,7 @@ import { ClientModel } from './model/ClientModel';
 import { CartModel } from './model/CartModel';
 import { SaleModel } from './model/SaleModel';
 import { PaymentMethodModel } from './model/PaymentMethodModel';
+import { ShippingAddressModel } from './model/ShippingAddressModel';
 
 export interface Context {
   [x: string]: any;
@@ -16,6 +17,7 @@ export interface Context {
   cartModel: CartModel,
   saleModel: SaleModel,
   paymentMethodModel: PaymentMethodModel,
+  shippingAddressModel: ShippingAddressModel
 }
 
 export const context = {
@@ -26,4 +28,5 @@ export const context = {
   cartModel: new CartModel(prisma),
   saleModel: new SaleModel(prisma),
   paymentMethodModel: new PaymentMethodModel(prisma),
+  shippingAddressModel: new ShippingAddressModel(prisma),
 }

@@ -133,6 +133,7 @@ export interface NexusGenFieldTypes {
   Supplier: { // field return type
     company: string; // String!
     id: number; // Int!
+    stock: number; // Int!
   }
   User: { // field return type
     email: string; // String!
@@ -213,6 +214,7 @@ export interface NexusGenFieldTypeNames {
   Supplier: { // field return type name
     company: 'String'
     id: 'Int'
+    stock: 'Int'
   }
   User: { // field return type name
     email: 'String'
@@ -263,8 +265,8 @@ export interface NexusGenArgTypes {
     createShippingAddress: { // args
       city: string; // String!
       clientId: number; // Int!
-      externalNumber: number; // Int!
-      internalNumber?: number | null; // Int
+      externalNumber: string; // String!
+      internalNumber?: string | null; // String
       street: string; // String!
     }
     deleteProduct: { // args

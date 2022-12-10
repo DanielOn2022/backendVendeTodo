@@ -198,8 +198,8 @@ export const mutations = mutationType({
       args: {
         city: stringArg({required: true}),
         street: stringArg({required: true}),
-        externalNumber: intArg({required: true}),
-        internalNumber: intArg({required: false}),
+        externalNumber: stringArg({required: true}),
+        internalNumber: stringArg({required: false}),
         clientId: intArg({required: true}),
       }, 
       authorize: (_root, _args, ctx) => {
@@ -208,7 +208,7 @@ export const mutations = mutationType({
       async resolve(_root, args, ctx) {
         const { city, clientId, externalNumber, street, internalNumber } = args;
         try {
-          const paymentMethod = await ctx.paymentMethodModel.createPaymentMethod(cardNumber, clientId);
+          const paymentMethod = await ctx.shippingAddressModel.createShippingAddress()
           return paymentMethod;
         } catch (error: any) {
           logger.error(`An error ocurrred on createPaymentMethod mutation: ${error.message}`);
