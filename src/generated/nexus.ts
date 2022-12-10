@@ -55,6 +55,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Mutation: {};
+  PaymentMethod: {};
   Query: {};
   SaleLine: {};
   ShoppingCart: {};
@@ -78,6 +79,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addToCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     cancelStartPayment: boolean | null; // Boolean
+    createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
     deleteProduct: NexusGenRootTypes['product'] | null; // product
     login: NexusGenRootTypes['User'] | null; // User
@@ -85,9 +87,14 @@ export interface NexusGenFieldTypes {
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
+  PaymentMethod: { // field return type
+    cardNumber: string; // String!
+    clientId: number; // Int!
+  }
   Query: { // field return type
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
+    getPaymentMethods: Array<NexusGenRootTypes['PaymentMethod'] | null> | null; // [PaymentMethod]
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     logedIn: NexusGenRootTypes['User'] | null; // User
     singleProduct: NexusGenRootTypes['product'] | null; // product
@@ -143,6 +150,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addToCart: 'ShoppingCart'
     cancelStartPayment: 'Boolean'
+    createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
     deleteProduct: 'product'
     login: 'User'
@@ -150,9 +158,14 @@ export interface NexusGenFieldTypeNames {
     startPayment: 'StartPaymentPayload'
     updateProduct: 'product'
   }
+  PaymentMethod: { // field return type name
+    cardNumber: 'String'
+    clientId: 'Int'
+  }
   Query: { // field return type name
     getAllProducts: 'product'
     getCart: 'ShoppingCart'
+    getPaymentMethods: 'PaymentMethod'
     getProductsByName: 'product'
     logedIn: 'User'
     singleProduct: 'product'
@@ -214,6 +227,10 @@ export interface NexusGenArgTypes {
     }
     cancelStartPayment: { // args
       availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!
+    }
+    createPaymentMethod: { // args
+      cardNumber: string; // String!
+      clientId: number; // Int!
     }
     createProduct: { // args
       brand: string; // String!

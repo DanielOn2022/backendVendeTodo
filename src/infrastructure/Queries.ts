@@ -89,6 +89,24 @@ export const queries = queryType({
         }
       }
     });
+
+    t.field('getPaymentMethods', {
+      type: 'PaymentMethod',
+      nullable: true,
+      list: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        try {
+          const cart = await ctx.paymentMethodModel.getPaymentMethodsByClient(ctx.token.id);
+          return cart;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on getCart query: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });
 

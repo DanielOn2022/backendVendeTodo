@@ -171,5 +171,26 @@ export const mutations = mutationType({
         }
       }
     });
+
+    t.field('createPaymentMethod', {
+      type: 'PaymentMethod',
+      args: {
+        cardNumber: stringArg({required: true}),
+        clientId: intArg({required: true}),
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { cardNumber, clientId } = args;
+        try {
+          const paymentMethod = await ctx.paymentMethodModel.createPaymentMethod(cardNumber, clientId);
+          return paymentMethod;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on createPaymentMethod mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });

@@ -17,3 +17,4 @@
 {"level":"error","message":"An error ocurrred on register mutation: Cannot read properties of undefined (reading 'actualStock')"}
 {"level":"error","message":"An error ocurrred on register mutation: Cannot read properties of undefined (reading 'actualStock')"}
 {"level":"error","message":"An error ocurrred on register mutation: Not enough stock for this product"}
+{"level":"error","message":"An error ocurrred on createPaymentMethod mutation: Payment method already exists"}
