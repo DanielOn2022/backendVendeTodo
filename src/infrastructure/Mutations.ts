@@ -208,10 +208,10 @@ export const mutations = mutationType({
       async resolve(_root, args, ctx) {
         const { city, clientId, externalNumber, street, internalNumber } = args;
         try {
-          const paymentMethod = await ctx.shippingAddressModel.createShippingAddress()
-          return paymentMethod;
+          const shippingAddress = await ctx.shippingAddressModel.createShippingAddress(city, street, externalNumber, internalNumber || '', clientId);
+          return shippingAddress;
         } catch (error: any) {
-          logger.error(`An error ocurrred on createPaymentMethod mutation: ${error.message}`);
+          logger.error(`An error ocurrred on createShippingAddress mutation: ${error.message}`);
           return error;
         }
       }

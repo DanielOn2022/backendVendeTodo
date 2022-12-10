@@ -28,7 +28,7 @@ export const shippingAddress = objectType({
     });
 
     t.field('externalNumber', {
-      type: 'Int',
+      type: 'String',
       nullable: false,
       resolve(root: any, args, ctx) {
         return root.externalNumber;
@@ -36,7 +36,7 @@ export const shippingAddress = objectType({
     });
 
     t.field('internalNumber', {
-      type: 'Int',
+      type: 'String',
       nullable: true,
       resolve(root: any, args, ctx) {
         return root.internalNumber;

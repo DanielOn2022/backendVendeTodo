@@ -13,4 +13,8 @@ export class ShippingAddressFactory {
       internalNumber: address.internalNumber
     });
   }
+
+  static createManyFromPrisma(databaseShippingAddresses: ShippingAddressPrisma[]): ShippingAddress[] {
+    return databaseShippingAddresses.map(databaseShippingAddress => this.createFromPrisma(databaseShippingAddress));
+  }
 }

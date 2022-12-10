@@ -98,6 +98,7 @@ export interface NexusGenFieldTypes {
     getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     getPaymentMethods: Array<NexusGenRootTypes['PaymentMethod'] | null> | null; // [PaymentMethod]
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
+    getShippingAddresses: Array<NexusGenRootTypes['ShippingAddress'] | null> | null; // [ShippingAddress]
     logedIn: NexusGenRootTypes['User'] | null; // User
     singleProduct: NexusGenRootTypes['product'] | null; // product
   }
@@ -114,9 +115,9 @@ export interface NexusGenFieldTypes {
   ShippingAddress: { // field return type
     city: string; // String!
     clientId: number; // Int!
-    externalNumber: number; // Int!
+    externalNumber: string; // String!
     id: number; // Int!
-    internalNumber: number | null; // Int
+    internalNumber: string | null; // String
     street: string; // String!
   }
   ShoppingCart: { // field return type
@@ -179,6 +180,7 @@ export interface NexusGenFieldTypeNames {
     getCart: 'ShoppingCart'
     getPaymentMethods: 'PaymentMethod'
     getProductsByName: 'product'
+    getShippingAddresses: 'ShippingAddress'
     logedIn: 'User'
     singleProduct: 'product'
   }
@@ -195,9 +197,9 @@ export interface NexusGenFieldTypeNames {
   ShippingAddress: { // field return type name
     city: 'String'
     clientId: 'Int'
-    externalNumber: 'Int'
+    externalNumber: 'String'
     id: 'Int'
-    internalNumber: 'Int'
+    internalNumber: 'String'
     street: 'String'
   }
   ShoppingCart: { // field return type name

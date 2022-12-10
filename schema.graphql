@@ -36,6 +36,7 @@ type Query {
   getCart: ShoppingCart
   getPaymentMethods: [PaymentMethod]
   getProductsByName(name: String!): [product]
+  getShippingAddresses: [ShippingAddress]
   logedIn: User
   singleProduct(product: Product!): product
 }
@@ -65,9 +66,9 @@ input SaleLineIn {
 type ShippingAddress {
   city: String!
   clientId: Int!
-  externalNumber: Int!
+  externalNumber: String!
   id: Int!
-  internalNumber: Int
+  internalNumber: String
   street: String!
 }
 

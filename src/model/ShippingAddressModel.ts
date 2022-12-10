@@ -15,4 +15,10 @@ export class ShippingAddressModel {
     return shippingAddress;
   }
   
+  async getShippingAddresses(clientId: number) {
+    const shippingAddressRepo = new ShippingAddressRepository(this.prisma);
+    const shippingAddresses = await shippingAddressRepo.getShippingAddressesByClient(clientId);
+    if (!shippingAddresses) return [];
+    return shippingAddresses;
+  }
 }
