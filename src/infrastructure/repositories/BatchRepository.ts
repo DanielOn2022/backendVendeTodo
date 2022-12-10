@@ -1,6 +1,5 @@
-import { prisma, PrismaClient, PrismaPromise } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
-import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
 
 export class BatchRepository {
   private client: PrismaClient;
@@ -48,6 +47,12 @@ export class BatchRepository {
               compromised: {increment: batch.stockTaken}
             }
           });
+          await this.client.productxsupplier.update({
+            where: {product_id_supplier_id: {product_id: batch.product_id, supplier_id: batch.supplier_id}},
+            data: {
+              compromised: {increment: batch.stockTaken}
+            }            
+          })
         }
       })
     );

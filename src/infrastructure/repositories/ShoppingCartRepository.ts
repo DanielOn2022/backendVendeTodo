@@ -20,7 +20,6 @@ export class ShopppingCartRepository {
   }
 
   async getSaleLinesByCart(cart: ShoppingCart): Promise<SaleLine[] | null> {
-    console.log('cart => ', cart)
     const databaseLines = await this.client.cartline.findMany({
       where: {shoppingCart_id: cart.snapshot.id as number}
     });
@@ -37,7 +36,7 @@ export class ShopppingCartRepository {
   async addSaleLineToCart(cart: ShoppingCart, saleLine: SaleLine): Promise<SaleLine[] | null> {
     const databaseBatches = await this.client.batch.findMany({
       where: {
-        product_id: saleLine.snapshot.product.snapshot.id || 0,
+        product_id: saleLine.snapshot.product.snapshot.id as number,
         supplier_id: saleLine.snapshot.supplierId,
         actualStock: {gte: 0}
       },
@@ -48,6 +47,7 @@ export class ShopppingCartRepository {
     const selectedBatches = [];
     let index = 0;
     while(desiredQuantity > 0) {
+      if (!databaseBatches[index]) throw new Error('Not enough stock for this product');
       const availableStock = databaseBatches[index].actualStock - databaseBatches[index].compromised;
       if (availableStock == 0) continue;
       const stockTaken = desiredQuantity > availableStock ? availableStock : desiredQuantity;

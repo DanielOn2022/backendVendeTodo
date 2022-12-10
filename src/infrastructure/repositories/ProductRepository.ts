@@ -53,7 +53,7 @@ export class ProductRepository {
 
   async getProductsByName(name: string): Promise<Product[] | null> {
     const databaseProducts = await this.client.product.findMany({
-      where: {name: {contains: name}}, select:{ name: true, price: true, imageUrl: true, id: true}
+      where: {name: {contains: name}}, select:{ name: true, price: true, imageUrl: true, id: true, brand: true}
     });
 
     if (!databaseProducts) return null;
