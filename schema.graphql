@@ -4,6 +4,7 @@
 
 type Mutation {
   addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
+  cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User

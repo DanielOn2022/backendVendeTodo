@@ -57,4 +57,31 @@ export class BatchRepository {
       })
     );
   }
+
+  async unCompromiseSaleLine(saleLine: SaleLine): Promise<boolean> {
+    if (!saleLine.snapshot.saleLineId) throw new Error('Sale line id is needed for unCompromiseSaleLine');
+    const databaseBatches = await this.client.batch.findMany({
+      where: {product_id: saleLine.snapshot.product.snapshot.id as number, supplier_id: saleLine.snapshot.supplierId, compromised: {gt: 0}},
+      orderBy: {arriveDate: 'desc'}
+    });
+    if (!databaseBatches) throw new Error('There is no existence of this product');
+    let amountToUnCompromise = saleLine.snapshot.amount;
+    let index = 0;
+    while (amountToUnCompromise > 0){
+      const amountTaked = amountToUnCompromise > databaseBatches[index].compromised ? databaseBatches[index].compromised : amountToUnCompromise;
+      await this.client.batch.update({
+        where: {product_id_supplier_id_batch_id: {batch_id: databaseBatches[index].batch_id, product_id: databaseBatches[index].product_id, supplier_id: databaseBatches[index].supplier_id}},
+        data: {
+          compromised: {decrement: amountTaked}
+        }
+      });
+      amountToUnCompromise -= amountTaked; 
+      index++;
+    }
+    await this.client.productxsupplier.update({
+      where: {product_id_supplier_id: {product_id: saleLine.snapshot.product.snapshot.id as number, supplier_id: saleLine.snapshot.supplierId}},
+      data: {compromised: {decrement: saleLine.snapshot.amount}}
+    });
+    return true;
+  }
 }

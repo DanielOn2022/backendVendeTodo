@@ -45,5 +45,13 @@ export class SaleModel {
     }
     return availableLines;
   }
+
+  async cancelStartPayment(saleLines: SaleLine[]) {
+    if (!saleLines.length) throw new Error('No products provided');
+    const batchRepo = new BatchRepository(this.prisma);
+    for (const saleLine of saleLines) {
+      await batchRepo.unCompromiseSaleLine(saleLine);
+    }
+  }
   
 }

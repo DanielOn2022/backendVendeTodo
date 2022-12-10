@@ -6,6 +6,7 @@ import { ShopppingCartFactory } from "./factories/ShoppingCartFactory";
 import { ProductFactory } from "./factories/ProductFactory";
 import { isAuthenticated } from "./permissions";
 import { Client } from "./domain/Client/Client";
+import { SaleLineFactory } from "./factories/CartLineFactory";
 
 export const mutations = mutationType({
   definition(t) {
@@ -123,7 +124,7 @@ export const mutations = mutationType({
           const cart = await ctx.cartModel.addToCart({cart: shoppingCart, product: productObj, quantity, supplierId});
           return cart;
         } catch (error: any) {
-          logger.error(`An error ocurrred on register mutation: ${error.message}`);
+          logger.error(`An error ocurrred on addToCart mutation: ${error.message}`);
           return error;
         }
       }
@@ -144,7 +145,28 @@ export const mutations = mutationType({
           const cart = await ctx.saleModel.startPayment(shoppingCart);
           return cart;
         } catch (error: any) {
-          logger.error(`An error ocurrred on register mutation: ${error.message}`);
+          logger.error(`An error ocurrred on startPayment mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('cancelStartPayment', {
+      type: 'Boolean',
+      args: {
+        availableLines: arg({type: 'SaleLineIn', required: true, list: true})
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { availableLines } = args;
+        const saleLines = SaleLineFactory.createManyFromNexus(availableLines);
+        try {
+          await ctx.saleModel.cancelStartPayment(saleLines);
+          return true;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on cancelStartPayment mutation: ${error.message}`);
           return error;
         }
       }
