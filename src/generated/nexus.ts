@@ -77,6 +77,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addToCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
+    cancelStartPayment: boolean | null; // Boolean
     createProduct: NexusGenRootTypes['product'] | null; // product
     deleteProduct: NexusGenRootTypes['product'] | null; // product
     login: NexusGenRootTypes['User'] | null; // User
@@ -141,6 +142,7 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addToCart: 'ShoppingCart'
+    cancelStartPayment: 'Boolean'
     createProduct: 'product'
     deleteProduct: 'product'
     login: 'User'
@@ -209,6 +211,9 @@ export interface NexusGenArgTypes {
       product: NexusGenInputs['Product']; // Product!
       quantity: number; // Int!
       supplierId: number; // Int!
+    }
+    cancelStartPayment: { // args
+      availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!
     }
     createProduct: { // args
       brand: string; // String!

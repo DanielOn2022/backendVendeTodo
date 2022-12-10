@@ -19,7 +19,7 @@ export const queries = queryType({
           const { name } = args;
           return await ctx.productModel.getProductsByName(name);
         } catch (error: any) {
-          logger.error(`An error ocurrred on products query: ${error.message}`);
+          logger.error(`An error ocurrred on getProductsByName query: ${error.message}`);
           return error;
         }
       }
@@ -32,8 +32,13 @@ export const queries = queryType({
         product: arg({ type: 'Product', required: true })
       },
       async resolve(_root, args, ctx) {       
-        const {product} = args;
-        return await ctx.productModel.selectProduct(new Product({...product, price: product.price as unknown as Decimal, volume: product.volume as unknown as Decimal, imageUrl: product.imageUrl || ''}));
+        const { product } = args;
+        try {
+          return await ctx.productModel.selectProduct(new Product({...product, price: product.price as unknown as Decimal, volume: product.volume as unknown as Decimal, imageUrl: product.imageUrl || ''}));
+        } catch (error: any) {
+          logger.error(`An error ocurrred on singleProduct query: ${error.message}`);
+          return error;
+        }
       }
     });
 
@@ -45,7 +50,7 @@ export const queries = queryType({
         try {
           return await ctx.productModel.getAllProducts();
         } catch (error: any) {
-          logger.error(`An error ocurrred on products query: ${error.message}`);
+          logger.error(`An error ocurrred on getAllProducts query: ${error.message}`);
           return error;
         }
       }
@@ -62,7 +67,7 @@ export const queries = queryType({
           const client = await ctx.clientModel.me(ctx.token.id);
           return client;
         } catch (error: any) {
-          logger.error(`An error ocurrred on products query: ${error.message}`);
+          logger.error(`An error ocurrred on logedIn query: ${error.message}`);
           return error;
         }
       }
@@ -79,7 +84,7 @@ export const queries = queryType({
           const cart = await ctx.cartModel.getCartByClientId(ctx.token.id);
           return cart;
         } catch (error: any) {
-          logger.error(`An error ocurrred on products query: ${error.message}`);
+          logger.error(`An error ocurrred on getCart query: ${error.message}`);
           return error;
         }
       }
