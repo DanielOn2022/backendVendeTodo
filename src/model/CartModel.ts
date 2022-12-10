@@ -6,16 +6,17 @@ import { ShopppingCartRepository } from "../infrastructure/repositories/Shopping
 
 export class CartModel {
   private prisma: PrismaClient;
+  private shoppingCartRepo: ShopppingCartRepository;
 
   constructor(prisma: PrismaClient) {
     this.prisma = prisma;
+    this.shoppingCartRepo = new ShopppingCartRepository(prisma);
   }
   
   async getCartByClientId(clientId: number) {
-    const shoppingCartRepo = new ShopppingCartRepository(this.prisma);
-    const cart = await shoppingCartRepo.getCartByClientId(clientId);
+    const cart = await this.shoppingCartRepo.getCartByClientId(clientId);
     if (!cart) throw new Error('Cart not found for user');
-    const saleLines = await shoppingCartRepo.getSaleLinesByCart(cart as ShoppingCart);
+    const saleLines = await this.shoppingCartRepo.getSaleLinesByCart(cart as ShoppingCart);
     cart?.setSaleLines(saleLines as SaleLine[]);
     return cart;
   }
@@ -26,11 +27,17 @@ export class CartModel {
     const saleLine = new SaleLine({amount: quantity, cart_sale_id: cart.snapshot.id as number, product, supplierId});
     cart.addSaleLine(saleLine);
 
-    const shoppingCartRepo = new ShopppingCartRepository(this.prisma);
-    const newSaleLines = await shoppingCartRepo.addSaleLineToCart(cart, saleLine);
+    const newSaleLines = await this.shoppingCartRepo.addSaleLineToCart(cart, saleLine);
     if (newSaleLines?.length) saleLine.setNewSaleLineIds(newSaleLines[0]);
-    cart.updateActivity();
-    shoppingCartRepo.updateCartActivity(cart);
+    this.shoppingCartRepo.updateCartActivity(cart);
+    return cart;
+  }
+
+  async removeLineFromCart(cart: ShoppingCart, saleLineId: number) {
+    const succeeded = cart.removeLine(saleLineId);
+    if (!succeeded) throw new Error('Something went wrong removing sale line from cart');
+    const saleLineRemoved = await this.shoppingCartRepo.removeSaleLineFromCart(cart, saleLineId);
+    if (!saleLineRemoved) throw new Error('Something went wrong removing sale line from cart');
     return cart;
   }
 }

@@ -66,5 +66,13 @@ export const saleLine = objectType({
         return root.subTotal;
       }
     });
+
+    t.field('supplierName', {
+      type: 'String',
+      nullable: false,
+      resolve(root: any, args, ctx) {
+        return root.supplier?.snapshot.company;
+      }
+    });
   },
 });

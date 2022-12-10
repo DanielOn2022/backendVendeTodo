@@ -1,6 +1,7 @@
 import { Decimal } from "@prisma/client/runtime";
 import { iSnapshot } from "../../iSnapshot";
 import { Product } from "../Product/Product";
+import { Supplier } from "../Supplier/Supplier";
 
 export type SaleLineSnapshot = iSnapshot & {
     cart_sale_id: number;
@@ -11,4 +12,5 @@ export type SaleLineSnapshot = iSnapshot & {
     amount: number;
     price?: Decimal | null;
     subTotal?: Decimal | null;
+    supplier?: Supplier | null;
 }

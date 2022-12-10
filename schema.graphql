@@ -11,6 +11,7 @@ type Mutation {
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
+  removeLineCart(saleLineId: Int!, shoppingCart: ShopppingCart!): ShoppingCart
   startPayment(cart: ShopppingCart!): StartPaymentPayload
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
 }
@@ -50,6 +51,7 @@ type SaleLine {
   saleLineId: Int!
   subTotal: Float!
   supplierId: Int!
+  supplierName: String!
 }
 
 input SaleLineIn {

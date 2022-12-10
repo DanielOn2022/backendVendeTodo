@@ -2,6 +2,8 @@ import moment from "moment";
 import { iEntity } from "../../iEntity";
 import { SaleLine } from "../SaleLine/SaleLine";
 import { ShoppingCartSnapshot } from "./ShoppingCartSnapshot";
+import { remove } from 'lodash';
+import logger from "../../Logger";
 
 export class ShoppingCart implements iEntity {
 
@@ -30,13 +32,15 @@ export class ShoppingCart implements iEntity {
   addSaleLine(saleLine: SaleLine): void {
     if (this.saleLines) this.saleLines = [...this.saleLines, saleLine]
     else this.saleLines = [saleLine];
+    this.updateActivity();
   }
 
-  updateActivity(): void {
+  private updateActivity(): void {
     this.lastUpdate = new Date();
   }
 
   getLines(): SaleLine[] | [] | undefined {
+    this.updateActivity();
     return this.saleLines;
   }
 
@@ -48,10 +52,26 @@ export class ShoppingCart implements iEntity {
       const subTotal = line.getSubTotal();
       total += subTotal;
     }
+    this.updateActivity();
     return total;
   }
 
   setSaleLines(saleLines: SaleLine[]): void {
     this.saleLines = saleLines;
+    this.updateActivity();
+  }
+
+  removeLine(saleLineId: number): boolean {
+    if (!this.saleLines) return false;
+    try {
+      remove(this.saleLines as SaleLine[], saleLine => {
+        return saleLine.snapshot.saleLineId === saleLineId;
+      });
+    } catch (error) {
+      logger.error(`Error removing saleline from cart, ${error}`);
+      return false;
+    }
+    this.updateActivity();
+    return true;
   }
 }

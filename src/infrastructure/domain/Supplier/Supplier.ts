@@ -8,8 +8,8 @@ export class Supplier implements iEntity {
   private company: string;
   private cellphone?: string | null;
   private availableStock?: number | null; 
-  private stock: number;
-  private compromised: number;
+  private stock?: number | null;
+  private compromised?: number | null;
 
   constructor(data: {
     id?: number | null;
@@ -17,8 +17,8 @@ export class Supplier implements iEntity {
     company: string,
     cellphone?: string | null,
     availableStock?: number | null; 
-    stock: number;
-    compromised: number;
+    stock?: number | null;
+    compromised?: number | null;
   }) {
     this.id = data.id;
     this.name = data.name;
@@ -42,6 +42,6 @@ export class Supplier implements iEntity {
   }
 
   setAvailableStock(): void {
-    this.availableStock = this.stock - this.compromised;
+    this.availableStock = (this.stock as number) - (this.compromised as number);
   }
 }

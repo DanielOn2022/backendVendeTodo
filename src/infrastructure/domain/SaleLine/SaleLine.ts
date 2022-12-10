@@ -1,6 +1,7 @@
 import { Decimal } from "@prisma/client/runtime";
 import { iEntity } from "../../iEntity";
 import { Product } from "../Product/Product";
+import { Supplier } from "../Supplier/Supplier";
 import { SaleLineSnapshot } from "./SaleLineSnapshot";
 
 export class SaleLine implements iEntity {
@@ -13,6 +14,7 @@ export class SaleLine implements iEntity {
     private amount: number;
     private price?: Decimal | null;
     private subTotal?: Decimal | null;
+    private supplier?: Supplier | null;
 
   constructor(data: {
     cart_sale_id: number;
@@ -54,6 +56,10 @@ export class SaleLine implements iEntity {
 
   getSubTotal() {
     return this.amount * (this.product.snapshot.price as unknown as number);
+  }
+
+  setSupplierInfo(supplier: Supplier): void {
+    this.supplier = supplier;
   }
 
 }

@@ -86,6 +86,7 @@ export interface NexusGenFieldTypes {
     deleteProduct: NexusGenRootTypes['product'] | null; // product
     login: NexusGenRootTypes['User'] | null; // User
     register: NexusGenRootTypes['User'] | null; // User
+    removeLineCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
@@ -111,6 +112,7 @@ export interface NexusGenFieldTypes {
     saleLineId: number; // Int!
     subTotal: number; // Float!
     supplierId: number; // Int!
+    supplierName: string; // String!
   }
   ShippingAddress: { // field return type
     city: string; // String!
@@ -169,6 +171,7 @@ export interface NexusGenFieldTypeNames {
     deleteProduct: 'product'
     login: 'User'
     register: 'User'
+    removeLineCart: 'ShoppingCart'
     startPayment: 'StartPaymentPayload'
     updateProduct: 'product'
   }
@@ -194,6 +197,7 @@ export interface NexusGenFieldTypeNames {
     saleLineId: 'Int'
     subTotal: 'Float'
     supplierId: 'Int'
+    supplierName: 'String'
   }
   ShippingAddress: { // field return type name
     city: 'String'
@@ -286,6 +290,10 @@ export interface NexusGenArgTypes {
       lastname?: string | null; // String
       name: string; // String!
       password: string; // String!
+    }
+    removeLineCart: { // args
+      saleLineId: number; // Int!
+      shoppingCart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
     }
     startPayment: { // args
       cart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
