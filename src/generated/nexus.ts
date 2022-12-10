@@ -58,6 +58,7 @@ export interface NexusGenObjects {
   PaymentMethod: {};
   Query: {};
   SaleLine: {};
+  ShippingAddress: {};
   ShoppingCart: {};
   StartPaymentPayload: {};
   Supplier: {};
@@ -81,6 +82,7 @@ export interface NexusGenFieldTypes {
     cancelStartPayment: boolean | null; // Boolean
     createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
+    createShippingAddress: NexusGenRootTypes['ShippingAddress'] | null; // ShippingAddress
     deleteProduct: NexusGenRootTypes['product'] | null; // product
     login: NexusGenRootTypes['User'] | null; // User
     register: NexusGenRootTypes['User'] | null; // User
@@ -108,6 +110,14 @@ export interface NexusGenFieldTypes {
     saleLineId: number; // Int!
     subTotal: number; // Float!
     supplierId: number; // Int!
+  }
+  ShippingAddress: { // field return type
+    city: string; // String!
+    clientId: number; // Int!
+    externalNumber: number; // Int!
+    id: number; // Int!
+    internalNumber: number | null; // Int
+    street: string; // String!
   }
   ShoppingCart: { // field return type
     cartLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
@@ -152,6 +162,7 @@ export interface NexusGenFieldTypeNames {
     cancelStartPayment: 'Boolean'
     createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
+    createShippingAddress: 'ShippingAddress'
     deleteProduct: 'product'
     login: 'User'
     register: 'User'
@@ -179,6 +190,14 @@ export interface NexusGenFieldTypeNames {
     saleLineId: 'Int'
     subTotal: 'Float'
     supplierId: 'Int'
+  }
+  ShippingAddress: { // field return type name
+    city: 'String'
+    clientId: 'Int'
+    externalNumber: 'Int'
+    id: 'Int'
+    internalNumber: 'Int'
+    street: 'String'
   }
   ShoppingCart: { // field return type name
     cartLines: 'SaleLine'
@@ -240,6 +259,13 @@ export interface NexusGenArgTypes {
       price: number; // Int!
       stock: number; // Int!
       volume: number; // Int!
+    }
+    createShippingAddress: { // args
+      city: string; // String!
+      clientId: number; // Int!
+      externalNumber: number; // Int!
+      internalNumber?: number | null; // Int
+      street: string; // String!
     }
     deleteProduct: { // args
       id: number; // Int!

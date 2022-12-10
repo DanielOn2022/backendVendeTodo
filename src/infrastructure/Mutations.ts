@@ -192,5 +192,29 @@ export const mutations = mutationType({
         }
       }
     });
+
+    t.field('createShippingAddress', {
+      type: 'ShippingAddress',
+      args: {
+        city: stringArg({required: true}),
+        street: stringArg({required: true}),
+        externalNumber: intArg({required: true}),
+        internalNumber: intArg({required: false}),
+        clientId: intArg({required: true}),
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { city, clientId, externalNumber, street, internalNumber } = args;
+        try {
+          const paymentMethod = await ctx.paymentMethodModel.createPaymentMethod(cardNumber, clientId);
+          return paymentMethod;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on createPaymentMethod mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });
