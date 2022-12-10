@@ -27,5 +27,13 @@ export const shoppingCart = objectType({
         return root.saleLines || [];
       }
     });
+
+    t.field('total', {
+      type: 'Float',
+      nullable: false,
+      resolve(root: any, args, ctx) {
+        return root.getTotal(root.getLines());
+      }
+    });
   },
 });
