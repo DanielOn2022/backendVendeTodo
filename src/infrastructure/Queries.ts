@@ -99,10 +99,28 @@ export const queries = queryType({
       },
       async resolve(_root, args, ctx) {
         try {
-          const cart = await ctx.paymentMethodModel.getPaymentMethodsByClient(ctx.token.id);
-          return cart;
+          const paymentMethods = await ctx.paymentMethodModel.getPaymentMethodsByClient(ctx.token.id);
+          return paymentMethods;
         } catch (error: any) {
-          logger.error(`An error ocurrred on getCart query: ${error.message}`);
+          logger.error(`An error ocurrred on getPaymentMethods query: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('getShippingAddresses', {
+      type: 'ShippingAddress',
+      nullable: true,
+      list: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        try {
+          const shippingAddresses = await ctx.shippingAddressModel.getShippingAddresses(ctx.token.id);
+          return shippingAddresses;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on getShippingAddresses query: ${error.message}`);
           return error;
         }
       }

@@ -7,6 +7,7 @@ type Mutation {
   cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   createPaymentMethod(cardNumber: String!, clientId: Int!): PaymentMethod
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
+  createShippingAddress(city: String!, clientId: Int!, externalNumber: String!, internalNumber: String, street: String!): ShippingAddress
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
@@ -35,6 +36,7 @@ type Query {
   getCart: ShoppingCart
   getPaymentMethods: [PaymentMethod]
   getProductsByName(name: String!): [product]
+  getShippingAddresses: [ShippingAddress]
   logedIn: User
   singleProduct(product: Product!): product
 }
@@ -59,6 +61,15 @@ input SaleLineIn {
   saleLineId: Int!
   subTotal: Float!
   supplierId: Int!
+}
+
+type ShippingAddress {
+  city: String!
+  clientId: Int!
+  externalNumber: String!
+  id: Int!
+  internalNumber: String
+  street: String!
 }
 
 type ShoppingCart {

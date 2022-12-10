@@ -192,5 +192,29 @@ export const mutations = mutationType({
         }
       }
     });
+
+    t.field('createShippingAddress', {
+      type: 'ShippingAddress',
+      args: {
+        city: stringArg({required: true}),
+        street: stringArg({required: true}),
+        externalNumber: stringArg({required: true}),
+        internalNumber: stringArg({required: false}),
+        clientId: intArg({required: true}),
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { city, clientId, externalNumber, street, internalNumber } = args;
+        try {
+          const shippingAddress = await ctx.shippingAddressModel.createShippingAddress(city, street, externalNumber, internalNumber || '', clientId);
+          return shippingAddress;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on createShippingAddress mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });

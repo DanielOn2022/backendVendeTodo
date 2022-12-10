@@ -5,3 +5,4 @@ export * from './ShoppingCart';
 export * from './SaleLine';
 export * from './StartPaymentPayload';
 export * from './PaymentMethod';
+export * from './ShippingAddress';
