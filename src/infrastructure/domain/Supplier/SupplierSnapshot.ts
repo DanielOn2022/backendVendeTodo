@@ -4,5 +4,8 @@ export type SupplierSnapshot = iSnapshot & {
     id?: number | null;
     name?: string | null,
     cellphone?: string | null,
-    company: string
+    company: string,
+    availableStock?: number | null;
+    stock: number;
+    compromised: number;
 }

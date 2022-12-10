@@ -4,6 +4,7 @@ import { Product } from "../infrastructure/domain/Product/Product";
 import { ProductRepository } from "../infrastructure/repositories/ProductRepository";
 import { Decimal } from "@prisma/client/runtime";
 import { SupplierRepository } from "../infrastructure/repositories/SupplierRepository";
+import { sortBy } from 'lodash';
 
 export class ProductModel {
   private prisma: PrismaClient;
@@ -51,7 +52,8 @@ export class ProductModel {
       input: { product },
     });
     const suppliers = await supplierRepo.getManySuppliersByProduct(completeProduct);
-    completeProduct.setSuppliers(suppliers);
+    const sortedSuppliers = sortBy(suppliers, ['availableStock'])
+    completeProduct.setSuppliers(sortedSuppliers);
     return completeProduct;
   }
 

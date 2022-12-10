@@ -83,6 +83,7 @@ type StartPaymentPayload {
 type Supplier {
   company: String!
   id: Int!
+  stock: Int!
 }
 
 type User {
