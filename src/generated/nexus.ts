@@ -113,6 +113,7 @@ export interface NexusGenFieldTypes {
     cartLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
     id: number; // Int!
     lastUpdate: string; // String!
+    total: number; // Float!
   }
   StartPaymentPayload: { // field return type
     availableLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
@@ -185,6 +186,7 @@ export interface NexusGenFieldTypeNames {
     cartLines: 'SaleLine'
     id: 'Int'
     lastUpdate: 'String'
+    total: 'Float'
   }
   StartPaymentPayload: { // field return type name
     availableLines: 'SaleLine'

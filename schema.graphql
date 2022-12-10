@@ -65,6 +65,7 @@ type ShoppingCart {
   cartLines: [SaleLine!]!
   id: Int!
   lastUpdate: String!
+  total: Float!
 }
 
 input ShopppingCart {
