@@ -34,5 +34,5 @@ export const context = {
   paymentMethodModel: new PaymentMethodModel(prisma),
   shippingAddressModel: new ShippingAddressModel(prisma),
   paymentModel: new PaymentModel(prisma),
-  ShelfModel: new ShelfModel(prisma),
+  shelfModel: new ShelfModel(prisma),
 }

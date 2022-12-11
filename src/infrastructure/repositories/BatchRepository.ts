@@ -17,11 +17,7 @@ export class BatchRepository {
         },
       },
     });
-    if (
-      line.snapshot.amount <=
-      (productXSupplier?.stock as number) -
-        (productXSupplier?.compromised as number)
-    )
+    if ( line.snapshot.amount <= (productXSupplier?.stock as number) - (productXSupplier?.compromised as number) )
       return productXSupplier;
     return null;
   }
@@ -49,14 +45,9 @@ export class BatchRepository {
         const selectedBatches = [];
         let index = 0;
         while ((desiredQuantity as number) > 0) {
-          const availableStock =
-            databaseBatches[index].actualStock -
-            databaseBatches[index].compromised;
-          if (availableStock == 0) continue;
-          const stockTaken =
-            (desiredQuantity as number) > availableStock
-              ? availableStock
-              : desiredQuantity;
+          const availableStock = databaseBatches[index].actualStock - databaseBatches[index].compromised;
+          if (availableStock <= 0) { index++; continue; }
+          const stockTaken = (desiredQuantity as number) > availableStock ? availableStock : desiredQuantity;
           desiredQuantity = (desiredQuantity as number) - availableStock;
           selectedBatches.push({ ...databaseBatches[index], stockTaken });
           index++;

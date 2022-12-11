@@ -135,10 +135,10 @@ export const queries = queryType({
       },
       async resolve(_root, args, ctx) {
         try {
-          const shippingAddresses = await ctx.shippingAddressModel.getShippingAddresses(ctx.token.id);
-          return shippingAddresses;
+          const shelfs = await ctx.shelfModel.BeginSortingProcess(ctx.token.id);
+          return shelfs;
         } catch (error: any) {
-          logger.error(`An error ocurrred on getShippingAddresses query: ${error.message}`);
+          logger.error(`An error ocurrred on beginSortingProcess query: ${error.message}`);
           return error;
         }
       }

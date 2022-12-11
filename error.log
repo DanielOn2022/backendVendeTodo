@@ -39,3 +39,8 @@
 {"level":"error","message":"An error ocurrred on cancelStartPayment mutation: No products provided"}
 {"level":"error","message":"An error ocurrred on startPayment mutation: structuredClone is not defined"}
 {"level":"error","message":"An error ocurrred on startPayment mutation: structuredClone is not defined"}
+{"level":"error","message":"An error ocurrred on login mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on loginEmployee mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Cannot read properties of undefined (reading 'BeginSortingProcess')"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Cannot read properties of undefined (reading 'BeginSortingProcess')"}
+{"level":"error","message":"An error ocurrred on addToCart mutation: Not enough stock for this product"}

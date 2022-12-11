@@ -6,7 +6,6 @@ import { Supplier } from '../domain/Supplier/Supplier';
 import { SaleLineFactory } from '../factories/CartLineFactory';
 import { ProductFactory } from '../factories/ProductFactory';
 import { ShopppingCartFactory } from '../factories/ShoppingCartFactory';
-import { SupplierFactory } from '../factories/SupplierFactory';
 
 export class ShopppingCartRepository {
   private client: PrismaClient;
@@ -55,7 +54,7 @@ export class ShopppingCartRepository {
     while(desiredQuantity > 0) {
       if (!databaseBatches[index]) throw new Error('Not enough stock for this product');
       const availableStock = databaseBatches[index].actualStock - databaseBatches[index].compromised;
-      if (availableStock == 0) continue;
+      if (availableStock <= 0) { index++; continue;}
       const stockTaken = desiredQuantity > availableStock ? availableStock : desiredQuantity;
       desiredQuantity = desiredQuantity - availableStock;
       selectedBatches.push({...databaseBatches[index], stockTaken});

@@ -4,12 +4,13 @@ import { PaymentMethod } from "../PaymenthMethod/PaymentMethod";
 export type EmployeeSnapshot = iSnapshot & {
     id?: number | null;
     name: string;
-    cellphone: string;
+    cellphone?: string | null;
     rfc: string;
-    city: string;
-    street: string;
-    externalNumber: string;
+    city?: string | null;
+    street?: string | null;
+    externalNumber?: string | null;
     internalNumber?: string | null;
     email: string;
     password: string;
+    token?: string | null;
 }

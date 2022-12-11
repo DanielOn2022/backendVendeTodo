@@ -87,6 +87,25 @@ export const mutations = mutationType({
       }
     });
 
+    t.field('loginEmployee', {
+      type: 'Employee',
+      args: {
+        email: stringArg({required: true}),
+        password: stringArg({required: true})
+      }, 
+      async resolve(_root, args, ctx) {
+        const { email, password } = args;
+        
+        try {
+          const employee = await ctx.authModel.loginEmployee(email, password); 
+          return employee;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on loginEmployee mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
     t.field('register', {
       type: 'User',
       args: {
@@ -143,12 +162,10 @@ export const mutations = mutationType({
       },
       async resolve(_root, args, ctx) {
         const { cart } = args;
-        console.log('------------------------')
         const shoppingCart = ShopppingCartFactory.createFromNexus(cart);
-        console.log('============================')
+        
         try {
           const cart = await ctx.saleModel.startPayment(shoppingCart);
-          console.log(cart);
           return cart;
         } catch (error: any) {
           logger.error(`An error ocurrred on startPayment mutation: ${error.message}`);
@@ -235,7 +252,6 @@ export const mutations = mutationType({
       async resolve(_root, args, ctx) {
         const { shoppingCart, saleLineId } = args;
         try {
-          console.log(shoppingCart);
           const shoppingCartObj = ShopppingCartFactory.createFromNexus(shoppingCart);
           const shoppingCartUpdated = await ctx.cartModel.removeLineFromCart(shoppingCartObj, saleLineId);
           return shoppingCartUpdated;
@@ -266,6 +282,27 @@ export const mutations = mutationType({
           return payload;
         } catch (error: any) {
           logger.error(`An error ocurrred on authorizePayment mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('registerEmployee', {
+      type: 'Employee',
+      args: {
+        email: stringArg({required: true}),
+        password: stringArg({required: true}),
+        rfc: stringArg({required: true}),
+        name: stringArg({required: true}),
+        lastname: stringArg({required: false}),
+      }, 
+      async resolve(_root, args, ctx) {
+        const { email, password, name, rfc, lastname } = args;
+        
+        try {
+          return await ctx.authModel.registerEmployee({email, name, password, rfc, lastname}); 
+        } catch (error: any) {
+          logger.error(`An error ocurrred on registerEmployee mutation: ${error.message}`);
           return error;
         }
       }

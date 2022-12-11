@@ -23,13 +23,16 @@ export class CartModel {
 
   async addToCart(data: {quantity: number, supplierId: number, product: Product, cart: ShoppingCart}) {
     const {quantity, supplierId, product, cart} = data;
-
+    console.log("--- 1 ---")
     const saleLine = new SaleLine({amount: quantity, cart_sale_id: cart.snapshot.id as number, product, supplierId});
     cart.addSaleLine(saleLine);
-
+    console.log("--- 2 ---")
     const newSaleLines = await this.shoppingCartRepo.addSaleLineToCart(cart, saleLine);
+    console.log("--- 3 ---")
     if (newSaleLines?.length) saleLine.setNewSaleLineIds(newSaleLines[0]);
+    console.log("--- 4 ---")
     this.shoppingCartRepo.updateCartActivity(cart);
+    console.log("--- 5 ---")
     return cart;
   }
 

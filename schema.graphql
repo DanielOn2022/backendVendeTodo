@@ -2,6 +2,20 @@
 ### Do not make changes to this file directly
 
 
+type Employee {
+  cellphone: String
+  city: String
+  email: String!
+  externalNumber: String
+  id: Int!
+  internalNumber: String
+  name: String!
+  rfc: String!
+  role: String
+  street: String
+  token: String!
+}
+
 type Mutation {
   addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
   authorizePayment(paymentMethod: PaymentMethodIn!, shippingAddress: ShippingAddressIn!, shoppingCart: ShopppingCart!): PurchasePayload
@@ -11,7 +25,9 @@ type Mutation {
   createShippingAddress(city: String!, clientId: Int!, externalNumber: String!, internalNumber: String, street: String!): ShippingAddress
   deleteProduct(id: Int!): product
   login(email: String!, password: String!): User
+  loginEmployee(email: String!, password: String!): Employee
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
+  registerEmployee(email: String!, lastname: String, name: String!, password: String!, rfc: String!): Employee
   removeLineCart(saleLineId: Int!, shoppingCart: ShopppingCart!): ShoppingCart
   startPayment(cart: ShopppingCart!): StartPaymentPayload
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product

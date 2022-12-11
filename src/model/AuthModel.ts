@@ -5,8 +5,11 @@ import { Client } from "../infrastructure/domain/Client/Client";
 import { ClientAlreadyExistsError } from "../infrastructure/domain/Client/ClientAlreadyExistsError";
 import { ClientDoesntExistsError } from "../infrastructure/domain/Client/ClientDoesNotExistsError";
 import { WrongCredentialsError } from "../infrastructure/domain/Client/WrongCredentialsError";
+import { Employee } from "../infrastructure/domain/Employee/Employee";
 import { ClientFactory } from "../infrastructure/factories/ClientFactory";
+import { EmployeeFactory } from "../infrastructure/factories/EmployeeFactory";
 import { ClientRepository } from "../infrastructure/repositories/ClientRepository";
+import { EmployeeRepository } from "../infrastructure/repositories/EmployeeRepository";
 import { ShopppingCartRepository } from "../infrastructure/repositories/ShoppingCartRepository";
 import { CartModel } from "./CartModel";
 
@@ -74,4 +77,48 @@ export class AuthModel {
       client.setCart(newCart);
       return client;
     }
+
+  async  loginEmployee(email: string, password: string) {
+    const employeeRpo = new EmployeeRepository(this.prisma);
+    const employee = await employeeRpo.getEmployeeByEmail(email);
+    if (!employee) throw new ClientDoesntExistsError("Wrong credentials", {
+      component: "loginEmployee",
+      input: { email },
+    });
+    
+    const isValidPassword = await bcrypt.compare(password, employee.snapshot.password || '');
+    
+    if (!isValidPassword) throw new WrongCredentialsError("Wrong credentials", {
+      component: "login",
+      input: { email, password },
+    });
+    const role = await employeeRpo.getRoleById(employee.snapshot.id as number);
+    const token = jwt.sign({
+      id: employee?.snapshot.id, email: employee.snapshot.email, name: employee.snapshot.name
+    }, `${process.env.SERVER_SECRET}`, {expiresIn: '1d'});
+    employee.setToken(token);
+    return employee;
+  }
+
+  async registerEmployee(data: { name: string, email: string, password: string, rfc: string, lastname?: string | null }) {
+    const {email, name, password, lastname, rfc} = data;
+    const employeeRpo = new EmployeeRepository(this.prisma);
+    const oldEmployee = await employeeRpo.getEmployeeByEmail(email);
+    if (oldEmployee) throw new ClientAlreadyExistsError("Client with email already exists", {
+      component: "login",
+      input: { email },
+    });
+
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    let employee : Employee | null = EmployeeFactory.createWithMinimalInput({email, name: `${name} ${lastname}`, password: encryptedPassword, rfc});
+    employee = await employeeRpo.createEmployee(employee);
+    if (!employee) throw new Error('Something went wrong');
+    const token = jwt.sign({
+      id: employee?.snapshot.id, email: employee.snapshot.email, name: employee.snapshot.name
+    }, `${process.env.SERVER_SECRET}`, {expiresIn: '1d'});
+    
+    employee.setToken(token);
+
+    return employee;
+  }
 }
