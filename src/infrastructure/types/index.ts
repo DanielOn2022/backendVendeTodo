@@ -7,3 +7,5 @@ export * from './StartPaymentPayload';
 export * from './PaymentMethod';
 export * from './ShippingAddress';
 export * from './Payment';
+export * from './Sale';
+export * from './PurchasePayload';

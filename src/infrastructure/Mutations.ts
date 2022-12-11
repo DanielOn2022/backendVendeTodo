@@ -243,7 +243,7 @@ export const mutations = mutationType({
     });
     
     t.field('authorizePayment', {
-      type: 'Payment',
+      type: 'PurchasePayload',
       args: {
         paymentMethod: arg({type: 'PaymentMethodIn', required: true}),
         shoppingCart: arg({type: 'ShopppingCart', required: true}),
@@ -258,8 +258,8 @@ export const mutations = mutationType({
         const paymentMethodObj = PaymentMethodFactory.createFromNexus(paymentMethod);
         const shippingAddressObj = ShippingAddressFactory.createFromNexus(shippingAddress);
         try {
-          const payment = await ctx.paymentModel.authorizePayment(paymentMethodObj, shoppingCartObj, shippingAddressObj);
-          return payment;
+          const payload = await ctx.paymentModel.authorizePayment(paymentMethodObj, shoppingCartObj, shippingAddressObj);
+          return payload;
         } catch (error: any) {
           logger.error(`An error ocurrred on authorizePayment mutation: ${error.message}`);
           return error;

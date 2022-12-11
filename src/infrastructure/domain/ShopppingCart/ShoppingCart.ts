@@ -74,4 +74,8 @@ export class ShoppingCart implements iEntity {
     this.updateActivity();
     return true;
   }
+
+  clearCart(): void {
+    this.saleLines = [];
+  }
 }

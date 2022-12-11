@@ -1,6 +1,7 @@
 import { iSnapshot } from "../../iSnapshot";
 import { Payment } from "../Payment/Payment";
 import { PaymentMethod } from "../PaymenthMethod/PaymentMethod";
+import { SaleLine } from "../SaleLine/SaleLine";
 import { ShippingAddress } from "../ShippingAddress/ShippingAddress";
 
 export type SaleSnapshot = iSnapshot & {
@@ -10,4 +11,5 @@ export type SaleSnapshot = iSnapshot & {
     payment: Payment;
     shippingAddress: ShippingAddress;
     completed: boolean;
+    saleLines?: SaleLine[] | null;
 }
