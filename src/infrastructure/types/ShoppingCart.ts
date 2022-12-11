@@ -7,7 +7,7 @@ export const shoppingCart = objectType({
       type: 'Int',
       nullable: false,
       resolve(root: any, args, ctx) {
-        return root.id;
+        return root.id as number;
       }
     }); 
 
@@ -32,7 +32,7 @@ export const shoppingCart = objectType({
       type: 'Float',
       nullable: false,
       resolve(root: any, args, ctx) {
-        return root.getTotal(root.getLines());
+        return root.getTotal(root.getLines()) || 0;
       }
     });
   },

@@ -37,3 +37,5 @@
 {"level":"error","message":"An error ocurrred on startPayment mutation: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `1064`. Message: `You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WRITE' at line 1`"}
 {"level":"error","message":"An error ocurrred on startPayment mutation: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `1295`. Message: `This command is not supported in the prepared statement protocol yet`"}
 {"level":"error","message":"An error ocurrred on cancelStartPayment mutation: No products provided"}
+{"level":"error","message":"An error ocurrred on startPayment mutation: structuredClone is not defined"}
+{"level":"error","message":"An error ocurrred on startPayment mutation: structuredClone is not defined"}

@@ -45,6 +45,7 @@ export class Sale implements iEntity {
   }
 
   setLines(cart: ShoppingCart): void {
+    this.saleLines = [];
     cart.snapshot.saleLines?.forEach(saleLine => {
       this.saleLines?.push(new SaleLine({
         amount: saleLine.snapshot.amount,

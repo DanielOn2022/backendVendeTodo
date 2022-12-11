@@ -36,7 +36,9 @@ export class ShopppingCartFactory {
         ...( saleLine?.supplier ? {supplier: new Supplier({company: saleLine?.supplier.company, id: saleLine?.supplier.id})} : {} )
       });
     });
-
+    console.log('+++++++++++++++++++++++++++++++++')
+    console.log(saleLines);
+    console.log(nexusCart.id);
     return new ShoppingCart({lastUpdate: new Date(nexusCart.lastUpdate), id: nexusCart.id, saleLines});
   }
 }

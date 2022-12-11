@@ -13,8 +13,8 @@ export class SaleModel {
   }
   
   async startPayment(cart: ShoppingCart) {
-    const lines = cart.getLines();
-    if (!lines) throw new ShoppingCartEmptyError("Shopping cart has no products", {
+    const lines = [...cart.getLines()];
+    if (!lines.length) throw new ShoppingCartEmptyError("Shopping cart has no products", {
       component: "login",
       input: { cart },
     });
@@ -22,15 +22,18 @@ export class SaleModel {
     const prismaRepo = new PrismaRepository(this.prisma);
     await prismaRepo.initTransacion();
     const availableLines = await this.verifyAvailable(lines);
+    console.log('-- **1** --', cart)
     await batchRepo.compromiseProductsByLines(availableLines);
     await prismaRepo.commitTransacion();
     const total = cart.getTotal(availableLines);
+    console.log('-- **2** --', cart)
     const nonAvailableLines = [];
     while (lines.length > 0) {
       const lastLine = lines.pop();
       const lineFound = availableLines.find(availableLine => lastLine?.snapshot.supplierId === availableLine.snapshot.supplierId && lastLine?.snapshot.product.snapshot.id === availableLine.snapshot.product.snapshot.id);
       if (!lineFound) nonAvailableLines.push(lastLine);
     }
+    console.log('-- **3** --')
     return {
       shoppingCart: cart,
       total,

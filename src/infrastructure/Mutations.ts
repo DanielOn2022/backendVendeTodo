@@ -143,9 +143,12 @@ export const mutations = mutationType({
       },
       async resolve(_root, args, ctx) {
         const { cart } = args;
+        console.log('------------------------')
         const shoppingCart = ShopppingCartFactory.createFromNexus(cart);
+        console.log('============================')
         try {
           const cart = await ctx.saleModel.startPayment(shoppingCart);
+          console.log(cart);
           return cart;
         } catch (error: any) {
           logger.error(`An error ocurrred on startPayment mutation: ${error.message}`);

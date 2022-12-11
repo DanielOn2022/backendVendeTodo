@@ -130,6 +130,7 @@ export interface NexusGenFieldTypes {
     shoppingCart: NexusGenRootTypes['ShoppingCart']; // ShoppingCart!
   }
   Query: { // field return type
+    beginSortingProcess: Array<NexusGenRootTypes['Shelf'] | null> | null; // [Shelf]
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     getPaymentMethods: Array<NexusGenRootTypes['PaymentMethod'] | null> | null; // [PaymentMethod]
@@ -186,7 +187,7 @@ export interface NexusGenFieldTypes {
   StartPaymentPayload: { // field return type
     availableLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
     nonAvailableLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
-    shoppingCart: number; // Int!
+    shoppingCart: NexusGenRootTypes['ShoppingCart']; // ShoppingCart!
     total: number; // Float!
   }
   Supplier: { // field return type
@@ -247,6 +248,7 @@ export interface NexusGenFieldTypeNames {
     shoppingCart: 'ShoppingCart'
   }
   Query: { // field return type name
+    beginSortingProcess: 'Shelf'
     getAllProducts: 'product'
     getCart: 'ShoppingCart'
     getPaymentMethods: 'PaymentMethod'
@@ -303,7 +305,7 @@ export interface NexusGenFieldTypeNames {
   StartPaymentPayload: { // field return type name
     availableLines: 'SaleLine'
     nonAvailableLines: 'SaleLine'
-    shoppingCart: 'Int'
+    shoppingCart: 'ShoppingCart'
     total: 'Float'
   }
   Supplier: { // field return type name

@@ -39,9 +39,9 @@ export class ShoppingCart implements iEntity {
     this.lastUpdate = new Date();
   }
 
-  getLines(): SaleLine[] | [] | undefined {
+  getLines(): SaleLine[] | [] {
     this.updateActivity();
-    return this.saleLines;
+    return this.saleLines || [];
   }
 
   getTotal(availableLines: SaleLine[]) {

@@ -4,7 +4,7 @@ export const startPaymentPayload = objectType({
   name: 'StartPaymentPayload',
   definition(t) {
     t.field('shoppingCart', {
-      type: 'Int',
+      type: 'ShoppingCart',
       nullable: false,
       resolve(root: any, args, ctx) {
         return root.shoppingCart;

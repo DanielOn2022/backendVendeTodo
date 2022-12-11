@@ -7,5 +7,7 @@ export class ShelfModel {
     this.prisma = prisma;
   }
   
-  
+  async BeginSortingProcess() {
+    
+  }
 }

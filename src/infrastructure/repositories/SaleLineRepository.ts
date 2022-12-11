@@ -12,7 +12,9 @@ export class SaleLineRepository {
 
   async createSaleLinesForSale(sale: Sale): Promise<boolean> {
     const databaseSaleLines = [];
+    console.log(sale);
     for (const saleLine of (sale.getSaleLines() as SaleLine[])) {
+      console.log('dentro del create => ', saleLine);
       const databaseSaleLine = await this.client.saleline.create({
         data: {
           amount: saleLine.snapshot.amount,
