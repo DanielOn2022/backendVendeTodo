@@ -17,4 +17,15 @@ export class ShippingAddressFactory {
   static createManyFromPrisma(databaseShippingAddresses: ShippingAddressPrisma[]): ShippingAddress[] {
     return databaseShippingAddresses.map(databaseShippingAddress => this.createFromPrisma(databaseShippingAddress));
   }
+
+  static createFromNexus(nexusShippingAddress: any): ShippingAddress {
+    return new ShippingAddress({
+      city: nexusShippingAddress.city,
+      clientId: nexusShippingAddress.clientId,
+      externalNumber: nexusShippingAddress.externalNumber,
+      street: nexusShippingAddress.street,
+      id: nexusShippingAddress.id,
+      internalNumber: nexusShippingAddress.internalNumber
+    });
+  }
 }

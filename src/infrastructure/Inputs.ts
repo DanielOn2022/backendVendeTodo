@@ -41,4 +41,24 @@ export const inputs = [
       });
     }
   }),
+
+  inputObjectType({
+    name: 'PaymentMethodIn',
+    definition(t) {
+      t.nonNull.int('cardNumber');
+      t.nonNull.int('clientId');
+    }
+  }),
+
+  inputObjectType({
+    name: 'ShippingAddressIn',
+    definition(t) {
+      t.nonNull.int('id');
+      t.nonNull.string('city');
+      t.nonNull.string('street');
+      t.nonNull.string('externalNumber');
+      t.nullable.string('internalNumber');
+      t.nonNull.int('clientId');
+    }
+  }),
 ]

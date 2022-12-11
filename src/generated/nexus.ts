@@ -15,6 +15,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  PaymentMethodIn: { // input type
+    cardNumber: number; // Int!
+    clientId: number; // Int!
+  }
   Product: { // input type
     brand?: string | null; // String
     description?: string | null; // String
@@ -34,6 +38,14 @@ export interface NexusGenInputs {
     saleLineId: number; // Int!
     subTotal: number; // Float!
     supplierId: number; // Int!
+  }
+  ShippingAddressIn: { // input type
+    city: string; // String!
+    clientId: number; // Int!
+    externalNumber: string; // String!
+    id: number; // Int!
+    internalNumber?: string | null; // String
+    street: string; // String!
   }
   ShopppingCart: { // input type
     id: number; // Int!
@@ -55,6 +67,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Mutation: {};
+  Payment: {};
   PaymentMethod: {};
   Query: {};
   SaleLine: {};
@@ -79,6 +92,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addToCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
+    authorizePayment: NexusGenRootTypes['Payment'] | null; // Payment
     cancelStartPayment: boolean | null; // Boolean
     createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
@@ -89,6 +103,12 @@ export interface NexusGenFieldTypes {
     removeLineCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
+  }
+  Payment: { // field return type
+    amount: number; // Float!
+    concept: string; // String!
+    id: number; // Int!
+    paymentMethod: NexusGenRootTypes['PaymentMethod']; // PaymentMethod!
   }
   PaymentMethod: { // field return type
     cardNumber: string; // String!
@@ -164,6 +184,7 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addToCart: 'ShoppingCart'
+    authorizePayment: 'Payment'
     cancelStartPayment: 'Boolean'
     createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
@@ -174,6 +195,12 @@ export interface NexusGenFieldTypeNames {
     removeLineCart: 'ShoppingCart'
     startPayment: 'StartPaymentPayload'
     updateProduct: 'product'
+  }
+  Payment: { // field return type name
+    amount: 'Float'
+    concept: 'String'
+    id: 'Int'
+    paymentMethod: 'PaymentMethod'
   }
   PaymentMethod: { // field return type name
     cardNumber: 'String'
@@ -253,6 +280,11 @@ export interface NexusGenArgTypes {
       product: NexusGenInputs['Product']; // Product!
       quantity: number; // Int!
       supplierId: number; // Int!
+    }
+    authorizePayment: { // args
+      paymentMethod: NexusGenInputs['PaymentMethodIn']; // PaymentMethodIn!
+      shippingAddress: NexusGenInputs['ShippingAddressIn']; // ShippingAddressIn!
+      shoppingCart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
     }
     cancelStartPayment: { // args
       availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!

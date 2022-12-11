@@ -7,6 +7,9 @@ import { ProductFactory } from "./factories/ProductFactory";
 import { isAuthenticated } from "./permissions";
 import { Client } from "./domain/Client/Client";
 import { SaleLineFactory } from "./factories/CartLineFactory";
+import { PaymentMethodFactory } from "./factories/PaymentMethodFactory";
+import { ShippingAddressFactory } from "./factories/ShippingAddressFactory";
+import { ShippingAddress } from "./domain/ShippingAddress/ShippingAddress";
 
 export const mutations = mutationType({
   definition(t) {
@@ -240,24 +243,25 @@ export const mutations = mutationType({
     });
     
     t.field('authorizePayment', {
-      type: 'ShippingAddress',
+      type: 'Payment',
       args: {
-        city: stringArg({required: true}),
-        street: stringArg({required: true}),
-        externalNumber: stringArg({required: true}),
-        internalNumber: stringArg({required: false}),
-        clientId: intArg({required: true}),
+        paymentMethod: arg({type: 'PaymentMethodIn', required: true}),
+        shoppingCart: arg({type: 'ShopppingCart', required: true}),
+        shippingAddress: arg({type: 'ShippingAddressIn', required: true}),
       }, 
       authorize: (_root, _args, ctx) => {
         return isAuthenticated(ctx);
       },
       async resolve(_root, args, ctx) {
-        const { city, clientId, externalNumber, street, internalNumber } = args;
+        const { paymentMethod, shippingAddress, shoppingCart } = args;
+        const shoppingCartObj = ShopppingCartFactory.createFromNexus(shoppingCart);
+        const paymentMethodObj = PaymentMethodFactory.createFromNexus(paymentMethod);
+        const shippingAddressObj = ShippingAddressFactory.createFromNexus(shippingAddress);
         try {
-          const shippingAddress = await ctx.shippingAddressModel.createShippingAddress(city, street, externalNumber, internalNumber || '', clientId);
-          return shippingAddress;
+          const payment = await ctx.paymentModel.authorizePayment(paymentMethodObj, shoppingCartObj, shippingAddressObj);
+          return payment;
         } catch (error: any) {
-          logger.error(`An error ocurrred on createShippingAddress mutation: ${error.message}`);
+          logger.error(`An error ocurrred on authorizePayment mutation: ${error.message}`);
           return error;
         }
       }
