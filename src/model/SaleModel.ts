@@ -3,6 +3,7 @@ import { SaleLine } from "../infrastructure/domain/SaleLine/SaleLine";
 import { ShoppingCart } from "../infrastructure/domain/ShopppingCart/ShoppingCart";
 import { ShoppingCartEmptyError } from "../infrastructure/domain/ShopppingCart/ShoppinngCartEmptyError";
 import { BatchRepository } from "../infrastructure/repositories/BatchRepository";
+import { PrismaRepository } from "../infrastructure/repositories/PrismaRepository";
 
 export class SaleModel {
   private prisma: PrismaClient;
@@ -18,8 +19,11 @@ export class SaleModel {
       input: { cart },
     });
     const batchRepo = new BatchRepository(this.prisma);
+    const prismaRepo = new PrismaRepository(this.prisma);
+    await prismaRepo.initTransacion();
     const availableLines = await this.verifyAvailable(lines);
     await batchRepo.compromiseProductsByLines(availableLines);
+    await prismaRepo.commitTransacion();
     const total = cart.getTotal(availableLines);
     const nonAvailableLines = [];
     while (lines.length > 0) {
@@ -27,7 +31,6 @@ export class SaleModel {
       const lineFound = availableLines.find(availableLine => lastLine?.snapshot.supplierId === availableLine.snapshot.supplierId && lastLine?.snapshot.product.snapshot.id === availableLine.snapshot.product.snapshot.id);
       if (!lineFound) nonAvailableLines.push(lastLine);
     }
-
     return {
       shoppingCart: cart,
       total,

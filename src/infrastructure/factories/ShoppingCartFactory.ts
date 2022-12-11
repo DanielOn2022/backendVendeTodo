@@ -33,7 +33,7 @@ export class ShopppingCartFactory {
         cart_sale_id: saleLine?.cart_sale_id || 0,
         saleLineId: saleLine?.saleLineId || 0,
         supplierId: saleLine?.supplierId || 0,
-        supplier: new Supplier({company: saleLine?.supplier.company, id: saleLine?.supplier.id})
+        ...( saleLine?.supplier ? {supplier: new Supplier({company: saleLine?.supplier.company, id: saleLine?.supplier.id})} : {} )
       });
     });
 

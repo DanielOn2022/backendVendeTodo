@@ -90,7 +90,7 @@ input SaleLineIn {
   product: Product!
   saleLineId: Int!
   subTotal: Float!
-  supplier: SupplierIn!
+  supplier: SupplierIn
   supplierId: Int!
 }
 

@@ -31,7 +31,7 @@ export const inputs = [
       t.nonNull.int('amount');
       t.nonNull.float('price');
       t.nonNull.float('subTotal');
-      t.nonNull.field('supplier', {
+      t.nullable.field('supplier', {
         type: 'SupplierIn',
       });
     }

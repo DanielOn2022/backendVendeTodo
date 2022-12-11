@@ -206,3 +206,7 @@ model warehousemanager {
 
   @@index([employee_id], map: "FK_warehMana_employee")
 }
+
+model lockbatch {
+  locked Int @id
+}

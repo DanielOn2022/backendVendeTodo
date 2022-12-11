@@ -38,7 +38,7 @@ export interface NexusGenInputs {
     product: NexusGenInputs['Product']; // Product!
     saleLineId: number; // Int!
     subTotal: number; // Float!
-    supplier: NexusGenInputs['SupplierIn']; // SupplierIn!
+    supplier?: NexusGenInputs['SupplierIn'] | null; // SupplierIn
     supplierId: number; // Int!
   }
   ShippingAddressIn: { // input type
