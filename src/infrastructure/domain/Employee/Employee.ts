@@ -1,6 +1,11 @@
 import { iEntity } from "../../iEntity";
 import { EmployeeSnapshot } from "./EmployeeSnapshot";
 
+export enum Role {
+  packer = 'packer',
+  warehouseManager = 'warehouse_manager',
+  shelfManager = 'shelf_manager',
+}
 export class Employee implements iEntity {
   private readonly id?: number | null;
   private name: string;
@@ -13,6 +18,7 @@ export class Employee implements iEntity {
   private email: string;
   private password: string;
   private token?: string | null;
+  private role?: Role | null;
 
   constructor(data: {
     id?: number | null;
@@ -26,6 +32,7 @@ export class Employee implements iEntity {
     email: string;
     password: string;
     token?: string | null;
+    role?: Role | null;
   }) {
     this.id = data.id;
     this.name = data.name;
@@ -37,6 +44,7 @@ export class Employee implements iEntity {
     this.internalNumber = data.internalNumber;
     this.email = data.email;
     this.password = data.password;
+    this.role = data.role;
     this.isSatisfied();
   }
 
@@ -53,6 +61,7 @@ export class Employee implements iEntity {
       email: this.email,
       password: this.password,
       token: this.token,
+      role: this.role,
     };
   }
 
@@ -64,5 +73,9 @@ export class Employee implements iEntity {
 
   setToken(token: string): void {
     this.token = token;
+  }
+
+  setRole(role: Role): void {
+    this.role = role;
   }
 }

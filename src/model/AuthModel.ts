@@ -78,7 +78,7 @@ export class AuthModel {
       return client;
     }
 
-  async  loginEmployee(email: string, password: string) {
+  async loginEmployee(email: string, password: string) {
     const employeeRpo = new EmployeeRepository(this.prisma);
     const employee = await employeeRpo.getEmployeeByEmail(email);
     if (!employee) throw new ClientDoesntExistsError("Wrong credentials", {
@@ -93,10 +93,12 @@ export class AuthModel {
       input: { email, password },
     });
     const role = await employeeRpo.getRoleById(employee.snapshot.id as number);
+    if (!role) throw new Error('Employee doesnt have a role yet');
     const token = jwt.sign({
-      id: employee?.snapshot.id, email: employee.snapshot.email, name: employee.snapshot.name
+      id: employee?.snapshot.id, email: employee.snapshot.email, name: employee.snapshot.name, role: role.role
     }, `${process.env.SERVER_SECRET}`, {expiresIn: '1d'});
     employee.setToken(token);
+    employee.setRole(role.role);
     return employee;
   }
 
@@ -114,7 +116,7 @@ export class AuthModel {
     employee = await employeeRpo.createEmployee(employee);
     if (!employee) throw new Error('Something went wrong');
     const token = jwt.sign({
-      id: employee?.snapshot.id, email: employee.snapshot.email, name: employee.snapshot.name
+      id: employee?.snapshot.id, email: employee.snapshot.email, name: employee.snapshot.name, role: null
     }, `${process.env.SERVER_SECRET}`, {expiresIn: '1d'});
     
     employee.setToken(token);

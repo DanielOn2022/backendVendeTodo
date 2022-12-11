@@ -1,14 +1,6 @@
-import { packer, PrismaClient, shelfmanager, warehousemanager} from "@prisma/client";
-import e from "express";
-import { Employee } from "../domain/Employee/Employee";
-import { Packer } from "../domain/Packer/Packer";
-import { Payment } from "../domain/Payment/Payment";
-import { Sale } from "../domain/Sale/Sale";
-import { SaleLine } from "../domain/SaleLine/SaleLine";
-import { ShippingAddress } from "../domain/ShippingAddress/ShippingAddress";
-import { ShoppingCart } from "../domain/ShopppingCart/ShoppingCart";
+import { packer, PrismaClient, shelfmanager, warehousemanager } from "@prisma/client";
+import { Employee, Role } from "../domain/Employee/Employee";
 import { EmployeeFactory } from "../factories/EmployeeFactory";
-import { SaleFactory } from "../factories/SaleFactory";
 
 export class EmployeeRepository {
   private client: PrismaClient;
@@ -38,19 +30,44 @@ export class EmployeeRepository {
     return EmployeeFactory.createFromPrisma(databaseEmployee);
   }
 
-  async getRoleById(employeeId: number): Promise<packer | shelfmanager | warehousemanager | null> {
+  async getRoleById(employeeId: number): Promise<{role: Role, roleInfo: packer | warehousemanager | shelfmanager} | null> {
     let databaseEmployee: any = await this.client.packer.findFirst({
       where: {employee_id: employeeId}
     });
-    if (databaseEmployee) return databaseEmployee;
+    if (databaseEmployee) return {role: Role.packer, roleInfo: databaseEmployee};
     databaseEmployee = await this.client.warehousemanager.findFirst({
       where: {employee_id: employeeId}
     });
-    if (databaseEmployee) return databaseEmployee;
+    if (databaseEmployee) return {role: Role.warehouseManager, roleInfo: databaseEmployee};
     databaseEmployee = await this.client.shelfmanager.findFirst({
       where: {employee_id: employeeId}
     });
-    if (databaseEmployee) return databaseEmployee;
+    if (databaseEmployee) return {role: Role.shelfManager, roleInfo: databaseEmployee};
+    return null;
+  }
+
+  async getRoleInfo(role: string, employeeId: number): Promise<{roleId: number} | null>  {
+    if (role == Role.packer) {
+      const databasePacker = await this.client.packer.findFirst({
+        where: {employee_id: employeeId}
+      });
+      if (!databasePacker) return null;
+      return {roleId: databasePacker?.packer_id};
+    }
+    if (role == Role.shelfManager) {
+      const databaseShelManager = await this.client.shelfmanager.findFirst({
+        where: {employee_id: employeeId}
+      });
+      if (!databaseShelManager) return null;
+      return {roleId: databaseShelManager?.shelfManager_id};
+    }
+    if (role == Role.warehouseManager) {
+      const databaseWarehouseManager = await this.client.warehousemanager.findFirst({
+        where: {employee_id: employeeId}
+      });
+      if (!databaseWarehouseManager) return null;
+      return {roleId: databaseWarehouseManager?.warehouseManager_id};
+    }
     return null;
   }
 }

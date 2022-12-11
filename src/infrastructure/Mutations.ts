@@ -98,6 +98,7 @@ export const mutations = mutationType({
         
         try {
           const employee = await ctx.authModel.loginEmployee(email, password); 
+          console.log(employee);
           return employee;
         } catch (error: any) {
           logger.error(`An error ocurrred on loginEmployee mutation: ${error.message}`);

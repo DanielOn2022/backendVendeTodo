@@ -442,6 +442,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    beginSortingProcess: { // args
+      role: string; // String!
+    }
     getProductsByName: { // args
       name: string; // String!
     }

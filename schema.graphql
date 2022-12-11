@@ -69,7 +69,7 @@ type PurchasePayload {
 }
 
 type Query {
-  beginSortingProcess: [Shelf]
+  beginSortingProcess(role: String!): [Shelf]
   getAllProducts: [product]
   getCart: ShoppingCart
   getPaymentMethods: [PaymentMethod]

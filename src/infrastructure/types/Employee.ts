@@ -87,7 +87,7 @@ export const employee = objectType({
       type: "String",
       nullable: true,
       resolve(root: any, args, ctx) {
-        return root.role;
+        return root.role + '';
       },
     });
   },

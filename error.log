@@ -44,3 +44,9 @@
 {"level":"error","message":"An error ocurrred on beginSortingProcess query: Cannot read properties of undefined (reading 'BeginSortingProcess')"}
 {"level":"error","message":"An error ocurrred on beginSortingProcess query: Cannot read properties of undefined (reading 'BeginSortingProcess')"}
 {"level":"error","message":"An error ocurrred on addToCart mutation: Not enough stock for this product"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: \nInvalid `this.client.shelf.findMany()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\ShelfRepository.ts:13:50\n\n  10 }\n  11 \n  12 async getShelfsByManager(managerId: number): Promise<Shelf[] | null> {\n→ 13   let databaseShelfs = await this.client.shelf.findMany(\nError converting field \"shelfM_id\" of expected non-nullable type \"Int\", found incompatible value of \"null\"."}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
+{"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}

@@ -130,12 +130,16 @@ export const queries = queryType({
       type: 'Shelf',
       nullable: true,
       list: true,
+      args: {
+        role: stringArg({ required: true })
+      },
       authorize: (_root, _args, ctx) => {
         return isAuthenticated(ctx);
       },
       async resolve(_root, args, ctx) {
         try {
-          const shelfs = await ctx.shelfModel.BeginSortingProcess(ctx.token.id);
+          const { role } = args;
+          const shelfs = await ctx.shelfModel.BeginSortingProcess(ctx.token.id, role);
           return shelfs;
         } catch (error: any) {
           logger.error(`An error ocurrred on beginSortingProcess query: ${error.message}`);
