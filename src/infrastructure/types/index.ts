@@ -6,3 +6,4 @@ export * from './SaleLine';
 export * from './StartPaymentPayload';
 export * from './PaymentMethod';
 export * from './ShippingAddress';
+export * from './Payment';

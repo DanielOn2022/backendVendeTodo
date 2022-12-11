@@ -7,6 +7,9 @@ import { ProductFactory } from "./factories/ProductFactory";
 import { isAuthenticated } from "./permissions";
 import { Client } from "./domain/Client/Client";
 import { SaleLineFactory } from "./factories/CartLineFactory";
+import { PaymentMethodFactory } from "./factories/PaymentMethodFactory";
+import { ShippingAddressFactory } from "./factories/ShippingAddressFactory";
+import { ShippingAddress } from "./domain/ShippingAddress/ShippingAddress";
 
 export const mutations = mutationType({
   definition(t) {
@@ -234,6 +237,31 @@ export const mutations = mutationType({
           return shoppingCartUpdated;
         } catch (error: any) {
           logger.error(`An error ocurrred on removeLineCart mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+    
+    t.field('authorizePayment', {
+      type: 'Payment',
+      args: {
+        paymentMethod: arg({type: 'PaymentMethodIn', required: true}),
+        shoppingCart: arg({type: 'ShopppingCart', required: true}),
+        shippingAddress: arg({type: 'ShippingAddressIn', required: true}),
+      }, 
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { paymentMethod, shippingAddress, shoppingCart } = args;
+        const shoppingCartObj = ShopppingCartFactory.createFromNexus(shoppingCart);
+        const paymentMethodObj = PaymentMethodFactory.createFromNexus(paymentMethod);
+        const shippingAddressObj = ShippingAddressFactory.createFromNexus(shippingAddress);
+        try {
+          const payment = await ctx.paymentModel.authorizePayment(paymentMethodObj, shoppingCartObj, shippingAddressObj);
+          return payment;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on authorizePayment mutation: ${error.message}`);
           return error;
         }
       }

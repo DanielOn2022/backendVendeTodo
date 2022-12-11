@@ -22,7 +22,7 @@ export class SaleModel {
     await batchRepo.compromiseProductsByLines(availableLines);
     const total = cart.getTotal(availableLines);
     const nonAvailableLines = [];
-    while (lines.length > 0){
+    while (lines.length > 0) {
       const lastLine = lines.pop();
       const lineFound = availableLines.find(availableLine => lastLine?.snapshot.supplierId === availableLine.snapshot.supplierId && lastLine?.snapshot.product.snapshot.id === availableLine.snapshot.product.snapshot.id);
       if (!lineFound) nonAvailableLines.push(lastLine);
