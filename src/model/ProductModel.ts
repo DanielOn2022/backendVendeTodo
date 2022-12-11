@@ -52,8 +52,9 @@ export class ProductModel {
       input: { product },
     });
     const suppliers = await supplierRepo.getManySuppliersByProduct(completeProduct);
-    const sortedSuppliers = sortBy(suppliers, ['availableStock'])
+    const sortedSuppliers = sortBy(suppliers, ['availableStock']);
     completeProduct.setSuppliers(sortedSuppliers);
+    console.log(sortedSuppliers);
     return completeProduct;
   }
 

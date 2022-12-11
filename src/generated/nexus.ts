@@ -69,7 +69,9 @@ export interface NexusGenObjects {
   Mutation: {};
   Payment: {};
   PaymentMethod: {};
+  PurchasePayload: {};
   Query: {};
+  Sale: {};
   SaleLine: {};
   ShippingAddress: {};
   ShoppingCart: {};
@@ -92,7 +94,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addToCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
-    authorizePayment: NexusGenRootTypes['Payment'] | null; // Payment
+    authorizePayment: NexusGenRootTypes['PurchasePayload'] | null; // PurchasePayload
     cancelStartPayment: boolean | null; // Boolean
     createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
@@ -114,6 +116,11 @@ export interface NexusGenFieldTypes {
     cardNumber: string; // String!
     clientId: number; // Int!
   }
+  PurchasePayload: { // field return type
+    payment: NexusGenRootTypes['Payment']; // Payment!
+    sale: NexusGenRootTypes['Sale']; // Sale!
+    shoppingCart: NexusGenRootTypes['ShoppingCart']; // ShoppingCart!
+  }
   Query: { // field return type
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
@@ -122,6 +129,13 @@ export interface NexusGenFieldTypes {
     getShippingAddresses: Array<NexusGenRootTypes['ShippingAddress'] | null> | null; // [ShippingAddress]
     logedIn: NexusGenRootTypes['User'] | null; // User
     singleProduct: NexusGenRootTypes['product'] | null; // product
+  }
+  Sale: { // field return type
+    date: string; // String!
+    id: number; // Int!
+    saleLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
+    shippingAddress: NexusGenRootTypes['ShippingAddress']; // ShippingAddress!
+    total: number; // Float!
   }
   SaleLine: { // field return type
     amount: number; // Int!
@@ -184,7 +198,7 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addToCart: 'ShoppingCart'
-    authorizePayment: 'Payment'
+    authorizePayment: 'PurchasePayload'
     cancelStartPayment: 'Boolean'
     createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
@@ -206,6 +220,11 @@ export interface NexusGenFieldTypeNames {
     cardNumber: 'String'
     clientId: 'Int'
   }
+  PurchasePayload: { // field return type name
+    payment: 'Payment'
+    sale: 'Sale'
+    shoppingCart: 'ShoppingCart'
+  }
   Query: { // field return type name
     getAllProducts: 'product'
     getCart: 'ShoppingCart'
@@ -214,6 +233,13 @@ export interface NexusGenFieldTypeNames {
     getShippingAddresses: 'ShippingAddress'
     logedIn: 'User'
     singleProduct: 'product'
+  }
+  Sale: { // field return type name
+    date: 'String'
+    id: 'Int'
+    saleLines: 'SaleLine'
+    shippingAddress: 'ShippingAddress'
+    total: 'Float'
   }
   SaleLine: { // field return type name
     amount: 'Int'

@@ -116,4 +116,14 @@ export class ShopppingCartRepository {
     if (!databaseSaleLine) return false;
     return true
   }
+
+  async removeAllSaleLines(cart: ShoppingCart): Promise<boolean> {
+    const databaseCart = await this.client.cartline.deleteMany({
+      where: {
+        shoppingCart_id: cart.snapshot.id as number
+      }
+    });
+    if (!databaseCart) return false;
+    return true;
+  }
 }

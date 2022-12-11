@@ -4,7 +4,7 @@
 
 type Mutation {
   addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
-  authorizePayment(paymentMethod: PaymentMethodIn!, shippingAddress: ShippingAddressIn!, shoppingCart: ShopppingCart!): Payment
+  authorizePayment(paymentMethod: PaymentMethodIn!, shippingAddress: ShippingAddressIn!, shoppingCart: ShopppingCart!): PurchasePayload
   cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   createPaymentMethod(cardNumber: String!, clientId: Int!): PaymentMethod
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
@@ -45,6 +45,12 @@ input Product {
   volume: Float
 }
 
+type PurchasePayload {
+  payment: Payment!
+  sale: Sale!
+  shoppingCart: ShoppingCart!
+}
+
 type Query {
   getAllProducts: [product]
   getCart: ShoppingCart
@@ -53,6 +59,14 @@ type Query {
   getShippingAddresses: [ShippingAddress]
   logedIn: User
   singleProduct(product: Product!): product
+}
+
+type Sale {
+  date: String!
+  id: Int!
+  saleLines: [SaleLine!]!
+  shippingAddress: ShippingAddress!
+  total: Float!
 }
 
 type SaleLine {

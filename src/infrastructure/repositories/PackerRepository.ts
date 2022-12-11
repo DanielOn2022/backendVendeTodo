@@ -3,7 +3,7 @@ import { Packer } from '../domain/Packer/Packer';
 import { Sale } from '../domain/Sale/Sale';
 import { PackerFactory } from '../factories/PackerFactory';
 
-export class PAckerRepository {
+export class PackerRepository {
   private client: PrismaClient;
 
   constructor(client: PrismaClient) {
