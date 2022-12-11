@@ -21,7 +21,7 @@ export const supplier = objectType({
 
     t.field('stock', {
       type: 'Int',
-      nullable: false,
+      nullable: true,
       resolve(root: any, args, ctx) {
         return root.availableStock;
       }

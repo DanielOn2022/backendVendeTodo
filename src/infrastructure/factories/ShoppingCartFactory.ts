@@ -3,6 +3,7 @@ import { Decimal } from '@prisma/client/runtime';
 import { Product } from '../domain/Product/Product';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
 import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
+import { Supplier } from '../domain/Supplier/Supplier';
 
 
 export class ShopppingCartFactory {
@@ -31,7 +32,8 @@ export class ShopppingCartFactory {
         batchId: saleLine?.batchId || 0,
         cart_sale_id: saleLine?.cart_sale_id || 0,
         saleLineId: saleLine?.saleLineId || 0,
-        supplierId: saleLine?.supplierId || 0
+        supplierId: saleLine?.supplierId || 0,
+        supplier: new Supplier({company: saleLine?.supplier.company, id: saleLine?.supplier.id})
       });
     });
 

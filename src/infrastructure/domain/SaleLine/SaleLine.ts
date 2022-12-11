@@ -25,6 +25,7 @@ export class SaleLine implements iEntity {
     amount: number;
     price?: Decimal | null;
     subTotal?: Decimal | null;
+    supplier?: Supplier | null;
   }) {
     this.cart_sale_id = data.cart_sale_id;
     this.saleLineId = data.saleLineId;
@@ -34,6 +35,7 @@ export class SaleLine implements iEntity {
     this.amount = data.amount;
     this.price = data.price || this.product.snapshot.price;
     this.subTotal = data.subTotal || (this.price as unknown as number * this.amount) as unknown as Decimal;
+    this.supplier = data.supplier;
   }
 
   get snapshot(): SaleLineSnapshot {
@@ -45,7 +47,8 @@ export class SaleLine implements iEntity {
       batchId: this.batchId,
       amount: this.amount,
       price: this.price,
-      subTotal: this.subTotal
+      subTotal: this.subTotal,
+      supplier: this.supplier
     };
   }
 

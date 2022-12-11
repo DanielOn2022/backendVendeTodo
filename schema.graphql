@@ -77,8 +77,8 @@ type SaleLine {
   product: product!
   saleLineId: Int!
   subTotal: Float!
+  supplier: Supplier!
   supplierId: Int!
-  supplierName: String!
 }
 
 input SaleLineIn {
@@ -89,7 +89,23 @@ input SaleLineIn {
   product: Product!
   saleLineId: Int!
   subTotal: Float!
+  supplier: SupplierIn
   supplierId: Int!
+}
+
+type Section {
+  capacity: Float!
+  product: product!
+  sectionNumber: Int!
+  shelfId: Int!
+}
+
+type Shelf {
+  id: Int!
+  sections: [Section!]!
+  shelfManagerId: Int!
+  sortedDate: String!
+  warehouseManagerId: Int!
 }
 
 type ShippingAddress {
@@ -133,7 +149,12 @@ type StartPaymentPayload {
 type Supplier {
   company: String!
   id: Int!
-  stock: Int!
+  stock: Int
+}
+
+input SupplierIn {
+  company: Int!
+  id: Int!
 }
 
 type User {

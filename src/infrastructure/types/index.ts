@@ -9,3 +9,5 @@ export * from './ShippingAddress';
 export * from './Payment';
 export * from './Sale';
 export * from './PurchasePayload';
+export * from './Section';
+export * from './Shelf';

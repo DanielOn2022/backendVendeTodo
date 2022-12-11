@@ -26,6 +26,9 @@ export const inputs = [
       t.nonNull.int('amount');
       t.nonNull.float('price');
       t.nonNull.float('subTotal');
+      t.nullable.field('supplier', {
+        type: 'SupplierIn',
+      });
     }
   }),
 
@@ -47,6 +50,14 @@ export const inputs = [
     definition(t) {
       t.nonNull.int('cardNumber');
       t.nonNull.int('clientId');
+    }
+  }),
+
+  inputObjectType({
+    name: 'SupplierIn',
+    definition(t) {
+      t.nonNull.int('company');
+      t.nonNull.int('id');
     }
   }),
 

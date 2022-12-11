@@ -125,6 +125,24 @@ export const queries = queryType({
         }
       }
     });
+
+    // t.field('beginSortingProcess', {
+    //   type: '',
+    //   nullable: true,
+    //   list: true,
+    //   authorize: (_root, _args, ctx) => {
+    //     return isAuthenticated(ctx);
+    //   },
+    //   async resolve(_root, args, ctx) {
+    //     try {
+    //       const shippingAddresses = await ctx.shippingAddressModel.getShippingAddresses(ctx.token.id);
+    //       return shippingAddresses;
+    //     } catch (error: any) {
+    //       logger.error(`An error ocurrred on getShippingAddresses query: ${error.message}`);
+    //       return error;
+    //     }
+    //   }
+    // });
   }
 });
 

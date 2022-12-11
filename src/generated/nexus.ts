@@ -37,6 +37,7 @@ export interface NexusGenInputs {
     product: NexusGenInputs['Product']; // Product!
     saleLineId: number; // Int!
     subTotal: number; // Float!
+    supplier?: NexusGenInputs['SupplierIn'] | null; // SupplierIn
     supplierId: number; // Int!
   }
   ShippingAddressIn: { // input type
@@ -51,6 +52,10 @@ export interface NexusGenInputs {
     id: number; // Int!
     lastUpdate: string; // String!
     saleLines: Array<NexusGenInputs['SaleLineIn'] | null> | null; // [SaleLineIn]
+  }
+  SupplierIn: { // input type
+    company: number; // Int!
+    id: number; // Int!
   }
 }
 
@@ -73,6 +78,8 @@ export interface NexusGenObjects {
   Query: {};
   Sale: {};
   SaleLine: {};
+  Section: {};
+  Shelf: {};
   ShippingAddress: {};
   ShoppingCart: {};
   StartPaymentPayload: {};
@@ -145,8 +152,21 @@ export interface NexusGenFieldTypes {
     product: NexusGenRootTypes['product']; // product!
     saleLineId: number; // Int!
     subTotal: number; // Float!
+    supplier: NexusGenRootTypes['Supplier']; // Supplier!
     supplierId: number; // Int!
-    supplierName: string; // String!
+  }
+  Section: { // field return type
+    capacity: number; // Float!
+    product: NexusGenRootTypes['product']; // product!
+    sectionNumber: number; // Int!
+    shelfId: number; // Int!
+  }
+  Shelf: { // field return type
+    id: number; // Int!
+    sections: NexusGenRootTypes['Section'][]; // [Section!]!
+    shelfManagerId: number; // Int!
+    sortedDate: string; // String!
+    warehouseManagerId: number; // Int!
   }
   ShippingAddress: { // field return type
     city: string; // String!
@@ -171,7 +191,7 @@ export interface NexusGenFieldTypes {
   Supplier: { // field return type
     company: string; // String!
     id: number; // Int!
-    stock: number; // Int!
+    stock: number | null; // Int
   }
   User: { // field return type
     email: string; // String!
@@ -249,8 +269,21 @@ export interface NexusGenFieldTypeNames {
     product: 'product'
     saleLineId: 'Int'
     subTotal: 'Float'
+    supplier: 'Supplier'
     supplierId: 'Int'
-    supplierName: 'String'
+  }
+  Section: { // field return type name
+    capacity: 'Float'
+    product: 'product'
+    sectionNumber: 'Int'
+    shelfId: 'Int'
+  }
+  Shelf: { // field return type name
+    id: 'Int'
+    sections: 'Section'
+    shelfManagerId: 'Int'
+    sortedDate: 'String'
+    warehouseManagerId: 'Int'
   }
   ShippingAddress: { // field return type name
     city: 'String'

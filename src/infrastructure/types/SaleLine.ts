@@ -67,11 +67,11 @@ export const saleLine = objectType({
       }
     });
 
-    t.field('supplierName', {
-      type: 'String',
+    t.field('supplier', {
+      type: 'Supplier',
       nullable: false,
       resolve(root: any, args, ctx) {
-        return root.supplier?.snapshot.company;
+        return root.supplier;
       }
     });
   },
