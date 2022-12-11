@@ -232,6 +232,7 @@ export const mutations = mutationType({
       async resolve(_root, args, ctx) {
         const { shoppingCart, saleLineId } = args;
         try {
+          console.log(shoppingCart);
           const shoppingCartObj = ShopppingCartFactory.createFromNexus(shoppingCart);
           const shoppingCartUpdated = await ctx.cartModel.removeLineFromCart(shoppingCartObj, saleLineId);
           return shoppingCartUpdated;

@@ -12,6 +12,11 @@ export const inputs = [
       t.nullable.string('brand');
       t.nullable.string('imageUrl');
       t.nonNull.string('name');
+      t.field('suppliers', {
+        type: 'SupplierIn',
+        nullable: true,
+        list: true
+      })
     }
   }),
 
@@ -26,7 +31,7 @@ export const inputs = [
       t.nonNull.int('amount');
       t.nonNull.float('price');
       t.nonNull.float('subTotal');
-      t.nullable.field('supplier', {
+      t.nonNull.field('supplier', {
         type: 'SupplierIn',
       });
     }
@@ -56,7 +61,7 @@ export const inputs = [
   inputObjectType({
     name: 'SupplierIn',
     definition(t) {
-      t.nonNull.int('company');
+      t.nonNull.string('company');
       t.nonNull.int('id');
     }
   }),

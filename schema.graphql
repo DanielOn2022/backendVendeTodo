@@ -42,6 +42,7 @@ input Product {
   name: String!
   price: Float!
   stock: Int
+  suppliers: [SupplierIn]
   volume: Float
 }
 
@@ -89,7 +90,7 @@ input SaleLineIn {
   product: Product!
   saleLineId: Int!
   subTotal: Float!
-  supplier: SupplierIn
+  supplier: SupplierIn!
   supplierId: Int!
 }
 
@@ -153,7 +154,7 @@ type Supplier {
 }
 
 input SupplierIn {
-  company: Int!
+  company: String!
   id: Int!
 }
 

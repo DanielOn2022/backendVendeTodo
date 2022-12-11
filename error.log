@@ -24,3 +24,10 @@
 {"level":"error","message":"An error ocurrred on removeLineCart mutation: \nInvalid `this.client.cartline.delete()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\ShoppingCartRepository.ts:111:63\n\n  108 }\n  109 \n  110 async removeSaleLineFromCart(cart: ShoppingCart, saleLineId: number): Promise<boolean> {\n→ 111   const databaseSaleLine = await this.client.cartline.delete(\nAn operation failed because it depends on one or more records that were required but not found. Record to delete does not exist."}
 {"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
 {"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}
+{"level":"error","message":"An error ocurrred on removeLineCart mutation: Cannot read properties of undefined (reading 'company')"}

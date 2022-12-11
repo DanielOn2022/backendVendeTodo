@@ -27,6 +27,7 @@ export interface NexusGenInputs {
     name: string; // String!
     price: number; // Float!
     stock?: number | null; // Int
+    suppliers?: Array<NexusGenInputs['SupplierIn'] | null> | null; // [SupplierIn]
     volume?: number | null; // Float
   }
   SaleLineIn: { // input type
@@ -37,7 +38,7 @@ export interface NexusGenInputs {
     product: NexusGenInputs['Product']; // Product!
     saleLineId: number; // Int!
     subTotal: number; // Float!
-    supplier?: NexusGenInputs['SupplierIn'] | null; // SupplierIn
+    supplier: NexusGenInputs['SupplierIn']; // SupplierIn!
     supplierId: number; // Int!
   }
   ShippingAddressIn: { // input type
@@ -54,7 +55,7 @@ export interface NexusGenInputs {
     saleLines: Array<NexusGenInputs['SaleLineIn'] | null> | null; // [SaleLineIn]
   }
   SupplierIn: { // input type
-    company: number; // Int!
+    company: string; // String!
     id: number; // Int!
   }
 }
