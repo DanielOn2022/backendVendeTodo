@@ -3,6 +3,10 @@ import { Product } from '../domain/Product/Product';
 import { Sale } from '../domain/Sale/Sale';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
 import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
+import { Supplier } from '../domain/Supplier/Supplier';
+import { SaleLineFactory } from '../factories/CartLineFactory';
+import { ProductFactory } from '../factories/ProductFactory';
+import { SupplierFactory } from '../factories/SupplierFactory';
 
 export class SaleLineRepository {
   private client: PrismaClient;
@@ -55,6 +59,31 @@ export class SaleLineRepository {
     });
 
     return topProducts;
+  }
+
+  async getSaleLinesBySale(saleId: number): Promise<SaleLine[] | null> {
+    const databaseSaleLines = await this.client.saleline.findMany({
+      where: {sale_id: saleId}
+    });
+    if (!databaseSaleLines) return null;
+    const saleLines = [];
+    for (const databseSaleLine of databaseSaleLines) {
+      const databaseProduct = await this.client.product.findUnique({
+        where: {id: databseSaleLine.product_id}
+      });
+      if (!databaseProduct) throw new Error('Sale lines has no product asigned');
+      const databaseSupplier = await this.client.supplier.findUnique({where: {id: databseSaleLine.supplier_id}});
+      const product = new Product({
+        imageUrl: databaseProduct.imageUrl,
+        name: databaseProduct.name,
+        price: databaseProduct.price,
+        id: databaseProduct.id,
+        suppliers: [new Supplier({company: databaseSupplier?.company || '', id: databaseSupplier?.id})],
+      })
+      const saleLine = SaleLineFactory.createFromPrismaSale(databseSaleLine, product);
+      saleLines.push(saleLine);
+    }
+    return saleLines;
   }
 
 }

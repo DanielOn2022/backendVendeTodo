@@ -29,7 +29,7 @@ export class ShelfModel {
     const shelfRepo = new ShelfRepository(this.prisma);
     const productRepo = new ProductRepository(this.prisma);
     const saleLineRepo = new SaleLineRepository(this.prisma);
-    const shelfsPayload = []
+    const shelfsPayload = [];
     for (const shelfId of shelfIds) {
       const shelf = await shelfRepo.getShelfById(shelfId); 
       if (!shelf) continue;

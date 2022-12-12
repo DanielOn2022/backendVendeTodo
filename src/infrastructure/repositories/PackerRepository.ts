@@ -52,4 +52,12 @@ export class PackerRepository {
     if (!databasePackingRoute) return false;
     return true;
   }
+
+  async getPackerById(packerId: number): Promise<Packer | null> {
+    const databasePacker = await this.client.packer.findUnique({where: {packer_id: packerId}});
+    if (!databasePacker) return null;
+    const databaseEmployee = await this.client.employee.findUnique({where: {id: databasePacker.employee_id}});
+    if (!databaseEmployee) return null;
+    return PackerFactory.createFromPrisma({employee: databaseEmployee, packer: databasePacker});
+  }
 }

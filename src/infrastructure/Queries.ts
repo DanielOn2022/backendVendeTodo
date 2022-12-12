@@ -147,6 +147,28 @@ export const queries = queryType({
         }
       }
     });
+
+    t.field('getPackerSale', {
+      type: 'Shelf',
+      nullable: true,
+      list: true,
+      args: {
+        role: stringArg({ required: true })
+      },
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        try {
+          const { role } = args;
+          const shelfs = await ctx.shelfModel.BeginSortingProcess(ctx.token.id, role);
+          return shelfs;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on getPackerSale query: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });
 

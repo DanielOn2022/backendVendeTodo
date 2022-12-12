@@ -1,4 +1,4 @@
-import { cartline as PrismaCartLine } from '@prisma/client';
+import { cartline as PrismaCartLine, saleline } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime';
 import { Product } from '../domain/Product/Product';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
@@ -14,6 +14,19 @@ export class SaleLineFactory {
       batchId: saleLine.batch_id,
       price: saleLine.price,
       saleLineId: saleLine.cartLine_id,
+      subTotal: saleLine.subtotal,
+    });
+  }
+
+  static createFromPrismaSale(saleLine: saleline, product: Product): SaleLine {
+    return new SaleLine({
+      amount: saleLine.amount,
+      cart_sale_id: saleLine.sale_id,
+      product, 
+      supplierId: saleLine.supplier_id,
+      batchId: saleLine.batch_id,
+      price: saleLine.price,
+      saleLineId: saleLine.saleLine_id,
       subTotal: saleLine.subtotal,
     });
   }

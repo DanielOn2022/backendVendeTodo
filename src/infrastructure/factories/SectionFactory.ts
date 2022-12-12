@@ -32,4 +32,13 @@ export class SectionFactory {
       sectionNumber: databaseSection.sectionNumber
     });
   }
+
+  static createFromPrismaByProduct(databaseSection: PrismaSection, product: Product): Section {
+    return new Section({
+      capacity: databaseSection.capacity as unknown as number,
+      product,
+      shelfId: databaseSection.shelf_id,
+      sectionNumber: databaseSection.sectionNumber
+    });
+  }
 }

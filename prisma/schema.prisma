@@ -78,6 +78,7 @@ model packingroute {
   sale_id   Int
   lasItem   Int
   packed    Boolean
+  createdAt DateTime? @db.Timestamp(0)
 
   @@id([packer_id, sale_id])
   @@index([sale_id], map: "FK_PacRou_sale")

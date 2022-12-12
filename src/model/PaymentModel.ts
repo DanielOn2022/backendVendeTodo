@@ -42,10 +42,12 @@ export class PaymentModel {
     if (!payment) throw new Error('Something went wron creating the payment');
     const sale = await saleRepo.createSale(payment, shoppingCart, shippingAddress);
     if (!sale) throw new Error('Somenthing went wrong');
+
     sale.setLines(shoppingCart);
     await saleLineRepo.createSaleLinesForSale(sale);
     await shoppingCartRepo.removeAllSaleLines(shoppingCart);
     shoppingCart.clearCart();
+    
     const packer = await packerRepo.getPackerWithFewerSales();
     const addedSuccessfully = await packerRepo.addSaleToPacker(sale, packer);
     if (!addedSuccessfully) throw new Error('Somenthing went wrong adding the sale to packer');

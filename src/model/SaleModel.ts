@@ -4,6 +4,7 @@ import { ShoppingCart } from "../infrastructure/domain/ShopppingCart/ShoppingCar
 import { ShoppingCartEmptyError } from "../infrastructure/domain/ShopppingCart/ShoppinngCartEmptyError";
 import { BatchRepository } from "../infrastructure/repositories/BatchRepository";
 import { PrismaRepository } from "../infrastructure/repositories/PrismaRepository";
+import { SaleRepository } from "../infrastructure/repositories/SaleRepository";
 
 export class SaleModel {
   private prisma: PrismaClient;

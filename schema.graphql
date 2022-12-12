@@ -19,6 +19,7 @@ type Employee {
 type Mutation {
   addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
   authorizePayment(paymentMethod: PaymentMethodIn!, shippingAddress: ShippingAddressIn!, shoppingCart: ShopppingCart!): PurchasePayload
+  begginSupply(newStoredProducts: [Int], newUnStoredProducts: [Int], sortOrder: [SortOrder!]!): [Boolean]
   cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   createPaymentMethod(cardNumber: String!, clientId: Int!): PaymentMethod
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
@@ -30,7 +31,7 @@ type Mutation {
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
   registerEmployee(email: String!, lastname: String, name: String!, password: String!, rfc: String!): Employee
   removeLineCart(saleLineId: Int!, shoppingCart: ShopppingCart!): ShoppingCart
-  sortShelfs(shelfIds: [Int!]!): SortedPayload
+  sortShelfs(shelfIds: [Int!]!): [SortedPayload]
   startPayment(cart: ShopppingCart!): StartPaymentPayload
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
 }
@@ -74,6 +75,7 @@ type Query {
   beginSortingProcess(role: String!): [Shelf]
   getAllProducts: [product]
   getCart: ShoppingCart
+  getPackerSale(role: String!): [Shelf]
   getPaymentMethods: [PaymentMethod]
   getProductsByName(name: String!): [product]
   getShippingAddresses: [ShippingAddress]

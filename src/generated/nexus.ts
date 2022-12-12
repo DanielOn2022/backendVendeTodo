@@ -123,6 +123,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addToCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     authorizePayment: NexusGenRootTypes['PurchasePayload'] | null; // PurchasePayload
+    begginSupply: Array<boolean | null> | null; // [Boolean]
     cancelStartPayment: boolean | null; // Boolean
     createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
@@ -134,7 +135,7 @@ export interface NexusGenFieldTypes {
     register: NexusGenRootTypes['User'] | null; // User
     registerEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     removeLineCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
-    sortShelfs: NexusGenRootTypes['SortedPayload'] | null; // SortedPayload
+    sortShelfs: Array<NexusGenRootTypes['SortedPayload'] | null> | null; // [SortedPayload]
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
@@ -157,6 +158,7 @@ export interface NexusGenFieldTypes {
     beginSortingProcess: Array<NexusGenRootTypes['Shelf'] | null> | null; // [Shelf]
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
+    getPackerSale: Array<NexusGenRootTypes['Shelf'] | null> | null; // [Shelf]
     getPaymentMethods: Array<NexusGenRootTypes['PaymentMethod'] | null> | null; // [PaymentMethod]
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getShippingAddresses: Array<NexusGenRootTypes['ShippingAddress'] | null> | null; // [ShippingAddress]
@@ -263,6 +265,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addToCart: 'ShoppingCart'
     authorizePayment: 'PurchasePayload'
+    begginSupply: 'Boolean'
     cancelStartPayment: 'Boolean'
     createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
@@ -297,6 +300,7 @@ export interface NexusGenFieldTypeNames {
     beginSortingProcess: 'Shelf'
     getAllProducts: 'product'
     getCart: 'ShoppingCart'
+    getPackerSale: 'Shelf'
     getPaymentMethods: 'PaymentMethod'
     getProductsByName: 'product'
     getShippingAddresses: 'ShippingAddress'
@@ -399,6 +403,11 @@ export interface NexusGenArgTypes {
       shippingAddress: NexusGenInputs['ShippingAddressIn']; // ShippingAddressIn!
       shoppingCart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
     }
+    begginSupply: { // args
+      newStoredProducts?: Array<number | null> | null; // [Int]
+      newUnStoredProducts?: Array<number | null> | null; // [Int]
+      sortOrder: NexusGenInputs['SortOrder'][]; // [SortOrder!]!
+    }
     cancelStartPayment: { // args
       availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!
     }
@@ -471,6 +480,9 @@ export interface NexusGenArgTypes {
   }
   Query: {
     beginSortingProcess: { // args
+      role: string; // String!
+    }
+    getPackerSale: { // args
       role: string; // String!
     }
     getProductsByName: { // args

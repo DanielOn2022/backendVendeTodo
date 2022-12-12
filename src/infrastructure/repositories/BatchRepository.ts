@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { batch, PrismaClient } from "@prisma/client";
 import { SaleLine } from "../domain/SaleLine/SaleLine";
 
 export class BatchRepository {

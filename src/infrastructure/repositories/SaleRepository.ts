@@ -1,4 +1,4 @@
-import { PrismaClient} from "@prisma/client";
+import { packingroute, PrismaClient} from "@prisma/client";
 import { Payment } from "../domain/Payment/Payment";
 import { Sale } from "../domain/Sale/Sale";
 import { SaleLine } from "../domain/SaleLine/SaleLine";
@@ -26,5 +26,13 @@ export class SaleRepository {
     });
     if (!databaseSale) return null;
     return SaleFactory.createFromPrisma({databaseSale, payment, shippingAddress});
+  }
+
+  async getPackingRoutes(packerId: number): Promise<packingroute[] | null> {
+    const databaseSales = await this.client.packingroute.findMany({
+      where: {packer_id: packerId, packed: false}, orderBy: {createdAt: 'asc'}
+    });
+    if (!databaseSales) return null;
+    return databaseSales;
   }
 }
