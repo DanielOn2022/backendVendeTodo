@@ -29,6 +29,7 @@ type Mutation {
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User
   registerEmployee(email: String!, lastname: String, name: String!, password: String!, rfc: String!): Employee
   removeLineCart(saleLineId: Int!, shoppingCart: ShopppingCart!): ShoppingCart
+  sortShelfs(shelfIds: [Int!]!): [SortedPayload]
   startPayment(cart: ShopppingCart!): StartPaymentPayload
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
 }
@@ -121,7 +122,7 @@ type Section {
 type Shelf {
   id: Int!
   sections: [Section!]!
-  shelfManagerId: Int!
+  shelfManagerId: Int
   sortedDate: String!
   warehouseManagerId: Int!
 }
@@ -155,6 +156,12 @@ input ShopppingCart {
   id: Int!
   lastUpdate: String!
   saleLines: [SaleLineIn] = []
+}
+
+type SortedPayload {
+  newStoredProducts: [product!]!
+  newUnStoredProducts: [product!]!
+  shelf: Shelf!
 }
 
 type StartPaymentPayload {

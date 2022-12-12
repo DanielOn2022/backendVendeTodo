@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { Product } from '../domain/Product/Product';
 import { Sale } from '../domain/Sale/Sale';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
 import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
@@ -28,6 +29,32 @@ export class SaleLineRepository {
       databaseSaleLines.push(databaseSaleLine);
     }
     return true;
+  }
+
+  async getTopNProducts(products: Product[], n: number = 0): 
+    Promise<(Prisma.PickArray<Prisma.SalelineGroupByOutputType, "product_id"[]> & {
+      _sum: {
+        amount: number | null;
+      };
+    })[] | []> {
+      
+    if (!products.length) throw new Error('No products provided in getTopEightProducts');
+    if(n == 0) throw new Error('N must be grater than zero');
+    
+    const ids: number[] = []
+    products.forEach(product => {
+      ids.push(product.snapshot.id as number);
+    });
+
+    const topProducts = await this.client.saleline.groupBy({
+      _sum: {amount: true},
+      by: ['product_id'],
+      orderBy: {_sum: {amount: 'desc'}} ,
+      having: {product_id: {in: ids}},
+      take: 8
+    });
+
+    return topProducts;
   }
 
 }

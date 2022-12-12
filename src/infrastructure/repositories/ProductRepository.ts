@@ -68,4 +68,13 @@ export class ProductRepository {
     if (!databaseProducts) return null;
     return ProductFactory.createManyFromPrisma(databaseProducts as PrismaProduct[]);
   }
+
+  async getProductsInStoreHouse(): Promise<Product[] | null> {
+    const databaseProducts = await this.client.$queryRaw`
+      select * from Product p
+      left join Section s on s.product_id = p.id where s.shelf_id is null;
+    `;
+    if (!databaseProducts) return null;
+    return ProductFactory.createManyFromRawQuery(databaseProducts);
+  }
 }

@@ -50,3 +50,12 @@
 {"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
 {"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
 {"level":"error","message":"An error ocurrred on beginSortingProcess query: Somenthing went wrong getting the role info"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: ctx.shelfModel.sortShelfs is not a function"}
+{"level":"error","message":"An error ocurrred on addToCart mutation: Not enough stock for this product"}
+{"level":"error","message":"An error ocurrred on addToCart mutation: Not enough stock for this product"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}

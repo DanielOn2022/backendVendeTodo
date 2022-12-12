@@ -29,4 +29,8 @@ export class Section implements iEntity {
     };
   }
 
+  setProduct(product: Product): void {
+    this.product = product;
+  }
+
 }

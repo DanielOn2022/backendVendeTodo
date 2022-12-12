@@ -12,3 +12,4 @@ export * from './PurchasePayload';
 export * from './Section';
 export * from './Shelf';
 export * from './Employee';
+export * from './SortedPayload';

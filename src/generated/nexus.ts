@@ -84,6 +84,7 @@ export interface NexusGenObjects {
   Shelf: {};
   ShippingAddress: {};
   ShoppingCart: {};
+  SortedPayload: {};
   StartPaymentPayload: {};
   Supplier: {};
   User: {};
@@ -127,6 +128,7 @@ export interface NexusGenFieldTypes {
     register: NexusGenRootTypes['User'] | null; // User
     registerEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     removeLineCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
+    sortShelfs: Array<NexusGenRootTypes['SortedPayload'] | null> | null; // [SortedPayload]
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
@@ -182,7 +184,7 @@ export interface NexusGenFieldTypes {
   Shelf: { // field return type
     id: number; // Int!
     sections: NexusGenRootTypes['Section'][]; // [Section!]!
-    shelfManagerId: number; // Int!
+    shelfManagerId: number | null; // Int
     sortedDate: string; // String!
     warehouseManagerId: number; // Int!
   }
@@ -199,6 +201,11 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     lastUpdate: string; // String!
     total: number; // Float!
+  }
+  SortedPayload: { // field return type
+    newStoredProducts: NexusGenRootTypes['product'][]; // [product!]!
+    newUnStoredProducts: NexusGenRootTypes['product'][]; // [product!]!
+    shelf: NexusGenRootTypes['Shelf']; // Shelf!
   }
   StartPaymentPayload: { // field return type
     availableLines: NexusGenRootTypes['SaleLine'][]; // [SaleLine!]!
@@ -260,6 +267,7 @@ export interface NexusGenFieldTypeNames {
     register: 'User'
     registerEmployee: 'Employee'
     removeLineCart: 'ShoppingCart'
+    sortShelfs: 'SortedPayload'
     startPayment: 'StartPaymentPayload'
     updateProduct: 'product'
   }
@@ -332,6 +340,11 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     lastUpdate: 'String'
     total: 'Float'
+  }
+  SortedPayload: { // field return type name
+    newStoredProducts: 'product'
+    newUnStoredProducts: 'product'
+    shelf: 'Shelf'
   }
   StartPaymentPayload: { // field return type name
     availableLines: 'SaleLine'
@@ -430,6 +443,9 @@ export interface NexusGenArgTypes {
     removeLineCart: { // args
       saleLineId: number; // Int!
       shoppingCart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
+    }
+    sortShelfs: { // args
+      shelfIds: number[]; // [Int!]!
     }
     startPayment: { // args
       cart: NexusGenInputs['ShopppingCart']; // ShopppingCart!

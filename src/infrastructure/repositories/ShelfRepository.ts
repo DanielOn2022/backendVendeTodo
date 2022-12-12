@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, shelf } from '@prisma/client';
 import { Shelf } from '../domain/Shelf/Shelf';
 import { ShelfFactory } from '../factories/ShelfFactory';
 
@@ -32,6 +32,23 @@ export class ShelfRepository {
 
     }
     return ShelfFactory.createManyFromPrisma(shelfs);
+  }
+
+  async getShelfById(shelfId: number): Promise<Shelf | null> {
+    const databaseShelf = await this.client.$queryRaw`
+      select * from Shelf sh
+      inner join Section se on se.shelf_id = sh.id
+      inner join Product p on p.id = se.product_id where sh.id = ${shelfId};
+    `;
+    if (!databaseShelf) return null;
+    return ShelfFactory.createFromRawQuery(databaseShelf);
+  }
+
+  updateSortedDate(shelf: Shelf): void {
+    this.client.shelf.update({
+      where: { id: shelf.snapshot.id as number },
+      data: {sortedDate: new Date()}
+    })
   }
 
 }

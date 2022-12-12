@@ -21,7 +21,7 @@ export const shelf = objectType({
 
     t.field('shelfManagerId', {
       type: 'Int',
-      nullable: false,
+      nullable: true,
       resolve(root: any, args, ctx) {
         return root.shelfManagerId ;
       }

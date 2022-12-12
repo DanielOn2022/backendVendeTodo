@@ -161,7 +161,7 @@ model section {
 model shelf {
   id                  Int      @id @default(autoincrement())
   warehouseManager_id Int
-  shelfM_id           Int
+  shelfM_id           Int?
   sortedDate          DateTime @db.Timestamp(0)
 
   @@index([shelfM_id], map: "FK_shelf_shelfMan")

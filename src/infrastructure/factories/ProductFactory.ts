@@ -30,4 +30,47 @@ export class ProductFactory {
       volume: nexusProduct.volume as unknown as Decimal
     });
   }
+
+  static createFromRawQuery(rawProduct: {
+    id: number,
+    name: string,
+    description: string,
+    brand: string,
+    price: number,
+    volume: number,
+    imageUrl: string,
+    stock: number,
+    shelf_id: number,
+    sectionNumber: number,
+    capacity: number,
+    product_id: number
+  }): Product {
+    return new Product({
+      imageUrl: rawProduct.imageUrl,
+      name: rawProduct.name,
+      price: rawProduct.price as unknown as Decimal,
+      brand: rawProduct.brand,
+      description: rawProduct.description,
+      id: rawProduct.id,
+      stock: rawProduct.stock,
+      volume: rawProduct.volume as unknown as Decimal,
+    })
+  }
+
+  static createManyFromRawQuery(rawProducts: {
+    id: number,
+    name: string,
+    description: string,
+    brand: string,
+    price: number,
+    volume: number,
+    imageUrl: string,
+    stock: number,
+    shelf_id: number,
+    sectionNumber: number,
+    capacity: number,
+    product_id: number
+  }[]): Product[] {
+    return rawProducts.map(rawProduct => this.createFromRawQuery(rawProduct));
+  }
 }

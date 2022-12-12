@@ -98,7 +98,6 @@ export const mutations = mutationType({
         
         try {
           const employee = await ctx.authModel.loginEmployee(email, password); 
-          console.log(employee);
           return employee;
         } catch (error: any) {
           logger.error(`An error ocurrred on loginEmployee mutation: ${error.message}`);
@@ -302,6 +301,27 @@ export const mutations = mutationType({
         
         try {
           return await ctx.authModel.registerEmployee({email, name, password, rfc, lastname}); 
+        } catch (error: any) {
+          logger.error(`An error ocurrred on registerEmployee mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('sortShelfs', {
+      type: 'SortedPayload',
+      args: {
+        shelfIds: intArg({required: true, list: true}),
+      }, 
+      list: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { shelfIds } = args;
+        try {
+          const payload = await ctx.shelfModel.sortShelfs(shelfIds); 
+          return payload;
         } catch (error: any) {
           logger.error(`An error ocurrred on registerEmployee mutation: ${error.message}`);
           return error;
