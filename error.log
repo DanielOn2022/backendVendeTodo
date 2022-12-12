@@ -59,3 +59,17 @@
 {"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
 {"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
 {"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on sortShelfs mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on sortShelfs mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on sortShelfs mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on sortShelfs mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on sortShelfs mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on sortShelfs mutation: Cannot read properties of undefined (reading 'snapshot')"}
+{"level":"error","message":"An error ocurrred on login mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on login mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on cancelStartPayment mutation: Cannot read properties of undefined (reading 'compromised')"}
+{"level":"error","message":"An error ocurrred on cancelStartPayment mutation: Cannot read properties of undefined (reading 'compromised')"}
+{"level":"error","message":"An error ocurrred on cancelStartPayment mutation: Cannot read properties of undefined (reading 'compromised')"}
+{"level":"error","message":"An error ocurrred on finishSortingProcess mutation: \nInvalid `this.client.section.update()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\SectionRepository.ts:15:55\n\n  12 }\n  13 \n  14 async updateSectionWithProduct(sectionId: number, shelfId: number, productid:  number): Promise<Section | null> {\n→ 15   const databaseSection = await this.client.section.update(\nAn operation failed because it depends on one or more records that were required but not found. Record to update not found."}
+{"level":"error","message":"An error ocurrred on finishSortingProcess mutation: \nInvalid `this.client.section.update()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\SectionRepository.ts:16:55\n\n  13 \n  14 async updateSectionWithProduct(sectionId: number, shelfId: number, productid:  number): Promise<Section | null> {\n  15   console.log(sectionId, shelfId, productid)\n→ 16   const databaseSection = await this.client.section.update(\nAn operation failed because it depends on one or more records that were required but not found. Record to update not found."}

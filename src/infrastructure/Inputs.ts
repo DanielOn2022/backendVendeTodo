@@ -1,4 +1,4 @@
-import { inputObjectType } from 'nexus';
+import { inputObjectType, list } from 'nexus';
 
 export const inputs = [
   inputObjectType({
@@ -63,6 +63,15 @@ export const inputs = [
     definition(t) {
       t.nonNull.string('company');
       t.nonNull.int('id');
+    }
+  }),
+
+  inputObjectType({
+    name: 'SortOrder',
+    definition(t) {
+      t.nonNull.int('sectionNumber');
+      t.nonNull.int('shelfId');
+      t.nonNull.int('productId');
     }
   }),
 

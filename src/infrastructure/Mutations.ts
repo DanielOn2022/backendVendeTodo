@@ -313,7 +313,6 @@ export const mutations = mutationType({
       args: {
         shelfIds: intArg({required: true, list: true}),
       }, 
-      list: true,
       authorize: (_root, _args, ctx) => {
         return isAuthenticated(ctx);
       },
@@ -323,7 +322,30 @@ export const mutations = mutationType({
           const payload = await ctx.shelfModel.sortShelfs(shelfIds); 
           return payload;
         } catch (error: any) {
-          logger.error(`An error ocurrred on registerEmployee mutation: ${error.message}`);
+          logger.error(`An error ocurrred on sortShelfs mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('finishSortingProcess', {
+      type: 'Boolean',
+      args: {
+        sortOrder: arg({type: 'SortOrder', required: true, list: true}),
+        newStoredProducts: intArg({required: false, list: true}),
+        newUnStoredProducts: intArg({required: false, list: true})
+      }, 
+      list: true,
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        let { sortOrder, newStoredProducts, newUnStoredProducts } = args;
+        try {
+          const response = await ctx.shelfModel.finishSortingProcess(sortOrder, newStoredProducts, newUnStoredProducts); 
+          return response;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on finishSortingProcess mutation: ${error.message}`);
           return error;
         }
       }

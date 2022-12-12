@@ -54,6 +54,11 @@ export interface NexusGenInputs {
     lastUpdate: string; // String!
     saleLines: Array<NexusGenInputs['SaleLineIn'] | null> | null; // [SaleLineIn]
   }
+  SortOrder: { // input type
+    productId: number; // Int!
+    sectionNumber: number; // Int!
+    shelfId: number; // Int!
+  }
   SupplierIn: { // input type
     company: string; // String!
     id: number; // Int!
@@ -123,12 +128,13 @@ export interface NexusGenFieldTypes {
     createProduct: NexusGenRootTypes['product'] | null; // product
     createShippingAddress: NexusGenRootTypes['ShippingAddress'] | null; // ShippingAddress
     deleteProduct: NexusGenRootTypes['product'] | null; // product
+    finishSortingProcess: Array<boolean | null> | null; // [Boolean]
     login: NexusGenRootTypes['User'] | null; // User
     loginEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     register: NexusGenRootTypes['User'] | null; // User
     registerEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     removeLineCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
-    sortShelfs: Array<NexusGenRootTypes['SortedPayload'] | null> | null; // [SortedPayload]
+    sortShelfs: NexusGenRootTypes['SortedPayload'] | null; // SortedPayload
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
   }
@@ -262,6 +268,7 @@ export interface NexusGenFieldTypeNames {
     createProduct: 'product'
     createShippingAddress: 'ShippingAddress'
     deleteProduct: 'product'
+    finishSortingProcess: 'Boolean'
     login: 'User'
     loginEmployee: 'Employee'
     register: 'User'
@@ -417,6 +424,11 @@ export interface NexusGenArgTypes {
     }
     deleteProduct: { // args
       id: number; // Int!
+    }
+    finishSortingProcess: { // args
+      newStoredProducts?: Array<number | null> | null; // [Int]
+      newUnStoredProducts?: Array<number | null> | null; // [Int]
+      sortOrder: NexusGenInputs['SortOrder'][]; // [SortOrder!]!
     }
     login: { // args
       email: string; // String!

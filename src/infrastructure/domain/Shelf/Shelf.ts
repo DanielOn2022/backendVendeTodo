@@ -45,7 +45,7 @@ export class Shelf implements iEntity {
   setNewOrder(products: Product[]): void {
     if (!this.sections) throw new Error('Shelf has no sections');
     let sectionNumber = 0;
-    while(sectionNumber < this.sections?.length) {
+    while(sectionNumber < products?.length) {
       const section = this.sections.find(sectionItem => sectionItem.snapshot.sectionNumber === sectionNumber+1);
       section?.setProduct(products[sectionNumber]);
       sectionNumber++;

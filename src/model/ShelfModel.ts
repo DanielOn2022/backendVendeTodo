@@ -1,8 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { Product } from "../infrastructure/domain/Product/Product";
+import { BatchRepository } from "../infrastructure/repositories/BatchRepository";
 import { EmployeeRepository } from "../infrastructure/repositories/EmployeeRepository";
 import { ProductRepository } from "../infrastructure/repositories/ProductRepository";
 import { SaleLineRepository } from "../infrastructure/repositories/SaleLineRepository";
+import { SectionRepository } from "../infrastructure/repositories/SectionRepository";
 import { ShelfRepository } from "../infrastructure/repositories/ShelfRepository";
 import { removeCommon } from "../utils/helpers";
 
@@ -31,7 +33,7 @@ export class ShelfModel {
     for (const shelfId of shelfIds) {
       const shelf = await shelfRepo.getShelfById(shelfId); 
       if (!shelf) continue;
-
+      
       let unStoredProduct = await productRepo.getProductsInStoreHouse();
       let productsFromShelf = shelf?.getProducts();
       if (!unStoredProduct) unStoredProduct = [];
@@ -56,6 +58,27 @@ export class ShelfModel {
       });
     }
     return shelfsPayload;
+  }
+
+  async finishSortingProcess(
+    sortOrder: {
+      sectionNumber: number, 
+      shelfId: number, 
+      productId: number 
+    }[], 
+    newStoredProducts?: (number | null)[] | null, 
+    newUnStoredProducts?: (number | null)[] | null
+  ) {
+    const sectionRepo = new SectionRepository(this.prisma);
+    const batchRepo = new BatchRepository(this.prisma);
+    for (const sectionIds of sortOrder) {
+      const section = await sectionRepo.updateSectionWithProduct(sectionIds.sectionNumber, sectionIds.shelfId, sectionIds.productId);
+      if (!section) throw new Error('somenthing went wrong updating the section');
+      const produtToShelf = newStoredProducts?.find(productId => sectionIds.productId === productId);
+      if (produtToShelf) await batchRepo.setOnShelfProduct(sectionIds.productId, section.snapshot.capacity / (section.snapshot.product.snapshot.volume as unknown as number));
+    }
+    if (newUnStoredProducts) await batchRepo.setOutOfShelfProducts(newUnStoredProducts as number[]);
+    return true;
   }
 
 }

@@ -135,4 +135,44 @@ export class BatchRepository {
     })
     return true;
   }
+
+  async setOnShelfProduct(productId: number, amountToStore: number): Promise<boolean> {
+    const databaseBatches = await this.client.batch.findMany({
+      where: {product_id: productId, actualStock: {gt: 0}},
+      orderBy: {arriveDate: 'asc'}
+    });
+    if (!databaseBatches.length) throw new Error('There are no batches for product');
+    const selectedBatches = [];
+    while(amountToStore > 0) {
+      if (!databaseBatches.length) break;
+      const batch = databaseBatches.pop();
+      const partialAmount = amountToStore > batch?.actualStock ? batch?.actualStock : amountToStore;
+      selectedBatches.push({batch, partialAmount});
+      amountToStore -= partialAmount;
+    }
+
+    const batchesUpdated = await Promise.all(
+      selectedBatches.map(async (selectedBatch) => {
+        return await this.client.batch.update({
+          where: {product_id_supplier_id_batch_id: {batch_id: selectedBatch.batch?.batch_id as number, product_id: selectedBatch.batch?.product_id as number, supplier_id: selectedBatch.batch?.supplier_id as number}},
+          data: {
+            onShelf: selectedBatch.partialAmount
+          }
+        });
+      })
+    );
+    if (batchesUpdated) return true;
+    return false;
+  }
+
+  async setOutOfShelfProducts(productIds: number[]) {
+    await Promise.all(
+      productIds.map( async (productId) => {
+        await this.client.batch.updateMany({
+          where: {product_id: productId},
+          data: {onShelf: {set: 0}}
+        });
+      })
+    )
+  }
 }

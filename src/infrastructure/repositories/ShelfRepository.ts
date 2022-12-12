@@ -1,4 +1,4 @@
-import { PrismaClient, shelf } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Shelf } from '../domain/Shelf/Shelf';
 import { ShelfFactory } from '../factories/ShelfFactory';
 
