@@ -336,7 +336,6 @@ export const mutations = mutationType({
         newStoredProducts: intArg({required: false, list: true}),
         newUnStoredProducts: intArg({required: false, list: true})
       }, 
-      list: true,
       authorize: (_root, _args, ctx) => {
         return isAuthenticated(ctx);
       },

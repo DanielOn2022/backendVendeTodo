@@ -25,7 +25,7 @@ type Mutation {
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
   createShippingAddress(city: String!, clientId: Int!, externalNumber: String!, internalNumber: String, street: String!): ShippingAddress
   deleteProduct(id: Int!): product
-  finishSortingProcess(newStoredProducts: [Int], newUnStoredProducts: [Int], sortOrder: [SortOrder!]!): [Boolean]
+  finishSortingProcess(newStoredProducts: [Int], newUnStoredProducts: [Int], sortOrder: [SortOrder!]!): Boolean
   login(email: String!, password: String!): User
   loginEmployee(email: String!, password: String!): Employee
   register(cellphone: String, email: String!, lastname: String, name: String!, password: String!): User

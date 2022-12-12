@@ -129,7 +129,7 @@ export interface NexusGenFieldTypes {
     createProduct: NexusGenRootTypes['product'] | null; // product
     createShippingAddress: NexusGenRootTypes['ShippingAddress'] | null; // ShippingAddress
     deleteProduct: NexusGenRootTypes['product'] | null; // product
-    finishSortingProcess: Array<boolean | null> | null; // [Boolean]
+    finishSortingProcess: boolean | null; // Boolean
     login: NexusGenRootTypes['User'] | null; // User
     loginEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     register: NexusGenRootTypes['User'] | null; // User
