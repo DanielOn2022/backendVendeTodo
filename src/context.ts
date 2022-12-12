@@ -9,7 +9,7 @@ import { PaymentMethodModel } from './model/PaymentMethodModel';
 import { ShippingAddressModel } from './model/ShippingAddressModel';
 import { PaymentModel } from './model/PaymentModel';
 import { ShelfModel } from './model/ShelfModel';
-import { PackingRouteModel } from './model/PackgingRouteModel';
+import { PackingRouteModel } from './model/PackingRouteModel';
 
 export interface Context {
   [x: string]: any;

@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
+import { Role } from "../infrastructure/domain/Employee/Employee";
 import { PackingRoute } from "../infrastructure/domain/PackingRoute/PackingRoute";
 import { BatchRepository } from "../infrastructure/repositories/BatchRepository";
-import { ClientRepository } from "../infrastructure/repositories/ClientRepository";
+import { EmployeeRepository } from "../infrastructure/repositories/EmployeeRepository";
 import { PackerRepository } from "../infrastructure/repositories/PackerRepository";
 import { SaleLineRepository } from "../infrastructure/repositories/SaleLineRepository";
 import { SaleRepository } from "../infrastructure/repositories/SaleRepository";
@@ -21,7 +22,11 @@ export class PackingRouteModel {
     return null;
   }
 
-  async beginSupply(packerId: number) {
+  async beginSupply(employeeId: number) {
+    const employeeRepo = new EmployeeRepository(this.prisma);
+    const roleInfo = await employeeRepo.getRoleInfo(Role.packer, employeeId);
+    if (!roleInfo) throw new Error('Employees role not found');
+    const packerId = roleInfo?.roleId;
     const packerRepo = new PackerRepository(this.prisma);
     const packer = await packerRepo.getPackerById(packerId);
     if (!packer) throw new Error('Packer not found');
@@ -34,14 +39,16 @@ export class PackingRouteModel {
     if (!lines) throw new Error('Sale has no saleLines');
 
     const sectionRepo = new SectionRepository(this.prisma);
-    const batchRepo = new BatchRepository(this.prisma);
     const steps = [];
+    const unStoredProducts = [];
     for (const line of lines) {
       const section = await sectionRepo.getSectionByProduct(line.snapshot.product);
       if (section) steps.push({section, saleLine: line});
+      else unStoredProducts.push();
     }
 
     const route = new PackingRoute({packer, saleid: oldestSale.sale_id, steps });
-
+    route.sortRoute();
+    return route;
   }
 }

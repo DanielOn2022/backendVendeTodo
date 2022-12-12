@@ -352,20 +352,13 @@ export const mutations = mutationType({
     });
 
     t.field('begginSupply', {
-      type: 'Boolean',
-      args: {
-        sortOrder: arg({type: 'SortOrder', required: true, list: true}),
-        newStoredProducts: intArg({required: false, list: true}),
-        newUnStoredProducts: intArg({required: false, list: true})
-      }, 
-      list: true,
+      type: 'PackingRoute',
       authorize: (_root, _args, ctx) => {
         return isAuthenticated(ctx);
       },
       async resolve(_root, args, ctx) {
-        let { sortOrder, newStoredProducts, newUnStoredProducts } = args;
         try {
-          const response = await ctx.shelfModel.finishSortingProcess(sortOrder, newStoredProducts, newUnStoredProducts); 
+          const response = await ctx.packingRouteModel.beginSupply(ctx.token.id);
           return response;
         } catch (error: any) {
           logger.error(`An error ocurrred on begginSupply mutation: ${error.message}`);

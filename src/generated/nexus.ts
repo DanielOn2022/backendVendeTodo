@@ -79,6 +79,7 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Employee: {};
   Mutation: {};
+  PackingRoute: {};
   Payment: {};
   PaymentMethod: {};
   PurchasePayload: {};
@@ -91,6 +92,7 @@ export interface NexusGenObjects {
   ShoppingCart: {};
   SortedPayload: {};
   StartPaymentPayload: {};
+  Step: {};
   Supplier: {};
   User: {};
   product: {};
@@ -123,7 +125,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addToCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
     authorizePayment: NexusGenRootTypes['PurchasePayload'] | null; // PurchasePayload
-    begginSupply: Array<boolean | null> | null; // [Boolean]
+    begginSupply: NexusGenRootTypes['PackingRoute'] | null; // PackingRoute
     cancelStartPayment: boolean | null; // Boolean
     createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
@@ -138,6 +140,12 @@ export interface NexusGenFieldTypes {
     sortShelfs: Array<NexusGenRootTypes['SortedPayload'] | null> | null; // [SortedPayload]
     startPayment: NexusGenRootTypes['StartPaymentPayload'] | null; // StartPaymentPayload
     updateProduct: NexusGenRootTypes['product'] | null; // product
+  }
+  PackingRoute: { // field return type
+    lastItem: number; // Int!
+    packed: boolean; // Boolean!
+    saleid: number; // Int!
+    steps: NexusGenRootTypes['Step'][]; // [Step!]!
   }
   Payment: { // field return type
     amount: number; // Float!
@@ -221,6 +229,10 @@ export interface NexusGenFieldTypes {
     shoppingCart: NexusGenRootTypes['ShoppingCart']; // ShoppingCart!
     total: number; // Float!
   }
+  Step: { // field return type
+    saleLine: NexusGenRootTypes['SaleLine']; // SaleLine!
+    section: NexusGenRootTypes['Section']; // Section!
+  }
   Supplier: { // field return type
     company: string; // String!
     id: number; // Int!
@@ -265,7 +277,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addToCart: 'ShoppingCart'
     authorizePayment: 'PurchasePayload'
-    begginSupply: 'Boolean'
+    begginSupply: 'PackingRoute'
     cancelStartPayment: 'Boolean'
     createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
@@ -280,6 +292,12 @@ export interface NexusGenFieldTypeNames {
     sortShelfs: 'SortedPayload'
     startPayment: 'StartPaymentPayload'
     updateProduct: 'product'
+  }
+  PackingRoute: { // field return type name
+    lastItem: 'Int'
+    packed: 'Boolean'
+    saleid: 'Int'
+    steps: 'Step'
   }
   Payment: { // field return type name
     amount: 'Float'
@@ -363,6 +381,10 @@ export interface NexusGenFieldTypeNames {
     shoppingCart: 'ShoppingCart'
     total: 'Float'
   }
+  Step: { // field return type name
+    saleLine: 'SaleLine'
+    section: 'Section'
+  }
   Supplier: { // field return type name
     company: 'String'
     id: 'Int'
@@ -402,11 +424,6 @@ export interface NexusGenArgTypes {
       paymentMethod: NexusGenInputs['PaymentMethodIn']; // PaymentMethodIn!
       shippingAddress: NexusGenInputs['ShippingAddressIn']; // ShippingAddressIn!
       shoppingCart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
-    }
-    begginSupply: { // args
-      newStoredProducts?: Array<number | null> | null; // [Int]
-      newUnStoredProducts?: Array<number | null> | null; // [Int]
-      sortOrder: NexusGenInputs['SortOrder'][]; // [SortOrder!]!
     }
     cancelStartPayment: { // args
       availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!

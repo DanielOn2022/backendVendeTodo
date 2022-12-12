@@ -19,7 +19,7 @@ type Employee {
 type Mutation {
   addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
   authorizePayment(paymentMethod: PaymentMethodIn!, shippingAddress: ShippingAddressIn!, shoppingCart: ShopppingCart!): PurchasePayload
-  begginSupply(newStoredProducts: [Int], newUnStoredProducts: [Int], sortOrder: [SortOrder!]!): [Boolean]
+  begginSupply: PackingRoute
   cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   createPaymentMethod(cardNumber: String!, clientId: Int!): PaymentMethod
   createProduct(brand: String!, description: String!, imageUrl: String!, name: String!, price: Int!, stock: Int!, volume: Int!): product
@@ -34,6 +34,13 @@ type Mutation {
   sortShelfs(shelfIds: [Int!]!): [SortedPayload]
   startPayment(cart: ShopppingCart!): StartPaymentPayload
   updateProduct(id: Int!, newBrand: String!, newName: String!, newPrice: Int!): product
+}
+
+type PackingRoute {
+  lastItem: Int!
+  packed: Boolean!
+  saleid: Int!
+  steps: [Step!]!
 }
 
 type Payment {
@@ -178,6 +185,11 @@ type StartPaymentPayload {
   nonAvailableLines: [SaleLine!]!
   shoppingCart: ShoppingCart!
   total: Float!
+}
+
+type Step {
+  saleLine: SaleLine!
+  section: Section!
 }
 
 type Supplier {
