@@ -2,11 +2,8 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { Product } from '../domain/Product/Product';
 import { Sale } from '../domain/Sale/Sale';
 import { SaleLine } from '../domain/SaleLine/SaleLine';
-import { ShoppingCart } from '../domain/ShopppingCart/ShoppingCart';
 import { Supplier } from '../domain/Supplier/Supplier';
 import { SaleLineFactory } from '../factories/CartLineFactory';
-import { ProductFactory } from '../factories/ProductFactory';
-import { SupplierFactory } from '../factories/SupplierFactory';
 
 export class SaleLineRepository {
   private client: PrismaClient;
@@ -84,6 +81,32 @@ export class SaleLineRepository {
       saleLines.push(saleLine);
     }
     return saleLines;
+  }
+
+  async updateInventory(saleId: number, saleLineId:number): Promise<boolean> {
+    const databaseLine = await this.client.saleline.findUnique({
+      where: {sale_id_saleLine_id: {sale_id: saleId, saleLine_id: saleLineId}}
+    });
+    if (!databaseLine) throw new Error(`Sale line with id ${saleLineId} does not exist`);
+    const databaseBatch = await this.client.batch.update({
+      where: {product_id_supplier_id_batch_id: {batch_id: databaseLine?.batch_id, product_id: databaseLine?.product_id, supplier_id: databaseLine?.supplier_id}},
+      data: {compromised: {decrement: databaseLine.amount}, actualStock: {decrement: databaseLine.amount}}
+    });
+    if (!databaseBatch) throw new Error(`batch with id ${databaseLine.batch_id} does not exist`);
+    if (databaseBatch.onShelf > 0) this.client.batch.update({
+      where: {product_id_supplier_id_batch_id: {batch_id: databaseLine?.batch_id, product_id: databaseLine?.product_id, supplier_id: databaseLine?.supplier_id}},
+      data: {compromised: {decrement: databaseLine.amount}, actualStock: {decrement: databaseLine.amount}}
+    });
+    const databaseProduct = await this.client.product.update({
+      where: {id: databaseLine.product_id}, data: {stock: {decrement: databaseLine.amount}}
+    });
+    if (!databaseProduct) throw new Error(`product with id ${databaseLine.product_id} does not exist`);
+    const databaseSupplier = await this.client.productxsupplier.update({
+      where: {product_id_supplier_id: {product_id: databaseLine.product_id, supplier_id: databaseLine.supplier_id}},
+      data: {compromised: {decrement: databaseLine.amount}, stock: {decrement: databaseLine.amount}}
+    });
+    if (!databaseSupplier) throw new Error(`ProductxSupplier with id ${databaseLine.product_id}, ${databaseLine.supplier_id} does not exist`);
+    return true;
   }
 
 }

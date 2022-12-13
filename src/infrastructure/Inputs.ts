@@ -1,4 +1,4 @@
-import { inputObjectType, list } from 'nexus';
+import { inputObjectType } from 'nexus';
 
 export const inputs = [
   inputObjectType({
@@ -84,6 +84,14 @@ export const inputs = [
       t.nonNull.string('externalNumber');
       t.nullable.string('internalNumber');
       t.nonNull.int('clientId');
+    }
+  }),
+
+  inputObjectType({
+    name: 'SaleLinePayload',
+    definition(t) {
+      t.nonNull.int('saleId');
+      t.nonNull.int('saleLineId');
     }
   }),
 ]

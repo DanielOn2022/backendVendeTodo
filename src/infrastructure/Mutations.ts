@@ -366,5 +366,45 @@ export const mutations = mutationType({
         }
       }
     });
+
+    t.field('checkProduct', {
+      type: 'Boolean',
+      args: {
+        saleId: intArg({required: true})
+      },
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { saleId } = args;
+        try {
+          const response = await ctx.packingRouteModel.checkProduct(saleId,ctx.token.id);
+          return response;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on checkProduct mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
+
+    t.field('finishSupply', {
+      type: 'Boolean',
+      args: {
+        saleLinesPayload: arg({type: 'SaleLinePayload', required: true, list: true})
+      },
+      authorize: (_root, _args, ctx) => {
+        return isAuthenticated(ctx);
+      },
+      async resolve(_root, args, ctx) {
+        const { saleLinesPayload } = args;
+        try {
+          const response = await ctx.packingRouteModel.FinishSupply(saleLinesPayload, ctx.token.id);
+          return response;
+        } catch (error: any) {
+          logger.error(`An error ocurrred on begginSupply mutation: ${error.message}`);
+          return error;
+        }
+      }
+    });
   }
 });

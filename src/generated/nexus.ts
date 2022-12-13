@@ -41,6 +41,10 @@ export interface NexusGenInputs {
     supplier?: NexusGenInputs['SupplierIn'] | null; // SupplierIn
     supplierId: number; // Int!
   }
+  SaleLinePayload: { // input type
+    saleId: number; // Int!
+    saleLineId: number; // Int!
+  }
   ShippingAddressIn: { // input type
     city: string; // String!
     clientId: number; // Int!
@@ -127,11 +131,13 @@ export interface NexusGenFieldTypes {
     authorizePayment: NexusGenRootTypes['PurchasePayload'] | null; // PurchasePayload
     begginSupply: NexusGenRootTypes['PackingRoute'] | null; // PackingRoute
     cancelStartPayment: boolean | null; // Boolean
+    checkProduct: boolean | null; // Boolean
     createPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     createProduct: NexusGenRootTypes['product'] | null; // product
     createShippingAddress: NexusGenRootTypes['ShippingAddress'] | null; // ShippingAddress
     deleteProduct: NexusGenRootTypes['product'] | null; // product
     finishSortingProcess: boolean | null; // Boolean
+    finishSupply: boolean | null; // Boolean
     login: NexusGenRootTypes['User'] | null; // User
     loginEmployee: NexusGenRootTypes['Employee'] | null; // Employee
     register: NexusGenRootTypes['User'] | null; // User
@@ -279,11 +285,13 @@ export interface NexusGenFieldTypeNames {
     authorizePayment: 'PurchasePayload'
     begginSupply: 'PackingRoute'
     cancelStartPayment: 'Boolean'
+    checkProduct: 'Boolean'
     createPaymentMethod: 'PaymentMethod'
     createProduct: 'product'
     createShippingAddress: 'ShippingAddress'
     deleteProduct: 'product'
     finishSortingProcess: 'Boolean'
+    finishSupply: 'Boolean'
     login: 'User'
     loginEmployee: 'Employee'
     register: 'User'
@@ -428,6 +436,9 @@ export interface NexusGenArgTypes {
     cancelStartPayment: { // args
       availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!
     }
+    checkProduct: { // args
+      saleId: number; // Int!
+    }
     createPaymentMethod: { // args
       cardNumber: string; // String!
       clientId: number; // Int!
@@ -455,6 +466,9 @@ export interface NexusGenArgTypes {
       newStoredProducts?: Array<number | null> | null; // [Int]
       newUnStoredProducts?: Array<number | null> | null; // [Int]
       sortOrder: NexusGenInputs['SortOrder'][]; // [SortOrder!]!
+    }
+    finishSupply: { // args
+      saleLinesPayload: NexusGenInputs['SaleLinePayload'][]; // [SaleLinePayload!]!
     }
     login: { // args
       email: string; // String!
