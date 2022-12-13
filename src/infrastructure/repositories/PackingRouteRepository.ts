@@ -33,7 +33,7 @@ export class PackingRouteRepository {
 
   async getPackerSales(packerid: number): Promise<sale[] | null> {
     const salesIds = await this.client.packingroute.findMany({
-      where: {packer_id: packerid}
+      where: {packer_id: packerid, packed: false}
     });
     if (!salesIds) throw new Error('The packer has no sales asigned');
     const databaseSales = [];
