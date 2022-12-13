@@ -87,4 +87,10 @@ export class PackingRoute {
     this.sort({shelf: this.route[this.route?.length-1].section.snapshot.shelfId, section: this.route[this.route?.length-1].section.snapshot.sectionNumber});
   }
 
+  getCurrentProduct() {
+    if (this.route)
+      return this.route[this.lastItem];
+    return null;
+  }
+
 }

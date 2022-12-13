@@ -103,3 +103,4 @@
 {"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
 {"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
 {"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getPackerSale query: Employee is not a packer"}
