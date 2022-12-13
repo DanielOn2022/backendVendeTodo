@@ -26,4 +26,12 @@ export class ShippingAddressRepository {
     if (!databaseShippingAddresses) return null;
     return ShippingAddressFactory.createManyFromPrisma(databaseShippingAddresses);
   }
+
+  async getShippingAddresById(shippingAddressId: number): Promise<ShippingAddress | null> {
+    const databaseShippingAddresses = await this.client.shippingaddress.findUnique({
+      where: {id: shippingAddressId}
+    });
+    if (!databaseShippingAddresses) return null;
+    return ShippingAddressFactory.createFromPrisma(databaseShippingAddresses);
+  }
 }

@@ -21,4 +21,11 @@ export class ShippingAddressModel {
     if (!shippingAddresses) return [];
     return shippingAddresses;
   }
+
+  async getShippingAddressById(shippingAddressId: number) {
+    const shippingAddressRepo = new ShippingAddressRepository(this.prisma);
+    const shippingAddresses = await shippingAddressRepo.getShippingAddresById(shippingAddressId);
+    if (!shippingAddresses) throw new Error('Shipping Address not found');
+    return shippingAddresses;
+  }
 }

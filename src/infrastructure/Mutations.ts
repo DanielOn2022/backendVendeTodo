@@ -265,20 +265,19 @@ export const mutations = mutationType({
     t.field('authorizePayment', {
       type: 'PurchasePayload',
       args: {
-        paymentMethod: arg({type: 'PaymentMethodIn', required: true}),
-        shoppingCart: arg({type: 'ShopppingCart', required: true}),
-        shippingAddress: arg({type: 'ShippingAddressIn', required: true}),
+        paymentMethod: intArg({required: true}),
+        shippingAddress: intArg({required: true}),
       }, 
       authorize: (_root, _args, ctx) => {
         return isAuthenticated(ctx);
       },
       async resolve(_root, args, ctx) {
-        const { paymentMethod, shippingAddress, shoppingCart } = args;
-        const shoppingCartObj = ShopppingCartFactory.createFromNexus(shoppingCart);
-        const paymentMethodObj = PaymentMethodFactory.createFromNexus(paymentMethod);
-        const shippingAddressObj = ShippingAddressFactory.createFromNexus(shippingAddress);
+        const { paymentMethod, shippingAddress } = args;
+        const shippingAddresDB = await ctx.shippingAddressModel.getShippingAddressById(shippingAddress);
+        const paymentMethodDB = await ctx.paymentMethodModel.getPaymentMethodById(paymentMethod)
+        const shoppingCartDB = await ctx.cartModel.getCartByClientId(ctx.token.id);
         try {
-          const payload = await ctx.paymentModel.authorizePayment(paymentMethodObj, shoppingCartObj, shippingAddressObj);
+          const payload = await ctx.paymentModel.authorizePayment(paymentMethodDB, shoppingCartDB, shippingAddresDB);
           return payload;
         } catch (error: any) {
           logger.error(`An error ocurrred on authorizePayment mutation: ${error.message}`);

@@ -27,4 +27,11 @@ export class PaymentMethodModel {
     if (!paymentMethods) return [];
     return paymentMethods;
   }
+
+  async getPaymentMethodById(paymentMethodId: number) {
+    const paymentMethodRepo = new PaymentMethodRepository(this.prisma);
+    const paymentMethods = await paymentMethodRepo.getPaymentMethodById(paymentMethodId);
+    if (!paymentMethods) throw new Error('PaymentMethod not found');
+    return paymentMethods;
+  }
 }

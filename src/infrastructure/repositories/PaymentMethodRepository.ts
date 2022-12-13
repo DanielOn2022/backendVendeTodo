@@ -31,4 +31,12 @@ export class PaymentMethodRepository {
     if (!databasePaymentMethods.length) return null;
     return databasePaymentMethods.map(databasePaymentMethod => new PaymentMethod({clientId: databasePaymentMethod.client_id, cardNumber: databasePaymentMethod.serviceCard_id}));
   }
+
+  async getPaymentMethodById(paymentMethodId: number): Promise<PaymentMethod | null> {
+    const databasePaymentMethods = await this.client.paymentmethod.findUnique({
+      where: {serviceCard_id: paymentMethodId}
+    });
+    if (!databasePaymentMethods) return null;
+    return  new PaymentMethod({clientId: databasePaymentMethods.client_id, cardNumber: databasePaymentMethods.serviceCard_id});
+  }
 }

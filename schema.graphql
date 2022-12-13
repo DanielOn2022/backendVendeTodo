@@ -25,7 +25,7 @@ type Employee {
 
 type Mutation {
   addToCart(cart: ShopppingCart!, product: Product!, quantity: Int!, supplierId: Int!): ShoppingCart
-  authorizePayment(paymentMethod: PaymentMethodIn!, shippingAddress: ShippingAddressIn!, shoppingCart: ShopppingCart!): PurchasePayload
+  authorizePayment(paymentMethod: Int!, shippingAddress: Int!): PurchasePayload
   begginSupply: PackingRoute
   cancelStartPayment(availableLines: [SaleLineIn!]!): Boolean
   checkProduct(saleId: Int!): Boolean

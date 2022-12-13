@@ -442,9 +442,8 @@ export interface NexusGenArgTypes {
       supplierId: number; // Int!
     }
     authorizePayment: { // args
-      paymentMethod: NexusGenInputs['PaymentMethodIn']; // PaymentMethodIn!
-      shippingAddress: NexusGenInputs['ShippingAddressIn']; // ShippingAddressIn!
-      shoppingCart: NexusGenInputs['ShopppingCart']; // ShopppingCart!
+      paymentMethod: number; // Int!
+      shippingAddress: number; // Int!
     }
     cancelStartPayment: { // args
       availableLines: NexusGenInputs['SaleLineIn'][]; // [SaleLineIn!]!
