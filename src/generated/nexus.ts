@@ -81,6 +81,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  BasicSale: {};
   Employee: {};
   Mutation: {};
   PackingRoute: {};
@@ -113,6 +114,12 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  BasicSale: { // field return type
+    completed: boolean; // Boolean!
+    date: string; // String!
+    id: number; // Int!
+    total: number; // Float!
+  }
   Employee: { // field return type
     cellphone: string | null; // String
     city: string | null; // String
@@ -172,7 +179,7 @@ export interface NexusGenFieldTypes {
     beginSortingProcess: Array<NexusGenRootTypes['Shelf'] | null> | null; // [Shelf]
     getAllProducts: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getCart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
-    getPackerSale: Array<NexusGenRootTypes['Shelf'] | null> | null; // [Shelf]
+    getPackerSale: Array<NexusGenRootTypes['BasicSale'] | null> | null; // [BasicSale]
     getPaymentMethods: Array<NexusGenRootTypes['PaymentMethod'] | null> | null; // [PaymentMethod]
     getProductsByName: Array<NexusGenRootTypes['product'] | null> | null; // [product]
     getShippingAddresses: Array<NexusGenRootTypes['ShippingAddress'] | null> | null; // [ShippingAddress]
@@ -267,6 +274,12 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  BasicSale: { // field return type name
+    completed: 'Boolean'
+    date: 'String'
+    id: 'Int'
+    total: 'Float'
+  }
   Employee: { // field return type name
     cellphone: 'String'
     city: 'String'
@@ -326,7 +339,7 @@ export interface NexusGenFieldTypeNames {
     beginSortingProcess: 'Shelf'
     getAllProducts: 'product'
     getCart: 'ShoppingCart'
-    getPackerSale: 'Shelf'
+    getPackerSale: 'BasicSale'
     getPaymentMethods: 'PaymentMethod'
     getProductsByName: 'product'
     getShippingAddresses: 'ShippingAddress'
@@ -511,9 +524,6 @@ export interface NexusGenArgTypes {
   }
   Query: {
     beginSortingProcess: { // args
-      role: string; // String!
-    }
-    getPackerSale: { // args
       role: string; // String!
     }
     getProductsByName: { // args

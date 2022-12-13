@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, sale } from '@prisma/client';
+import { Sale } from '../domain/Sale/Sale';
+import { SaleFactory } from '../factories/SaleFactory';
 
 export class PackingRouteRepository {
   private client: PrismaClient;
@@ -27,5 +29,20 @@ export class PackingRouteRepository {
     });
     if (!databaseRoute) return false;
     return true;
+  }
+
+  async getPackerSales(packerid: number): Promise<sale[] | null> {
+    const salesIds = await this.client.packingroute.findMany({
+      where: {packer_id: packerid}
+    });
+    if (!salesIds) throw new Error('The packer has no sales asigned');
+    const databaseSales = [];
+    for (const saleId of salesIds) {
+      const databaseSale = await this.client.sale.findUnique({
+        where: {id: saleId.sale_id}
+      });
+      if (databaseSale) databaseSales.push(databaseSale)
+    }
+    return databaseSales;
   }
 }

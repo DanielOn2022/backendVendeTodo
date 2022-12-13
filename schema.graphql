@@ -2,6 +2,13 @@
 ### Do not make changes to this file directly
 
 
+type BasicSale {
+  completed: Boolean!
+  date: String!
+  id: Int!
+  total: Float!
+}
+
 type Employee {
   cellphone: String
   city: String
@@ -84,7 +91,7 @@ type Query {
   beginSortingProcess(role: String!): [Shelf]
   getAllProducts: [product]
   getCart: ShoppingCart
-  getPackerSale(role: String!): [Shelf]
+  getPackerSale: [BasicSale]
   getPaymentMethods: [PaymentMethod]
   getProductsByName(name: String!): [product]
   getShippingAddresses: [ShippingAddress]

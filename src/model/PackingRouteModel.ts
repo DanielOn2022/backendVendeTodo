@@ -75,4 +75,14 @@ export class PackingRouteModel {
     }
     return true;
   }
+
+  async getPackersales(employeeId: number) {
+    const employeeRepo = new EmployeeRepository(this.prisma);
+    const roleInfo = await employeeRepo.getRoleInfo(Role.packer, employeeId);
+    if (!roleInfo) throw new Error('Employee is not a packer');
+    
+    const packingRouteRepo = new PackingRouteRepository(this.prisma);
+    const sales = await packingRouteRepo.getPackerSales(roleInfo.roleId);
+    return sales;
+  }
 }

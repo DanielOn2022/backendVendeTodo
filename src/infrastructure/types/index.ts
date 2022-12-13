@@ -15,3 +15,4 @@ export * from './Employee';
 export * from './SortedPayload';
 export * from './PackingRoute';
 export * from './Step';
+export * from './databaseSale';

@@ -79,3 +79,27 @@
 {"level":"error","message":"An error ocurrred on addToCart mutation: Not enough stock for this product"}
 {"level":"error","message":"An error ocurrred on begginSupply mutation: \nInvalid `this.client.packingroute.update()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\PackingRouteRepository.ts:14:58\n\n  11 }\n  12 \n  13 async setLastIItem(saleId: number, packerId: number): Promise<boolean> {\n→ 14   const databaseRoute = await this.client.packingroute.update(\nAn operation failed because it depends on one or more records that were required but not found. Record to update not found."}
 {"level":"error","message":"An error ocurrred on begginSupply mutation: \nInvalid `this.client.packingroute.update()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\PackingRouteRepository.ts:14:58\n\n  11 }\n  12 \n  13 async setLastIItem(saleId: number, packerId: number): Promise<boolean> {\n→ 14   const databaseRoute = await this.client.packingroute.update(\nAn operation failed because it depends on one or more records that were required but not found. Record to update not found."}
+{"level":"error","message":"An error ocurrred on login mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on login mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
+{"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
