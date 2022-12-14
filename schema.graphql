@@ -48,8 +48,10 @@ type Mutation {
 type PackingRoute {
   lastItem: Int!
   packed: Boolean!
+  packer: Int
   saleid: Int!
   steps: [Step!]!
+  unStoredProducts: [Step]
 }
 
 type Payment {

@@ -8,15 +8,19 @@ export class PrismaRepository {
   }
 
   async initTransacion() {
-    this.client.$queryRaw`LOCK TABLE Batch WRITE;`;
+    this.client.$queryRaw`start transaction;`;
+  }
+
+  async lockTable(table: string) {
+    this.client.$queryRaw`select * from ${table} for update;`;
   }
 
   async commitTransacion() {
-    this.client.$queryRaw`UNLOCK TABLES;`;
+    this.client.$queryRaw`commit;`;
   }
 
-  async connect() {
-    this.client.$connect();
+  async rollback() {
+    this.client.$queryRaw`rollback`;
   }
 
 }

@@ -5,6 +5,7 @@ import { ShoppingCartEmptyError } from "../infrastructure/domain/ShopppingCart/S
 import { BatchRepository } from "../infrastructure/repositories/BatchRepository";
 import { PrismaRepository } from "../infrastructure/repositories/PrismaRepository";
 import { SaleRepository } from "../infrastructure/repositories/SaleRepository";
+import { ShopppingCartRepository } from "../infrastructure/repositories/ShoppingCartRepository";
 
 export class SaleModel {
   private prisma: PrismaClient;
@@ -21,10 +22,27 @@ export class SaleModel {
     });
     const batchRepo = new BatchRepository(this.prisma);
     const prismaRepo = new PrismaRepository(this.prisma);
-    await prismaRepo.initTransacion();
-    const availableLines = await this.verifyAvailable(lines);
-    await batchRepo.compromiseProductsByLines(availableLines);
-    await prismaRepo.commitTransacion();
+    const shoppingCartRepo = new ShopppingCartRepository(this.prisma);
+
+    let availableLines = [];
+    try {
+      await prismaRepo.initTransacion();
+      const locked = await shoppingCartRepo.lockCart(cart.snapshot.id as number);
+      if (!locked) return {
+        shoppingCart: cart,
+        total: 0,
+        availableLines: [],
+        nonAvailableLines: cart.getLines()
+      }
+      await prismaRepo.lockTable('Batch');
+      availableLines = await this.verifyAvailable(lines);
+      await batchRepo.compromiseProductsByLines(availableLines);
+      await prismaRepo.commitTransacion(); 
+    } catch (error) {
+      prismaRepo.rollback();
+      throw new Error('Something went wrong');
+    }
+
     const total = cart.getTotal(availableLines);
     const nonAvailableLines = [];
     while (lines.length > 0) {

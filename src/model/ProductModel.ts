@@ -46,6 +46,7 @@ export class ProductModel {
     if (!product.snapshot.id) throw new Error('Product id is needed for selectProduct');
     const productRepository = new ProductRepository(this.prisma);
     const supplierRepo = new SupplierRepository(this.prisma);
+    
     const completeProduct = await productRepository.getProductById(product.snapshot.id);
     if (!completeProduct) throw new ProductDoesntExistsError("Product not found", {
       component: "selectProduct",

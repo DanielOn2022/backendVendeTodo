@@ -104,3 +104,6 @@
 {"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
 {"level":"error","message":"An error ocurrred on getCart query: Cart not found for user"}
 {"level":"error","message":"An error ocurrred on getPackerSale query: Employee is not a packer"}
+{"level":"error","message":"An error ocurrred on registerEmployee mutation: \nInvalid `this.client.employee.create()` invocation in\nC:\\Users\\Daniel\\Documents\\tareas tec\\noveno\\ingWeb\\proyecto\\testProyect2\\src\\infrastructure\\repositories\\EmployeeRepository.ts:20:57\n\n  17 }\n  18 \n  19 async createEmployee(employee: Employee): Promise<Employee | null> {\n→ 20   const databaseEmployee = await this.client.employee.create(\nUnique constraint failed on the constraint: `rfc`"}
+{"level":"error","message":"An error ocurrred on login mutation: Wrong credentials"}
+{"level":"error","message":"An error ocurrred on authorizePayment mutation: Payment rejected"}

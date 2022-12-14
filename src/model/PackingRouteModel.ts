@@ -31,7 +31,7 @@ export class PackingRouteModel {
     const packer = await packerRepo.getPackerById(packerId);
     if (!packer) throw new Error('Packer not found');
     
-    const oldestSale = await this.getOldestSale(packerId);
+    const oldestSale = await this.getOldestSale(packer.packerSnapshot.packer_id as number);
     if (!oldestSale) throw new Error('Employee has no sales linked');
     
     const saleLineRepo = new SaleLineRepository(this.prisma);

@@ -11,7 +11,6 @@ export class EmployeeRepository {
 
   async getEmployeeByEmail(email: string): Promise<Employee | null> {
     const databaseEmployee = await this.client.employee.findUnique({where: {email}});
-    console.log(databaseEmployee);
     if (!databaseEmployee) return null;
     return EmployeeFactory.createFromPrisma(databaseEmployee);
   }

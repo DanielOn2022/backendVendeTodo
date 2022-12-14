@@ -9,6 +9,7 @@ import { ShoppingCart } from "../infrastructure/domain/ShopppingCart/ShoppingCar
 import { PaymentFactory } from "../infrastructure/factories/PaymentFactory";
 import { PackerRepository } from "../infrastructure/repositories/PackerRepository";
 import { PaymentRepository } from "../infrastructure/repositories/PaymentRepository";
+import { PrismaRepository } from "../infrastructure/repositories/PrismaRepository";
 import { SaleLineRepository } from "../infrastructure/repositories/SaleLineRepository";
 import { SaleRepository } from "../infrastructure/repositories/SaleRepository";
 import { ShopppingCartRepository } from "../infrastructure/repositories/ShoppingCartRepository";
@@ -38,19 +39,32 @@ export class PaymentModel {
     const packerRepo = new PackerRepository(this.prisma);
     const saleLineRepo = new SaleLineRepository(this.prisma);
     const shoppingCartRepo = new ShopppingCartRepository(this.prisma);
-    payment = await paymentRepo.createPayment(payment);
-    if (!payment) throw new Error('Something went wron creating the payment');
-    const sale = await saleRepo.createSale(payment, shoppingCart, shippingAddress);
-    if (!sale) throw new Error('Somenthing went wrong');
+    const prismaRepo = new PrismaRepository(this.prisma);
+    const cartRepository = new ShopppingCartRepository(this.prisma);
 
-    sale.setLines(shoppingCart);
-    await saleLineRepo.createSaleLinesForSale(sale);
-    await shoppingCartRepo.removeAllSaleLines(shoppingCart);
-    shoppingCart.clearCart();
-    
-    const packer = await packerRepo.getPackerWithFewerSales();
-    const addedSuccessfully = await packerRepo.addSaleToPacker(sale, packer);
-    if (!addedSuccessfully) throw new Error('Somenthing went wrong adding the sale to packer');
+    let sale = null;
+    try {
+      await prismaRepo.initTransacion();
+      payment = await paymentRepo.createPayment(payment);
+      if (!payment) throw new Error('Something went wron creating the payment');
+      sale = await saleRepo.createSale(payment, shoppingCart, shippingAddress);
+      if (!sale) throw new Error('Somenthing went wrong');
+
+      sale.setLines(shoppingCart);
+      await saleLineRepo.createSaleLinesForSale(sale);
+      await shoppingCartRepo.removeAllSaleLines(shoppingCart);
+      shoppingCart.clearCart();
+      
+      const packer = await packerRepo.getPackerWithFewerSales();
+      const addedSuccessfully = await packerRepo.addSaleToPacker(sale, packer);
+      if (!addedSuccessfully) throw new Error('Somenthing went wrong adding the sale to packer'); 
+      await prismaRepo.commitTransacion();
+    } catch (error) {
+      await prismaRepo.rollback();
+      throw new Error('Something went wrong with the payment');
+    } 
+
+    await cartRepository.unLockCart(shoppingCart.snapshot.id as number);
 
     return {
       payment,

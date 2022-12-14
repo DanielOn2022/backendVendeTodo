@@ -192,6 +192,7 @@ model shoppingcart {
   lastUpdate DateTime @db.Timestamp(0)
   createdAt  DateTime @db.Timestamp(0)
   client_id  Int?     @unique(map: "client_id")
+  locked     Boolean?
 }
 
 model supplier {

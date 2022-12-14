@@ -43,11 +43,12 @@ export class ShopppingCartRepository {
       where: {
         product_id: saleLine.snapshot.product.snapshot.id as number,
         supplier_id: saleLine.snapshot.supplierId,
-        actualStock: {gte: 0}
+        actualStock: {gt: 0}
       },
       orderBy: {arriveDate: 'asc',},
       select: {actualStock: true, compromised: true, arriveDate: true, batch_id: true}
     });
+
     let desiredQuantity = saleLine.snapshot.amount;
     const selectedBatches = [];
     let index = 0;
@@ -60,6 +61,7 @@ export class ShopppingCartRepository {
       selectedBatches.push({...databaseBatches[index], stockTaken});
       index++;
     }
+
     let cartLineId = 0;
     const [lastCartLine] = await this.client.cartline.findMany({where: {shoppingCart_id: cart.snapshot.id as number}, orderBy: {cartLine_id: 'desc'}, take: 1});
     cartLineId = lastCartLine ? lastCartLine.cartLine_id: cartLineId;
@@ -100,6 +102,7 @@ export class ShopppingCartRepository {
         createdAt: new Date(),
         lastUpdate: new Date(),
         client_id: client.snapshot.id,
+        locked: false
       }
     });
     if (!databaseCart) return null;
@@ -123,6 +126,22 @@ export class ShopppingCartRepository {
       }
     });
     if (!databaseCart) return false;
+    return true;
+  }
+
+  async lockCart(cartId: number): Promise<boolean> {
+    const databaseCart = await this.client.$queryRaw`select locked from ShoppingCart where id = ${cartId} for update;`;
+    if (!databaseCart) throw new Error('Cart not found');
+    if (databaseCart[0].locked) return false;
+    await this.client.shoppingcart.update({where: {id: cartId}, data: {locked: true}});
+    return true;
+  }
+
+  async unLockCart(cartId: number): Promise<boolean> {
+    const databaseCart = await this.client.$queryRaw`select locked from ShoppingCart where id = ${cartId}`;
+    if (!databaseCart) throw new Error('Cart not found');
+    if (!databaseCart[0].locked) return false;
+    await this.client.shoppingcart.update({where: {id: cartId}, data: {locked: false}});
     return true;
   }
 }

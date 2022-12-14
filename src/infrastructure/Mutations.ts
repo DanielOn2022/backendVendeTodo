@@ -274,7 +274,7 @@ export const mutations = mutationType({
       async resolve(_root, args, ctx) {
         const { paymentMethod, shippingAddress } = args;
         const shippingAddresDB = await ctx.shippingAddressModel.getShippingAddressById(shippingAddress);
-        const paymentMethodDB = await ctx.paymentMethodModel.getPaymentMethodById(paymentMethod)
+        const paymentMethodDB = await ctx.paymentMethodModel.getPaymentMethodById(paymentMethod);
         const shoppingCartDB = await ctx.cartModel.getCartByClientId(ctx.token.id);
         try {
           const payload = await ctx.paymentModel.authorizePayment(paymentMethodDB, shoppingCartDB, shippingAddresDB);

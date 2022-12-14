@@ -157,8 +157,10 @@ export interface NexusGenFieldTypes {
   PackingRoute: { // field return type
     lastItem: number; // Int!
     packed: boolean; // Boolean!
+    packer: number | null; // Int
     saleid: number; // Int!
     steps: NexusGenRootTypes['Step'][]; // [Step!]!
+    unStoredProducts: Array<NexusGenRootTypes['Step'] | null> | null; // [Step]
   }
   Payment: { // field return type
     amount: number; // Float!
@@ -317,8 +319,10 @@ export interface NexusGenFieldTypeNames {
   PackingRoute: { // field return type name
     lastItem: 'Int'
     packed: 'Boolean'
+    packer: 'Int'
     saleid: 'Int'
     steps: 'Step'
+    unStoredProducts: 'Step'
   }
   Payment: { // field return type name
     amount: 'Float'

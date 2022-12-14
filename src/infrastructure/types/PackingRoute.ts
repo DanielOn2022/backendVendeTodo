@@ -35,5 +35,20 @@ export const packingRoute = objectType({
         return root.steps;
       }
     });
+    
+    t.field('packer', {
+      type: 'Int',
+      resolve(root: any, args, ctx) {
+        return root.packer.startingPoint;
+      }
+    });
+
+    t.field('unStoredProducts', {
+      type: 'Step',
+      list: true,
+      resolve(root: any, args, ctx) {
+        return root.packer.unStoredProducts;
+      }
+    });
   },
 });

@@ -13,7 +13,6 @@ export class SectionRepository {
   }
 
   async updateSectionWithProduct(sectionId: number, shelfId: number, productid:  number): Promise<Section | null> {
-    console.log(sectionId, shelfId, productid)
     const databaseSection = await this.client.section.update({
       where: {shelf_id_sectionNumber: {sectionNumber: sectionId, shelf_id: shelfId}},
       data: {
